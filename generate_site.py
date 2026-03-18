@@ -3,6 +3,8 @@
 import json, os, re
 from datetime import datetime
 
+MAX_USD = 500_000
+
 COUNTRY_MAP = {
     "costa_rica": {"region": "costa-rica", "name": "Costa Rica", "flag": "🇨🇷"},
     "panama":     {"region": "panama",     "name": "Panama",     "flag": "🇵🇦"},
@@ -79,6 +81,8 @@ def to_js_data(properties):
             "annualIncome": annual_income,
             "annualIncomeCad": int(annual_income * 1.37),
             "grossYield": gross_yield,
+            "safety": p.get("safety_score") or 50,
+            "safetyZone": p.get("safety_zone", ""),
             "lat": lat,
             "lng": lng,
             "mapsUrl": maps_url,
@@ -117,9 +121,10 @@ def generate():
             countries.add(cm["flag"] + " " + cm["name"])
     countries_str = " · ".join(sorted(countries))
     
+    max_cad = int(MAX_USD * 1.37 / 1000)
     html = re.sub(
         r'<div class="sub">.*?</div>',
-        f'<div class="sub">{countries_str} — {count} real properties under US$200k</div>',
+        f'<div class="sub">{countries_str} — {count} real properties under CA${max_cad}k</div>',
         html, count=1
     )
     

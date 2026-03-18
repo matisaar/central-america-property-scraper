@@ -189,6 +189,86 @@ def nearest_city(lat, lng):
     return best["name"], best["pop"], max(5, drive_min)
 
 
+# ── Neighbourhood safety heuristic ─────────────────────────────────
+# Based on well-known safe tourist/expat areas, embassy advisories, and
+# general reputation.  Score 0–100 where 100 = safest.
+
+SAFE_ZONES = [
+    # Costa Rica — popular expat/tourist areas (high safety)
+    {"name": "Tamarindo", "lat": 10.299, "lng": -85.838, "score": 82, "radius_km": 8},
+    {"name": "Nosara", "lat": 9.973, "lng": -85.669, "score": 85, "radius_km": 8},
+    {"name": "Manuel Antonio", "lat": 9.392, "lng": -84.143, "score": 80, "radius_km": 6},
+    {"name": "Santa Teresa", "lat": 9.640, "lng": -85.165, "score": 78, "radius_km": 6},
+    {"name": "Jacó", "lat": 9.616, "lng": -84.631, "score": 62, "radius_km": 5},
+    {"name": "Playa Flamingo", "lat": 10.438, "lng": -85.789, "score": 80, "radius_km": 6},
+    {"name": "Playa del Coco", "lat": 10.553, "lng": -85.708, "score": 72, "radius_km": 5},
+    {"name": "Dominical", "lat": 9.252, "lng": -83.858, "score": 75, "radius_km": 6},
+    {"name": "Uvita", "lat": 9.148, "lng": -83.769, "score": 78, "radius_km": 6},
+    {"name": "Atenas", "lat": 9.975, "lng": -84.378, "score": 80, "radius_km": 6},
+    {"name": "Grecia", "lat": 10.073, "lng": -84.312, "score": 78, "radius_km": 6},
+    {"name": "San Ramón", "lat": 10.087, "lng": -84.469, "score": 76, "radius_km": 5},
+    {"name": "Escazú", "lat": 9.920, "lng": -84.140, "score": 82, "radius_km": 5},
+    {"name": "Santa Ana (CR)", "lat": 9.932, "lng": -84.182, "score": 82, "radius_km": 5},
+    {"name": "Heredia", "lat": 10.002, "lng": -84.117, "score": 72, "radius_km": 5},
+    {"name": "Sámara", "lat": 9.877, "lng": -85.531, "score": 78, "radius_km": 6},
+    {"name": "Puerto Viejo", "lat": 9.659, "lng": -82.754, "score": 68, "radius_km": 5},
+    {"name": "La Fortuna", "lat": 10.468, "lng": -84.643, "score": 76, "radius_km": 6},
+    {"name": "San José Centro", "lat": 9.928, "lng": -84.091, "score": 48, "radius_km": 6},
+    {"name": "Limón", "lat": 9.990, "lng": -83.044, "score": 38, "radius_km": 8},
+    # Panama — safe areas
+    {"name": "Boquete", "lat": 8.779, "lng": -82.441, "score": 88, "radius_km": 8},
+    {"name": "Coronado (PA)", "lat": 8.593, "lng": -79.915, "score": 80, "radius_km": 8},
+    {"name": "Panama City (safe zones)", "lat": 8.982, "lng": -79.520, "score": 68, "radius_km": 8},
+    {"name": "Bocas del Toro", "lat": 9.340, "lng": -82.242, "score": 72, "radius_km": 8},
+    {"name": "Pedasi", "lat": 7.528, "lng": -80.027, "score": 82, "radius_km": 8},
+    {"name": "El Valle de Antón", "lat": 8.601, "lng": -80.127, "score": 85, "radius_km": 6},
+    {"name": "Santa Catalina", "lat": 7.630, "lng": -81.237, "score": 75, "radius_km": 6},
+    {"name": "David", "lat": 8.427, "lng": -82.431, "score": 65, "radius_km": 6},
+    {"name": "Colón", "lat": 9.359, "lng": -79.901, "score": 32, "radius_km": 8},
+    # Belize — safe areas
+    {"name": "San Pedro (Ambergris)", "lat": 17.918, "lng": -87.959, "score": 78, "radius_km": 8},
+    {"name": "Placencia", "lat": 16.514, "lng": -88.366, "score": 80, "radius_km": 6},
+    {"name": "San Ignacio", "lat": 17.159, "lng": -89.069, "score": 72, "radius_km": 6},
+    {"name": "Hopkins", "lat": 16.807, "lng": -88.246, "score": 76, "radius_km": 6},
+    {"name": "Caye Caulker", "lat": 17.747, "lng": -88.022, "score": 75, "radius_km": 5},
+    {"name": "Belize City", "lat": 17.499, "lng": -88.186, "score": 35, "radius_km": 8},
+    {"name": "Corozal Town", "lat": 18.391, "lng": -88.389, "score": 65, "radius_km": 6},
+    {"name": "Orange Walk", "lat": 18.090, "lng": -88.559, "score": 55, "radius_km": 6},
+]
+
+# Country-wide base safety (Numbeo safety index / 100 scaled)
+COUNTRY_BASE_SAFETY = {
+    "costa_rica": 50,
+    "panama": 52,
+    "belize": 42,
+    "unknown": 40,
+}
+
+
+def neighbourhood_safety(lat, lng, country):
+    """Estimate neighbourhood safety 0–100 based on proximity to known safe/unsafe zones."""
+    base = COUNTRY_BASE_SAFETY.get(country, 40)
+
+    best_score = base
+    best_name = ""
+    for zone in SAFE_ZONES:
+        km = _haversine_km(lat, lng, zone["lat"], zone["lng"])
+        if km <= zone["radius_km"]:
+            # Inside the zone → use full score
+            if zone["score"] > best_score:
+                best_score = zone["score"]
+                best_name = zone["name"]
+        elif km <= zone["radius_km"] * 2.5:
+            # Near the zone → blend toward zone score
+            blend = 1 - (km - zone["radius_km"]) / (zone["radius_km"] * 1.5)
+            blended = base + (zone["score"] - base) * blend
+            if blended > best_score:
+                best_score = int(blended)
+                best_name = zone["name"]
+
+    return min(100, max(0, int(best_score))), best_name
+
+
 def classify_country(lat, lng, display_address):
     addr = display_address.lower()
     if "costa rica" in addr:
@@ -507,8 +587,8 @@ def scrape_rightmove(country_name, max_pages=10):
                         val = int(val * 0.0929)  # sq ft to sqm
                     area = val
 
-                # Skip plots/land
-                if ptype and ptype.lower() in ("plot", "land", "plot of land"):
+                # Skip plots/land/industrial
+                if ptype and any(w in ptype.lower() for w in ("plot", "land", "industrial", "warehouse", "commercial", "farm", "garage")):
                     continue
 
                 listing_url = f"https://www.rightmove.co.uk/properties/{pid}#/?channel=OVERSEAS"
@@ -519,6 +599,7 @@ def scrape_rightmove(country_name, max_pages=10):
                 beach_name, beach_lat, beach_lng, beach_km, beach_min_val, beach_directions_url = nearest_beach(lat, lng)
                 city_name, city_pop, city_min = nearest_city(lat, lng)
                 airbnb_rate, airbnb_occ = _estimate_airbnb(usd_price, country, bedrooms, beach_min_val, city_min)
+                safety_score, safety_zone = neighbourhood_safety(lat, lng, country)
 
                 prop = {
                     "title": title[:120],
@@ -548,6 +629,8 @@ def scrape_rightmove(country_name, max_pages=10):
                     "needs_renovation": _guess_renovation(summary, ptype),
                     "airbnb_night_rate": airbnb_rate,
                     "airbnb_occupancy_pct": airbnb_occ,
+                    "safety_score": safety_score,
+                    "safety_zone": safety_zone,
                     "lat": lat,
                     "lng": lng,
                     "rightmove_id": pid,
@@ -682,7 +765,7 @@ def scrape_realtor(area_slug, max_pages=1):
                     pass
             
             # Skip plots/land/industrial
-            if ptype and any(w in ptype.lower() for w in ("plot", "land", "industrial", "warehouse", "commercial")):
+            if ptype and any(w in ptype.lower() for w in ("plot", "land", "industrial", "warehouse", "commercial", "farm", "garage")):
                 continue
             
             beds_str = f"{bedrooms}-Bed " if bedrooms else ""
@@ -694,6 +777,7 @@ def scrape_realtor(area_slug, max_pages=1):
             beach_name, b_lat, b_lng, beach_km, beach_min_val, beach_dir_url = nearest_beach(lat, lng)
             city_name, city_pop, city_min = nearest_city(lat, lng)
             airbnb_rate, airbnb_occ = _estimate_airbnb(price, country, bedrooms, beach_min_val, city_min)
+            safety_score, safety_zone = neighbourhood_safety(lat, lng, country)
             
             prop = {
                 "title": title[:120],
@@ -723,6 +807,8 @@ def scrape_realtor(area_slug, max_pages=1):
                 "needs_renovation": False,
                 "airbnb_night_rate": airbnb_rate,
                 "airbnb_occupancy_pct": airbnb_occ,
+                "safety_score": safety_score,
+                "safety_zone": safety_zone,
                 "lat": lat,
                 "lng": lng,
                 "realtor_id": lid,
@@ -783,15 +869,25 @@ def run_scraper():
     realtor_area_slugs = [
         # Country-level (catch-all)
         "Costa-Rica", "Panama", "Belize",
-        # Costa Rica regions
+        # Costa Rica — provinces
         "cr/guanacaste", "cr/puntarenas", "cr/limon",
         "cr/heredia", "cr/cartago", "cr/san-jose", "cr/alajuela",
-        # Panama regions
+        # Costa Rica — popular towns/cities
+        "cr/tamarindo", "cr/nosara", "cr/jaco", "cr/manuel-antonio",
+        "cr/santa-teresa", "cr/dominical", "cr/uvita", "cr/atenas",
+        "cr/grecia", "cr/escazu", "cr/santa-ana", "cr/playa-del-coco",
+        "cr/playa-flamingo", "cr/samara", "cr/montezuma", "cr/la-fortuna",
+        # Panama — provinces
         "pa/bocas-del-toro", "pa/panama-city", "pa/chiriqui",
         "pa/cocle", "pa/colon", "pa/panama-oeste", "pa/veraguas",
-        # Belize regions
+        # Panama — popular areas
+        "pa/boquete", "pa/coronado", "pa/pedasi", "pa/el-valle",
+        "pa/santa-catalina", "pa/david", "pa/las-lajas",
+        # Belize — districts
         "bz/ambergris-caye", "bz/cayo", "bz/belize-city", "bz/stann-creek",
         "bz/orange-walk", "bz/corozal", "bz/toledo",
+        # Belize — popular areas
+        "bz/placencia", "bz/san-pedro", "bz/hopkins", "bz/san-ignacio",
     ]
     realtor_seen_ids = set()
     # Pre-populate with existing realtor IDs

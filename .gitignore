@@ -11,6 +11,7 @@ debug_*.py
 explore_*.py
 extract_*.py
 find_*.py
+test_sites*.py
 
 # OS
 .DS_Store
