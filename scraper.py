@@ -965,10 +965,12 @@ def run_scraper():
         p["area_photos"] = fetch_area_photos(p["lat"], p["lng"], p["title"])
         time.sleep(0.5)
 
-    # Cap to cheapest 150 for site performance
-    if len(all_properties) > 150:
-        all_properties = all_properties[:150]
-        print(f"  (capped to cheapest 150)")
+    # Select 150 properties spread evenly across the full price range
+    MAX_SITE = 150
+    if len(all_properties) > MAX_SITE:
+        step = len(all_properties) / MAX_SITE
+        all_properties = [all_properties[int(i * step)] for i in range(MAX_SITE)]
+        print(f"  (sampled {MAX_SITE} across full price range: US${all_properties[0]['price']:,}–${all_properties[-1]['price']:,})")
 
     # Build output
     output = {
