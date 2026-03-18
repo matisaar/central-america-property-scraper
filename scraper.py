@@ -17,8 +17,8 @@ from datetime import datetime
 
 # ── Currency conversion ────────────────────────────────────────────
 GBP_TO_USD = 1.29   # March 2026 approx
-MIN_USD = 20_000      # skip listings under $20k (likely garbage/scam)
-MAX_USD = 500_000     # scrape up to $500k, frontend can filter further
+MIN_USD = 54_745      # skip listings under ~CA$75k (75000/1.37)
+MAX_USD = 364_964     # scrape up to ~CA$500k (500000/1.37)
 MAX_GBP = int(MAX_USD / GBP_TO_USD)
 
 # ── Central America airports ──────────────────────────────────────
@@ -589,7 +589,7 @@ def scrape_rightmove(country_name, max_pages=10):
                     area = val
 
                 # Skip plots/land/industrial
-                if ptype and any(w in ptype.lower() for w in ("plot", "land", "industrial", "warehouse", "commercial", "farm", "garage")):
+                if ptype and any(w in ptype.lower() for w in ("plot", "land", "industrial", "warehouse", "commercial", "farm", "garage", "townhouse")):
                     continue
 
                 listing_url = f"https://www.rightmove.co.uk/properties/{pid}#/?channel=OVERSEAS"
@@ -699,7 +699,7 @@ REALTOR_GQL_QUERY = """
 """
 
 LAND_WORDS = {"plot", "land", "industrial", "warehouse", "commercial", "farm",
-              "garage", "office", "retail", "hotel", "leisure", "other"}
+              "garage", "office", "retail", "hotel", "leisure", "other", "townhouse"}
 
 
 def scrape_realtor_graphql(country_code, max_pages=60):
@@ -931,7 +931,7 @@ def run_scraper():
         print(f"  Removed {before - len(all_properties)} listings under US${MIN_USD:,}")
 
     # Filter out non-residential property types
-    _skip_types = {"other", "offices", "retail", "hotel/leisure", "hotel", "warehouse", "industrial"}
+    _skip_types = {"other", "offices", "retail", "hotel/leisure", "hotel", "warehouse", "industrial", "townhouse"}
     before = len(all_properties)
     all_properties = [p for p in all_properties if p.get("property_type", "").lower() not in _skip_types]
     if before != len(all_properties):

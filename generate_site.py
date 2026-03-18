@@ -3,7 +3,7 @@
 import json, os, re
 from datetime import datetime
 
-MAX_USD = 500_000
+MAX_USD = 364_964
 
 COUNTRY_MAP = {
     "costa_rica": {"region": "costa-rica", "name": "Costa Rica", "flag": "🇨🇷"},
