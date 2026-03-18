@@ -17,8 +17,8 @@ from datetime import datetime
 
 # ── Currency conversion ────────────────────────────────────────────
 GBP_TO_USD = 1.29   # March 2026 approx
-MAX_USD = 200_000
-MAX_GBP = int(MAX_USD / GBP_TO_USD)  # ~155,038
+MAX_USD = 500_000     # scrape up to $500k, frontend can filter further
+MAX_GBP = int(MAX_USD / GBP_TO_USD)
 
 # ── Central America airports ──────────────────────────────────────
 AIRPORTS = {
@@ -121,22 +121,10 @@ def nearest_beach(lat, lng):
         candidates.append((km, b))
     candidates.sort(key=lambda x: x[0])
     
-    # Try OSRM for top 3 candidates
-    best = None
-    best_road_km = 9999
-    best_drive_min = 999
-    for crow_km, b in candidates[:3]:
-        road_km, drive_min = _osrm_route(lat, lng, b["lat"], b["lng"])
-        if road_km is not None and road_km < best_road_km:
-            best_road_km = road_km
-            best_drive_min = drive_min
-            best = b
-        time.sleep(0.2)
-    
-    if best is None:
-        _, best = candidates[0]
-        best_road_km = round(candidates[0][0] * 1.3, 1)
-        best_drive_min = max(1, int(best_road_km / 40 * 60))
+    # Use haversine with road factor (faster than OSRM for bulk scraping)
+    crow_km, best = candidates[0]
+    best_road_km = round(crow_km * 1.3, 1)
+    best_drive_min = max(1, int(best_road_km / 40 * 60))
     
     directions_url = f"https://www.google.com/maps/dir/{lat},{lng}/{best['lat']},{best['lng']}"
     return best["name"], best["lat"], best["lng"], best_road_km, best_drive_min, directions_url
@@ -356,7 +344,7 @@ def scrape_rightmove(country_name, max_pages=10):
         offset = page_idx * 24
         url = (
             f"https://www.rightmove.co.uk/overseas-property-for-sale/{country_name}.html"
-            f"?maxPrice={MAX_GBP}&sortType=1&index={offset}"
+            f"?sortType=1&index={offset}"
         )
         print(f"  [{country_name}] Page {page_idx + 1}: index={offset}...")
         try:
@@ -536,165 +524,170 @@ def scrape_rightmove(country_name, max_pages=10):
 
 REALTOR_PHOTO_BASE = "https://s1.rea.global/img/raw/"
 
-def scrape_realtor(country_slug, max_pages=5):
-    """Scrape Realtor.com International for a country via Apollo cache."""
+def scrape_realtor(area_slug, max_pages=1):
+    """Scrape Realtor.com International for an area via Apollo cache."""
     properties = []
     seen_ids = set()
     
-    for page_idx in range(1, max_pages + 1):
-        url = f"https://www.realtor.com/international/{country_slug}/"
-        if page_idx > 1:
-            url = f"https://www.realtor.com/international/{country_slug}/page-{page_idx}/"
-        
-        print(f"  [Realtor {country_slug}] Page {page_idx}...")
+    url = f"https://www.realtor.com/international/{area_slug}/"
+    
+    print(f"  [Realtor {area_slug}]...")
+    for attempt in range(2):
         try:
-            r = cffi_req.get(url, impersonate="chrome", timeout=20)
+            r = cffi_req.get(url, impersonate="chrome", timeout=45)
             if r.status_code != 200:
-                print(f"    HTTP {r.status_code}, stopping")
-                break
-            
-            soup = BeautifulSoup(r.text, "lxml")
-            script = soup.find("script", id="__NEXT_DATA__")
-            if not script or not script.string:
-                print("    No __NEXT_DATA__ found")
-                break
-            
-            data = json.loads(script.string)
-            apollo = data.get("props", {}).get("apolloState", {})
-            
-            if not apollo:
-                print("    No apolloState")
-                break
-            
-            page_count = 0
-            for k, v in apollo.items():
-                if not k.startswith("ListingDetail:") or not isinstance(v, dict):
-                    continue
-                
-                lid = str(v.get("id", k.split(":")[-1]))
-                if lid in seen_ids:
-                    continue
-                seen_ids.add(lid)
-                
-                # Price
-                price_key = f'$ListingDetail:{lid}.price({{"currency":"USD","language":"en"}})'
-                price_data = apollo.get(price_key, {})
-                price_str = price_data.get("displayListingPrice", "")
-                price = None
-                if price_str:
-                    m = re.search(r'[\d,]+', price_str.replace(",", ""))
-                    if m:
-                        price = int(m.group())
-                
-                if not price or price > MAX_USD:
-                    continue
-                
-                # GeoLocation
-                geo_key = f"$ListingDetail:{lid}.geoLocation"
-                geo = apollo.get(geo_key, {})
-                lat = geo.get("latitude") or geo.get("lat")
-                lng = geo.get("longitude") or geo.get("lng")
-                
-                if not lat or not lng:
-                    continue
-                
-                lat = float(lat)
-                lng = float(lng)
-                
-                # Photos
-                photo_urls = []
-                for i in range(20):
-                    photo_key = f"ListingDetail:{lid}.photos.{i}"
-                    photo_data = apollo.get(photo_key, {})
-                    path = photo_data.get("path", "")
-                    if path:
-                        photo_urls.append(REALTOR_PHOTO_BASE + path)
-                
-                image_url = photo_urls[0] if photo_urls else ""
-                
-                # Detail URL
-                detail_url_key = f'detailPageUrl({{"language":"en"}})'
-                detail_path = v.get(detail_url_key, "")
-                listing_url = f"https://www.realtor.com{detail_path}" if detail_path else ""
-                
-                # Property info
-                bedrooms = v.get("bedrooms")
-                bathrooms = v.get("bathrooms")
-                display_addr = v.get("displayAddress", "")
-                
-                ptype_data = v.get('propertyTypes({"language":"en"})', {})
-                ptype = ""
-                if isinstance(ptype_data, dict) and "json" in ptype_data:
-                    ptypes = ptype_data["json"]
-                    ptype = ptypes[0] if ptypes else ""
-                
-                # Building size
-                size_key = f'buildingSize({{"language":"en","unit":"SQUARE_FEET"}})'
-                sqft_raw = v.get(size_key)
-                area = None
-                if sqft_raw:
-                    try:
-                        area = int(float(str(sqft_raw).replace(",", "")) * 0.0929)
-                    except (ValueError, TypeError):
-                        pass
-                
-                # Skip plots/land/industrial
-                if ptype and any(w in ptype.lower() for w in ("plot", "land", "industrial", "warehouse", "commercial")):
-                    continue
-                
-                beds_str = f"{bedrooms}-Bed " if bedrooms else ""
-                addr_clean = display_addr.split(",")[0].strip() if "," in display_addr else display_addr
-                title = f"{beds_str}{ptype} - {addr_clean}" if addr_clean else f"{beds_str}{ptype}"
-                
-                country = classify_country(lat, lng, display_addr)
-                airport_code, airport_name, airport_min = nearest_airport(lat, lng)
-                beach_name, b_lat, b_lng, beach_km, beach_min_val, beach_dir_url = nearest_beach(lat, lng)
-                city_name, city_pop, city_min = nearest_city(lat, lng)
-                airbnb_rate, airbnb_occ = _estimate_airbnb(price, country, bedrooms, beach_min_val, city_min)
-                
-                prop = {
-                    "title": title[:120],
-                    "price": price,
-                    "area_sqm": area,
-                    "bedrooms": bedrooms,
-                    "bathrooms": bathrooms,
-                    "url": listing_url,
-                    "image_url": image_url,
-                    "source": "Realtor.com",
-                    "country": country,
-                    "display_address": display_addr,
-                    "features": _extract_features("", ptype, bedrooms, display_addr),
-                    "property_type": ptype or "Property",
-                    "airport_drive_min": airport_min,
-                    "airport_code": airport_code,
-                    "airport_name": airport_name,
-                    "beach_min": beach_min_val,
-                    "beach_km": beach_km,
-                    "beach_name": beach_name,
-                    "beach_lat": b_lat,
-                    "beach_lng": b_lng,
-                    "beach_directions_url": beach_dir_url,
-                    "nearest_city": city_name,
-                    "nearest_city_pop": city_pop,
-                    "nearest_city_min": city_min,
-                    "needs_renovation": False,
-                    "airbnb_night_rate": airbnb_rate,
-                    "airbnb_occupancy_pct": airbnb_occ,
-                    "lat": lat,
-                    "lng": lng,
-                    "realtor_id": lid,
-                    "area_photos": photo_urls[1:4] if len(photo_urls) > 1 else [],
-                }
-                properties.append(prop)
-                page_count += 1
-            
-            print(f"    → {page_count} properties (total {len(properties)})")
-            if page_count == 0:
-                break
-            time.sleep(1.5)
-        
+                print(f"    HTTP {r.status_code}")
+                return properties
+            break
         except Exception as e:
+            if attempt == 0:
+                print(f"    Timeout, retrying...")
+                time.sleep(3)
+                continue
             print(f"    Error: {e}")
+            return properties
+    
+    try:
+        
+        soup = BeautifulSoup(r.text, "lxml")
+        script = soup.find("script", id="__NEXT_DATA__")
+        if not script or not script.string:
+            print("    No __NEXT_DATA__ found")
+            return properties
+        
+        data = json.loads(script.string)
+        apollo = data.get("props", {}).get("apolloState", {})
+        
+        if not apollo:
+            print("    No apolloState")
+            return properties
+        
+        count = 0
+        for k, v in apollo.items():
+            if not k.startswith("ListingDetail:") or not isinstance(v, dict):
+                continue
+            
+            lid = str(v.get("id", k.split(":")[-1]))
+            if lid in seen_ids:
+                continue
+            seen_ids.add(lid)
+            
+            # Price
+            price_key = f'$ListingDetail:{lid}.price({{"currency":"USD","language":"en"}})'
+            price_data = apollo.get(price_key, {})
+            price_str = price_data.get("displayListingPrice", "")
+            price = None
+            if price_str:
+                m = re.search(r'[\d,]+', price_str.replace(",", ""))
+                if m:
+                    price = int(m.group())
+            
+            if not price or price > MAX_USD:
+                continue
+
+            # GeoLocation
+            geo_key = f"$ListingDetail:{lid}.geoLocation"
+            geo = apollo.get(geo_key, {})
+            lat = geo.get("latitude") or geo.get("lat")
+            lng = geo.get("longitude") or geo.get("lng")
+            
+            if not lat or not lng:
+                continue
+            
+            lat = float(lat)
+            lng = float(lng)
+            
+            # Photos
+            photo_urls = []
+            for i in range(20):
+                photo_key = f"ListingDetail:{lid}.photos.{i}"
+                photo_data = apollo.get(photo_key, {})
+                path = photo_data.get("path", "")
+                if path:
+                    photo_urls.append(REALTOR_PHOTO_BASE + path)
+            
+            image_url = photo_urls[0] if photo_urls else ""
+            
+            # Detail URL
+            detail_url_key = f'detailPageUrl({{"language":"en"}})'
+            detail_path = v.get(detail_url_key, "")
+            listing_url = f"https://www.realtor.com{detail_path}" if detail_path else ""
+            
+            # Property info
+            bedrooms = v.get("bedrooms")
+            bathrooms = v.get("bathrooms")
+            display_addr = v.get("displayAddress", "")
+            
+            ptype_data = v.get('propertyTypes({"language":"en"})', {})
+            ptype = ""
+            if isinstance(ptype_data, dict) and "json" in ptype_data:
+                ptypes = ptype_data["json"]
+                ptype = ptypes[0] if ptypes else ""
+            
+            # Building size
+            size_key = f'buildingSize({{"language":"en","unit":"SQUARE_FEET"}})'
+            sqft_raw = v.get(size_key)
+            area = None
+            if sqft_raw:
+                try:
+                    area = int(float(str(sqft_raw).replace(",", "")) * 0.0929)
+                except (ValueError, TypeError):
+                    pass
+            
+            # Skip plots/land/industrial
+            if ptype and any(w in ptype.lower() for w in ("plot", "land", "industrial", "warehouse", "commercial")):
+                continue
+            
+            beds_str = f"{bedrooms}-Bed " if bedrooms else ""
+            addr_clean = display_addr.split(",")[0].strip() if "," in display_addr else display_addr
+            title = f"{beds_str}{ptype} - {addr_clean}" if addr_clean else f"{beds_str}{ptype}"
+            
+            country = classify_country(lat, lng, display_addr)
+            airport_code, airport_name, airport_min = nearest_airport(lat, lng)
+            beach_name, b_lat, b_lng, beach_km, beach_min_val, beach_dir_url = nearest_beach(lat, lng)
+            city_name, city_pop, city_min = nearest_city(lat, lng)
+            airbnb_rate, airbnb_occ = _estimate_airbnb(price, country, bedrooms, beach_min_val, city_min)
+            
+            prop = {
+                "title": title[:120],
+                "price": price,
+                "area_sqm": area,
+                "bedrooms": bedrooms,
+                "bathrooms": bathrooms,
+                "url": listing_url,
+                "image_url": image_url,
+                "source": "Realtor.com",
+                "country": country,
+                "display_address": display_addr,
+                "features": _extract_features("", ptype, bedrooms, display_addr),
+                "property_type": ptype or "Property",
+                "airport_drive_min": airport_min,
+                "airport_code": airport_code,
+                "airport_name": airport_name,
+                "beach_min": beach_min_val,
+                "beach_km": beach_km,
+                "beach_name": beach_name,
+                "beach_lat": b_lat,
+                "beach_lng": b_lng,
+                "beach_directions_url": beach_dir_url,
+                "nearest_city": city_name,
+                "nearest_city_pop": city_pop,
+                "nearest_city_min": city_min,
+                "needs_renovation": False,
+                "airbnb_night_rate": airbnb_rate,
+                "airbnb_occupancy_pct": airbnb_occ,
+                "lat": lat,
+                "lng": lng,
+                "realtor_id": lid,
+                "area_photos": photo_urls[1:4] if len(photo_urls) > 1 else [],
+            }
+            properties.append(prop)
+            count += 1
+        
+        print(f"    → {count} properties (total {len(properties)})")
+    
+    except Exception as e:
+        print(f"    Error: {e}")
     
     return properties
 
@@ -707,24 +700,70 @@ def run_scraper():
     print(f"Budget: US${MAX_USD:,} (~£{MAX_GBP:,} GBP)")
     print("=" * 60)
 
+    # Load existing data to accumulate across runs
+    out_path = os.path.join(os.path.dirname(__file__), "data", "properties.json")
+    existing_ids = set()
     all_properties = []
+    if os.path.exists(out_path):
+        try:
+            with open(out_path, "r") as f:
+                old = json.load(f)
+            for p in old.get("properties", []):
+                pid = p.get("rightmove_id") or p.get("realtor_id") or p.get("url")
+                key = f"{p.get('source', '')}:{pid}"
+                if key not in existing_ids:
+                    existing_ids.add(key)
+                    all_properties.append(p)
+            print(f"Loaded {len(all_properties)} existing properties")
+        except Exception:
+            pass
 
     # Scrape each country from Rightmove
     for country in ["Costa-Rica", "Panama", "Belize"]:
         print(f"\n🔍 Scraping Rightmove: {country}...")
         props = scrape_rightmove(country, max_pages=5)
-        all_properties.extend(props)
-        print(f"  ✓ {len(props)} properties from {country}")
+        new_props = []
+        for p in props:
+            pid = p.get("rightmove_id") or p.get("url")
+            key = f"{p.get('source', '')}:{pid}"
+            if key not in existing_ids:
+                existing_ids.add(key)
+                new_props.append(p)
+        all_properties.extend(new_props)
+        print(f"  ✓ {len(new_props)} new properties from {country}")
 
-    # Scrape each country from Realtor.com International
-    realtor_slugs = [
+    # Scrape area-level pages from Realtor.com International
+    realtor_area_slugs = [
+        # Country-level (catch-all)
         "Costa-Rica", "Panama", "Belize",
+        # Costa Rica regions
+        "cr/guanacaste", "cr/puntarenas", "cr/limon",
+        "cr/heredia", "cr/cartago", "cr/san-jose", "cr/alajuela",
+        # Panama regions
+        "pa/bocas-del-toro", "pa/panama-city", "pa/chiriqui",
+        "pa/cocle", "pa/colon", "pa/panama-oeste", "pa/veraguas",
+        # Belize regions
+        "bz/ambergris-caye", "bz/cayo", "bz/belize-city", "bz/stann-creek",
+        "bz/orange-walk", "bz/corozal", "bz/toledo",
     ]
-    for slug in realtor_slugs:
+    realtor_seen_ids = set()
+    # Pre-populate with existing realtor IDs
+    for p in all_properties:
+        if p.get("realtor_id"):
+            realtor_seen_ids.add(p["realtor_id"])
+    for slug in realtor_area_slugs:
         print(f"\n🔍 Scraping Realtor.com: {slug}...")
-        props = scrape_realtor(slug, max_pages=5)
-        all_properties.extend(props)
-        print(f"  ✓ {len(props)} properties from {slug}")
+        props = scrape_realtor(slug)
+        # Deduplicate across areas by realtor_id
+        new_props = []
+        for p in props:
+            rid = p.get("realtor_id")
+            if rid and rid not in realtor_seen_ids:
+                realtor_seen_ids.add(rid)
+                new_props.append(p)
+        all_properties.extend(new_props)
+        print(f"  ✓ {len(new_props)} new properties from {slug}")
+        time.sleep(3)
 
     # Deduplicate by composite key (source + id)
     seen = set()
@@ -750,6 +789,11 @@ def run_scraper():
         print(f"  [{i+1}/{len(all_properties)}] {p['title'][:60]}...")
         p["area_photos"] = fetch_area_photos(p["lat"], p["lng"], p["title"])
         time.sleep(0.5)
+
+    # Cap to cheapest 150 for site performance
+    if len(all_properties) > 150:
+        all_properties = all_properties[:150]
+        print(f"  (capped to cheapest 150)")
 
     # Build output
     output = {
