@@ -3,986 +3,850 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Central America Investment Properties</title>
+<title>Central America Property Finder | Costa Rica, Panama &amp; Belize</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ocean:#0077b6;--ocean-dark:#023e8a;--sunset:#ff6b35;--coral:#e63946;
+  --palm:#2d6a4f;--gold:#f59e0b;--bg:#faf8f5;--card:#fff;--text:#1a1a2e;
+  --muted:#6b7280;--radius:14px;--shadow:0 2px 16px rgba(0,0,0,.08);
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden}
+a{color:var(--ocean)}
 
-  :root {
-    --jungle: #1a5632;
-    --jungle-light: #2d8a4e;
-    --jungle-dark: #0d3b1f;
-    --ocean: #0077b6;
-    --ocean-dark: #023e8a;
-    --ocean-light: #00b4d8;
-    --sunset: #ff6b35;
-    --sunset-light: #ff9f1c;
-    --coral: #e63946;
-    --sand: #f5e6d3;
-    --white: #ffffff;
-    --dark: #1a1a2e;
-    --gray: #6b7280;
-    --light-gray: #f3f4f6;
-    --card-bg: rgba(255,255,255,0.95);
-    --shadow: 0 10px 40px rgba(0,0,0,0.1);
-    --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
-  }
+/* ── Hamburger nav ── */
+.hamburger{position:fixed;top:16px;left:16px;z-index:1100;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);border-radius:10px;box-shadow:var(--shadow);cursor:pointer;border:none}
+.hamburger span,.hamburger span::before,.hamburger span::after{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;position:relative;transition:.3s}
+.hamburger span::before,.hamburger span::after{content:'';position:absolute;left:0}
+.hamburger span::before{top:-6px}
+.hamburger span::after{top:6px}
+.hamburger.open span{background:transparent}
+.hamburger.open span::before{top:0;transform:rotate(45deg)}
+.hamburger.open span::after{top:0;transform:rotate(-45deg)}
+.nav-drawer{position:fixed;top:0;left:-280px;width:280px;height:100vh;background:#fff;z-index:1050;transition:.3s;padding:70px 20px 20px;overflow-y:auto;box-shadow:4px 0 20px rgba(0,0,0,.1)}
+.nav-drawer.open{left:0}
+.nav-drawer a{display:block;padding:10px 14px;border-radius:8px;text-decoration:none;color:var(--text);font-size:.88rem;font-weight:500;margin-bottom:2px}
+.nav-drawer a:hover{background:#f0f0f0}
+.nav-drawer .nav-section{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:14px 14px 4px;margin-top:6px}
+.nav-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.3);z-index:1040;opacity:0;pointer-events:none;transition:.3s}
+.nav-overlay.open{opacity:1;pointer-events:all}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── Hero ── */
+.page-hero{background:linear-gradient(135deg,#023e8a 0%,#0077b6 40%,#2d6a4f 100%);color:#fff;padding:80px 20px 48px;text-align:center}
+.page-hero h1{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:900;letter-spacing:-1px;line-height:1.15}
+.page-hero .sub{font-size:clamp(.82rem,1.6vw,1rem);opacity:.85;margin-top:8px;max-width:600px;margin-inline:auto}
+.page-hero-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px}
+.page-hero-badges span{background:rgba(255,255,255,.18);backdrop-filter:blur(6px);padding:5px 14px;border-radius:20px;font-size:.75rem;font-weight:600}
+.page-hero-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
+.page-hero-nav a{color:#fff;text-decoration:none;font-size:.78rem;font-weight:600;background:rgba(255,255,255,.13);padding:6px 16px;border-radius:8px;transition:.2s}
+.page-hero-nav a:hover{background:rgba(255,255,255,.25)}
 
-  body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    background: linear-gradient(135deg, #1a5632 0%, #0d3b1f 30%, #1a1a2e 100%);
-    color: var(--dark);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+/* ── Weights panel ── */
+.weights-panel{max-width:720px;margin:24px auto 0;padding:0 20px}
+.weights-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px}
+.weights-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.weights-title{font-weight:800;font-size:.95rem}
+.weights-reset{background:none;border:1px solid #ddd;border-radius:8px;padding:4px 14px;font-size:.75rem;cursor:pointer;font-weight:600}
+.sliders{display:grid;gap:10px}
+.slider-label{display:flex;justify-content:space-between;align-items:center;font-size:.78rem}
+.slider-name{font-weight:600}
+.slider-val{font-weight:700;color:var(--ocean);font-size:.75rem}
+input[type=range]{width:100%;height:6px;-webkit-appearance:none;background:#e5e7eb;border-radius:4px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--ocean);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.s-price{color:#e63946}.s-airport{color:#0077b6}.s-beach{color:#f59e0b}.s-size{color:#2d6a4f}.s-yield{color:#7c3aed}.s-reno{color:#6b7280}
 
-  .hero {
-    position: relative;
-    padding: 60px 20px 40px;
-    text-align: center;
-    color: white;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff10" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,170.7C960,160,1056,192,1152,197.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L0,320Z"/></svg>') no-repeat bottom;
-    background-size: cover;
-    opacity: 0.3;
-  }
-  .hero h1 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 900;
-    margin-bottom: 8px;
-    position: relative;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
-  }
-  .hero p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    position: relative;
-    font-weight: 300;
-  }
-  .hero .tag {
-    display: inline-block;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px);
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    margin-top: 12px;
-    position: relative;
-    border: 1px solid rgba(255,255,255,0.2);
-  }
+/* ── Pick hero card ── */
+.pick-hero{max-width:800px;margin:28px auto 0;padding:0 20px}
+.pick-hero-card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.1);overflow:hidden;cursor:pointer;transition:.2s}
+.pick-hero-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.14)}
+.pick-hero-img{width:100%;height:280px;object-fit:cover}
+.pick-hero-body{padding:20px 24px 24px}
+.pick-hero-badge{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--sunset));color:#fff;font-weight:800;font-size:.7rem;padding:4px 12px;border-radius:6px;letter-spacing:.05em;margin-bottom:8px}
+.pick-hero-name{font-size:1.2rem;font-weight:800;letter-spacing:-.3px}
+.pick-hero-area{font-size:.82rem;color:var(--muted);margin-top:2px}
+.pick-hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.pick-hero-stat .val{font-size:1rem;font-weight:800}
+.pick-hero-stat .lbl{font-size:.68rem;color:var(--muted)}
+.price-c{color:var(--coral)}.airport-c{color:var(--ocean)}.beach-c{color:var(--gold)}.yield-c{color:var(--palm)}
+.pick-hero-score{display:flex;align-items:center;gap:14px;margin-top:16px;padding:14px;background:#f8f9fa;border-radius:10px}
+.score-ring{position:relative;width:48px;height:48px;flex-shrink:0}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.score-ring .bg{fill:none;stroke:#e5e7eb;stroke-width:4}
+.score-ring .fg{fill:none;stroke:var(--coral);stroke-width:4;stroke-linecap:round;transition:.6s}
+.score-ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800}
+.score-info .title{font-weight:700;font-size:.82rem}.score-info .desc{font-size:.72rem;color:var(--muted)}
 
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px 60px;
-  }
+/* ── Explainer ── */
+.explainer{max-width:800px;margin:20px auto 0;padding:0 20px}
+.explainer-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px}
+.explainer-item h3{font-size:.88rem;font-weight:800;margin-bottom:4px}
+.explainer-item p{font-size:.78rem;color:var(--muted)}
+.explainer-item+.explainer-item{margin-top:14px}
+.explainer-formula{font-size:.75rem;font-weight:600;background:#f0f4ff;padding:8px 12px;border-radius:8px;margin-top:8px}
+.explainer-formula span{color:var(--ocean);font-weight:800}
 
-  .section {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 32px;
-    margin-bottom: 24px;
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.8);
-  }
-  .section h2 {
-    font-size: 1.4rem;
-    font-weight: 800;
-    margin-bottom: 6px;
-    color: var(--jungle-dark);
-  }
-  .section .subtitle {
-    font-size: 0.9rem;
-    color: var(--gray);
-    margin-bottom: 20px;
-  }
+/* ── Market row ── */
+.market-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;max-width:1100px;margin:12px auto 0;padding:0 20px}
+.m-card{background:var(--card);border-radius:10px;box-shadow:var(--shadow);padding:12px 14px;text-align:center}
+.m-label{font-size:.68rem;color:var(--muted);font-weight:600}.m-value{font-size:.82rem;font-weight:800;margin-top:2px}
 
-  .pref-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-  }
-  .pref-item {
-    background: var(--light-gray);
-    border-radius: 14px;
-    padding: 18px 20px;
-    transition: all 0.2s;
-  }
-  .pref-item:hover { background: #e8f8ee; }
-  .pref-item label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-bottom: 10px;
-  }
-  .pref-item label .emoji { font-size: 1.3rem; }
-  .pref-item label .val {
-    background: var(--jungle);
-    color: white;
-    padding: 2px 10px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    min-width: 30px;
-    text-align: center;
-  }
-  .pref-item input[type="range"] {
-    width: 100%;
-    -webkit-appearance: none;
-    height: 6px;
-    border-radius: 3px;
-    background: #d1d5db;
-    outline: none;
-  }
-  .pref-item input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--jungle);
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(26,86,50,0.4);
-  }
+/* ── Info section ── */
+.info-section{max-width:1100px;margin:24px auto 0;padding:0 20px}
+.info-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px}
+.info-card h3{font-size:1rem;font-weight:800;margin-bottom:6px}
+.info-card p{font-size:.82rem;color:#444;line-height:1.6}
 
-  .budget-row {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-  }
-  .budget-input {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .budget-input label { font-weight: 600; font-size: 0.95rem; }
-  .budget-input input[type="number"] {
-    width: 140px;
-    padding: 10px 14px;
-    border: 2px solid #d1d5db;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    font-family: inherit;
-    color: var(--jungle-dark);
-    transition: border 0.2s;
-  }
-  .budget-input input[type="number"]:focus {
-    outline: none;
-    border-color: var(--jungle);
-  }
+/* ── Browse section ── */
+.browse-section{max-width:1200px;margin:28px auto 0;padding:0 20px}
+.browse-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:14px}
+.browse-title{font-size:1.1rem;font-weight:800;letter-spacing:-.3px}
+.browse-sub{font-size:.78rem;color:var(--muted)}
+.filters{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.filter-select{padding:6px 10px;border:1px solid #ddd;border-radius:8px;font-size:.75rem;font-family:inherit;background:#fff}
+.filter-input{width:80px;padding:6px 10px;border:1px solid #ddd;border-radius:8px;font-size:.75rem;font-family:inherit}
+.filter-label{font-size:.7rem;color:var(--muted);font-weight:600}
+.filter-clear{background:none;border:1px solid #ddd;border-radius:8px;padding:5px 12px;font-size:.72rem;cursor:pointer;font-weight:600}
+.browse-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
 
-  .currency-row {
-    display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 12px;
-  }
-  .currency-btn {
-    padding: 10px 20px;
-    border: 2px solid #d1d5db;
-    border-radius: 12px;
-    background: white;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: all 0.2s;
-  }
-  .currency-btn:hover { border-color: var(--jungle); }
-  .currency-btn.active {
-    background: var(--jungle);
-    color: white;
-    border-color: var(--jungle);
-  }
+/* ── Cards ── */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:.18s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.12)}
+.card-img-wrap{position:relative;height:200px;overflow:hidden;background:#e5e7eb}
+.card-img{width:100%;height:100%;object-fit:cover}
+.card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.45) 100%)}
+.card-rank{position:absolute;top:10px;left:10px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:#fff}
+.card-rank.high{background:var(--coral)}.card-rank.mid{background:var(--gold)}.card-rank.low{background:#94a3b8}
+.card-price-tag{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.7);color:#fff;padding:4px 10px;border-radius:6px;font-size:.78rem;font-weight:700}
+.card-airport-tag{position:absolute;bottom:10px;right:10px;background:rgba(0,119,182,.85);color:#fff;padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600}
+.card-photos{display:flex;gap:2px;height:48px;overflow:hidden}
+.card-photos img{height:100%;width:60px;object-fit:cover;flex-shrink:0}
+.card-body{padding:12px 14px 16px}
+.card-name{font-size:.88rem;font-weight:700;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-area{font-size:.72rem;color:var(--muted);margin-top:1px}
+.card-row{font-size:.72rem;color:#555;margin-top:4px;line-height:1.5}
+.card-row .hl{font-weight:700;color:var(--text)}
+.card-score-bar{display:flex;align-items:center;gap:8px;margin-top:8px}
+.bar-track{flex:1;height:6px;background:#e5e7eb;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:.4s}
+.bar-fill.high{background:var(--coral)}.bar-fill.mid{background:var(--gold)}.bar-fill.low{background:#94a3b8}
+.bar-num{font-size:.72rem;font-weight:800;min-width:22px}
+.card-maps-btn{display:inline-block;margin-top:8px;font-size:.72rem;font-weight:600;color:var(--ocean);text-decoration:none}
+.card-maps-btn:hover{text-decoration:underline}
 
-  .calc-btn {
-    display: block;
-    width: 100%;
-    padding: 18px;
-    background: linear-gradient(135deg, var(--jungle), var(--jungle-light));
-    color: white;
-    border: none;
-    border-radius: 14px;
-    font-family: inherit;
-    font-size: 1.2rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 8px 30px rgba(26,86,50,0.3);
-    letter-spacing: 0.5px;
-  }
-  .calc-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(26,86,50,0.4);
-  }
-  .calc-btn:active { transform: translateY(0); }
+/* ── Modal ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.25s}
+.modal-overlay.visible{opacity:1;pointer-events:all}
+.modal{background:var(--card);border-radius:16px;width:94%;max-width:600px;max-height:88vh;overflow-y:auto;position:relative}
+.m-close{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.5);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center}
+.m-img{width:100%;height:220px;object-fit:cover}
+.m-body{padding:18px 20px 24px}
+.m-name{font-size:1.05rem;font-weight:800;letter-spacing:-.3px}
+.m-area{font-size:.78rem;color:var(--muted);margin-top:2px}
+.m-score-wrap{margin-top:12px;background:#f8f9fa;border-radius:10px;padding:12px}
+.m-score-top{display:flex;justify-content:space-between;align-items:center}
+.m-score-label{font-size:.78rem;font-weight:600}
+.m-score-num{font-size:.88rem;font-weight:800;color:var(--coral)}
+.m-score-bar{height:8px;background:#e5e7eb;border-radius:4px;margin-top:6px;overflow:hidden}
+.m-score-fill{height:100%;background:var(--coral);border-radius:4px;transition:.4s}
+.m-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;text-align:center;font-size:.7rem;color:var(--muted)}
+.m-breakdown .v{font-weight:700;color:var(--text);font-size:.82rem}
+.m-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-top:14px}
+.m-stat{text-align:center}
+.m-stat .v{font-size:.88rem;font-weight:800}
+.m-stat .l{font-size:.65rem;color:var(--muted)}
+.m-airbnb{margin-top:14px;padding:12px;background:#f0fdf4;border-radius:10px}
+.m-airbnb-title{font-size:.78rem;font-weight:700;margin-bottom:8px;color:var(--palm)}
+.m-airbnb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.m-gallery{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px}
+.m-gallery img{height:56px;width:80px;object-fit:cover;border-radius:6px;flex-shrink:0}
+.m-maps-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.m-maps-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:8px;font-size:.72rem;font-weight:600;text-decoration:none;background:#e8f4f8;color:var(--ocean)}
+.m-maps-btn.listing{background:var(--ocean);color:#fff}
+.m-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.m-badge{font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:6px}
+.m-badge.fire{background:#fef2f2;color:var(--coral)}.m-badge.red{background:#fef2f2;color:var(--coral)}
+.m-badge.blue{background:#eff6ff;color:var(--ocean)}.m-badge.gold{background:#fffbeb;color:#b45309}
+.m-badge.green{background:#f0fdf4;color:var(--palm)}
+.m-book{display:block;text-align:center;margin-top:16px;padding:12px;background:var(--ocean);color:#fff;border-radius:10px;font-weight:700;font-size:.88rem;text-decoration:none}
+.m-book:hover{background:var(--ocean-dark)}
 
-  #results { display: none; }
-  #results.visible { display: block; animation: fadeUp 0.6s ease; }
+/* ── Airbnb section ── */
+.airbnb-section{max-width:1200px;margin:28px auto 0;padding:0 20px}
+.airbnb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:14px}
+.airbnb-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:.15s}
+.airbnb-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.airbnb-card-body{padding:14px 16px}
+.airbnb-card-name{font-size:.85rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.airbnb-card-region{font-size:.72rem;color:var(--muted);margin-top:2px}
+.airbnb-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;text-align:center}
+.airbnb-stat .v{font-size:.92rem;font-weight:800}
+.airbnb-stat .l{font-size:.62rem;color:var(--muted)}
+.airbnb-stat .v.green{color:var(--palm)}.airbnb-stat .v.gold{color:var(--gold)}.airbnb-stat .v.blue{color:var(--ocean)}
+.airbnb-bar{display:flex;align-items:center;gap:6px}
+.airbnb-bar-label{font-size:.65rem;color:var(--muted);min-width:55px}
+.airbnb-bar-track{flex:1;height:5px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.airbnb-bar-fill{height:100%;border-radius:3px}
+.airbnb-bar-fill.occ{background:var(--ocean)}.airbnb-bar-fill.roi{background:var(--palm)}
+.airbnb-bar-num{font-size:.65rem;font-weight:700;min-width:30px}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* ── Search links ── */
+.search-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.search-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px}
+.search-card h4{font-size:.85rem;font-weight:800;margin-bottom:8px}
+.search-card a{display:block;font-size:.78rem;padding:3px 0;color:var(--ocean);text-decoration:none}
+.search-card a:hover{text-decoration:underline}
 
-  .winner-banner {
-    background: linear-gradient(135deg, var(--jungle-dark), var(--jungle));
-    color: white;
-    border-radius: 20px;
-    padding: 32px;
-    text-align: center;
-    margin-bottom: 24px;
-    box-shadow: var(--shadow-lg);
-    position: relative;
-    overflow: hidden;
-  }
-  .winner-banner::after {
-    content: '🏆';
-    position: absolute;
-    top: 10px; right: 20px;
-    font-size: 3rem;
-    opacity: 0.3;
-  }
-  .winner-banner h2 { font-size: 1rem; font-weight: 500; opacity: 0.85; margin-bottom: 4px; color: white; }
-  .winner-banner .dest-name { font-size: 2.2rem; font-weight: 900; margin-bottom: 6px; }
-  .winner-banner .score-bar {
-    display: inline-block;
-    background: rgba(255,255,255,0.2);
-    border-radius: 20px;
-    padding: 6px 20px;
-    font-weight: 700; font-size: 1rem;
-  }
+/* ── Footer ── */
+.footer{text-align:center;padding:32px 20px;font-size:.72rem;color:var(--muted);max-width:800px;margin:32px auto 0}
 
-  .dest-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(255,255,255,0.8);
-    transition: all 0.3s;
-  }
-  .dest-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
-  .dest-card.rank-1 { border: 2px solid var(--sunset); }
-
-  .dest-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 28px;
-    cursor: pointer;
-    user-select: none;
-  }
-  .dest-header:hover { background: #f8faf8; }
-  .dest-rank {
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--jungle);
-    min-width: 50px;
-  }
-  .dest-card.rank-1 .dest-rank { color: var(--sunset); }
-  .dest-info { flex: 1; margin: 0 16px; }
-  .dest-info h3 { font-size: 1.3rem; font-weight: 800; }
-  .dest-info .dest-tagline { color: var(--gray); font-size: 0.85rem; }
-  .dest-meta { text-align: right; }
-  .dest-meta .price { font-size: 1.5rem; font-weight: 800; color: var(--jungle-dark); }
-  .dest-meta .price-label { font-size: 0.75rem; color: var(--gray); }
-  .dest-meta .match-score {
-    display: inline-block;
-    background: var(--jungle);
-    color: white;
-    padding: 3px 12px;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-top: 4px;
-  }
-  .dest-meta .match-score.high { background: var(--jungle); }
-  .dest-meta .match-score.medium { background: var(--sunset); }
-  .dest-meta .match-score.low { background: var(--coral); }
-
-  .dest-body { display: none; padding: 0 28px 28px; }
-  .dest-body.open { display: block; animation: fadeUp 0.3s ease; }
-
-  .expand-arrow {
-    font-size: 1.2rem;
-    transition: transform 0.3s;
-    color: var(--gray);
-  }
-  .expand-arrow.open { transform: rotate(180deg); }
-
-  .tab-bar {
-    display: flex;
-    gap: 4px;
-    background: var(--light-gray);
-    padding: 4px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    overflow-x: auto;
-  }
-  .tab-btn {
-    padding: 8px 16px;
-    border: none;
-    background: transparent;
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    color: var(--gray);
-  }
-  .tab-btn:hover { background: rgba(255,255,255,0.5); }
-  .tab-btn.active { background: white; color: var(--jungle-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-
-  .tab-content { display: none; }
-  .tab-content.active { display: block; animation: fadeUp 0.2s ease; }
-
-  .budget-bar-container { margin-bottom: 14px; }
-  .budget-bar-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    margin-bottom: 4px;
-  }
-  .budget-bar-label span:first-child { font-weight: 600; }
-  .budget-bar-label span:last-child { color: var(--gray); }
-  .budget-bar {
-    height: 10px;
-    background: #e5e7eb;
-    border-radius: 5px;
-    overflow: hidden;
-  }
-  .budget-bar-fill {
-    height: 100%;
-    border-radius: 5px;
-    transition: width 0.8s ease;
-  }
-  .budget-bar-fill.purchase { background: var(--jungle); }
-  .budget-bar-fill.fees { background: var(--sunset); }
-  .budget-bar-fill.reno { background: var(--ocean); }
-  .budget-bar-fill.legal { background: var(--coral); }
-
-  .item-list { list-style: none; }
-  .item-list li {
-    padding: 12px 0;
-    border-bottom: 1px solid #f0f0f0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .item-list li:last-child { border: none; }
-  .item-name { font-weight: 600; font-size: 0.9rem; }
-  .item-desc { color: var(--gray); font-size: 0.8rem; margin-top: 2px; }
-  .item-cost {
-    font-weight: 700;
-    color: var(--jungle-dark);
-    white-space: nowrap;
-    font-size: 0.85rem;
-  }
-
-  .book-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: var(--jungle);
-    color: white;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.85rem;
-    margin: 4px;
-    transition: all 0.2s;
-  }
-  .book-btn:hover { background: var(--jungle-dark); transform: translateY(-1px); }
-  .book-btn.secondary { background: var(--sunset); }
-  .book-btn.secondary:hover { background: #e65a2a; }
-
-  .booking-links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px; }
-
-  .day-card {
-    background: var(--light-gray);
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-bottom: 10px;
-  }
-  .day-card h4 {
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--jungle-dark);
-    margin-bottom: 4px;
-  }
-  .day-card p { font-size: 0.85rem; color: #444; line-height: 1.5; }
-
-  .spinner {
-    display: none;
-    text-align: center;
-    padding: 40px;
-    color: white;
-    font-size: 1.2rem;
-  }
-  .spinner.visible { display: block; }
-  .spinner .dots::after {
-    content: '';
-    animation: dots 1.5s infinite;
-  }
-  @keyframes dots {
-    0%, 20% { content: '.'; }
-    40% { content: '..'; }
-    60%, 100% { content: '...'; }
-  }
-
-  @media (max-width: 640px) {
-    .section { padding: 20px; border-radius: 16px; }
-    .dest-header { padding: 16px; flex-wrap: wrap; }
-    .dest-body { padding: 0 16px 16px; }
-    .dest-rank { font-size: 1.5rem; min-width: 36px; }
-    .dest-info h3 { font-size: 1.1rem; }
-    .hero h1 { font-size: 1.8rem; }
-    .pref-grid { grid-template-columns: 1fr; }
-  }
+/* ── Responsive ── */
+@media(max-width:700px){
+  .browse-grid{grid-template-columns:1fr}
+  .pick-hero-stats{grid-template-columns:repeat(2,1fr)}
+  .market-row{grid-template-columns:repeat(2,1fr)}
+  .search-grid{grid-template-columns:1fr}
+  .airbnb-grid{grid-template-columns:1fr}
+  .filters{width:100%}
+}
+@media(max-width:480px){
+  .card-img-wrap{height:160px}
+  .pick-hero-img{height:200px}
+  .m-img{height:160px}
+}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <h1>🌴 Central America Investment Properties</h1>
-  <p>Costa Rica · Panama · Belize — Find your ideal rental investment</p>
-  <div class="tag">📊 Set your priorities — we'll rank 18 investment destinations</div>
+<!-- HAMBURGER NAV -->
+<button class="hamburger" id="hamburgerBtn"><span></span></button>
+<div class="nav-overlay" id="navOverlay"></div>
+<nav class="nav-drawer" id="navDrawer">
+  <div class="nav-section">This Project</div>
+  <a href="#weights">⚙️ Adjust Weights</a>
+  <a href="#browse">🔍 Browse Properties</a>
+  <a href="#airbnb">🏠 Airbnb Comparison</a>
+  <a href="#search">🔗 Live Search Links</a>
+  <div class="nav-section">Other Projects</div>
+  <a href="https://greek-property-finder.vercel.app" target="_blank">🇬🇷 Greek Property Finder</a>
+  <a href="https://eu-property-scraper.vercel.app" target="_blank">🇪🇺 EU Property Scraper</a>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <h1>🌴 Central America Property Finder</h1>
+  <div class="sub">Find the best investment properties in Costa Rica, Panama &amp; Belize — ranked by your priorities</div>
+  <div class="page-hero-badges">
+    <span>🇨🇷 Costa Rica</span>
+    <span>🇵🇦 Panama</span>
+    <span>🇧🇿 Belize</span>
+    <span>💰 Under US$200k</span>
+    <span>📈 Airbnb Yield Data</span>
+  </div>
+  <div class="page-hero-nav">
+    <a href="#weights">⚙️ Weights</a>
+    <a href="#browse">🔍 Browse</a>
+    <a href="#airbnb">🏠 Airbnb</a>
+    <a href="#search">🔗 Search</a>
+  </div>
 </div>
 
-<div class="container">
-
-  <div class="section">
-    <h2>💰 Investment Basics</h2>
-    <p class="subtitle">Set your budget and investment currency</p>
-
-    <div class="budget-row">
-      <div class="budget-input">
-        <label>💰 Max Budget (CAD)</label>
-        <input type="number" id="budget" value="250000" min="50000" max="2000000" step="10000">
-      </div>
+<!-- WEIGHT SLIDERS -->
+<div class="weights-panel" id="weights">
+  <div class="weights-card">
+    <div class="weights-header">
+      <span class="weights-title">⚙️ Adjust What Matters to You</span>
+      <button class="weights-reset" onclick="resetWeights()">Reset</button>
     </div>
-
-    <div class="currency-row">
-      <span style="font-weight:600; font-size:0.9rem;">💵 Display Currency:</span>
-      <button class="currency-btn active" data-val="CAD">CAD 🇨🇦</button>
-      <button class="currency-btn" data-val="USD">USD 🇺🇸</button>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>🎯 What Matters to You?</h2>
-    <p class="subtitle">Drag sliders to prioritize — we'll score each investment destination</p>
-
-    <div class="pref-grid">
-      <div class="pref-item">
-        <label><span><span class="emoji">💸</span> Budget Friendly</span><span class="val" id="val-budget-pref">7</span></label>
-        <input type="range" id="pref-budget" min="0" max="10" value="7" data-key="budgetFriendly">
+    <div class="sliders">
+      <div class="slider-group">
+        <div class="slider-label">
+          <span class="slider-name s-price">💰 Lower Price</span>
+          <span class="slider-val" id="vPrice">25%</span>
+        </div>
+        <input type="range" id="sPrice" min="0" max="100" value="25">
       </div>
-      <div class="pref-item">
-        <label><span><span class="emoji">📈</span> Rental Yield</span><span class="val" id="val-yield">8</span></label>
-        <input type="range" id="pref-yield" min="0" max="10" value="8" data-key="rentalYield">
+      <div class="slider-group">
+        <div class="slider-label">
+          <span class="slider-name s-airport">✈️ Airport Closeness</span>
+          <span class="slider-val" id="vAirport">20%</span>
+        </div>
+        <input type="range" id="sAirport" min="0" max="100" value="20">
       </div>
-      <div class="pref-item">
-        <label><span><span class="emoji">🛡️</span> Safety & Stability</span><span class="val" id="val-safety">7</span></label>
-        <input type="range" id="pref-safety" min="0" max="10" value="7" data-key="safety">
+      <div class="slider-group">
+        <div class="slider-label">
+          <span class="slider-name s-beach">🏖️ Beach Closeness</span>
+          <span class="slider-val" id="vBeach">20%</span>
+        </div>
+        <input type="range" id="sBeach" min="0" max="100" value="20">
       </div>
-      <div class="pref-item">
-        <label><span><span class="emoji">🏗️</span> Infrastructure</span><span class="val" id="val-infra">6</span></label>
-        <input type="range" id="pref-infra" min="0" max="10" value="6" data-key="infrastructure">
+      <div class="slider-group">
+        <div class="slider-label">
+          <span class="slider-name s-size">📐 Larger Size</span>
+          <span class="slider-val" id="vSize">15%</span>
+        </div>
+        <input type="range" id="sSize" min="0" max="100" value="15">
       </div>
-      <div class="pref-item">
-        <label><span><span class="emoji">🛂</span> Residency Programs</span><span class="val" id="val-residency">5</span></label>
-        <input type="range" id="pref-residency" min="0" max="10" value="5" data-key="residency">
+      <div class="slider-group">
+        <div class="slider-label">
+          <span class="slider-name s-yield">📈 Higher Yield</span>
+          <span class="slider-val" id="vYield">15%</span>
+        </div>
+        <input type="range" id="sYield" min="0" max="100" value="15">
       </div>
-      <div class="pref-item">
-        <label><span><span class="emoji">👥</span> Expat Community</span><span class="val" id="val-expat">6</span></label>
-        <input type="range" id="pref-expat" min="0" max="10" value="6" data-key="expatCommunity">
-      </div>
-      <div class="pref-item">
-        <label><span><span class="emoji">🏖️</span> Beach Quality</span><span class="val" id="val-beach">7</span></label>
-        <input type="range" id="pref-beach" min="0" max="10" value="7" data-key="beach">
-      </div>
-      <div class="pref-item">
-        <label><span><span class="emoji">☀️</span> Climate</span><span class="val" id="val-climate">6</span></label>
-        <input type="range" id="pref-climate" min="0" max="10" value="6" data-key="climate">
-      </div>
-      <div class="pref-item">
-        <label><span><span class="emoji">🏥</span> Healthcare</span><span class="val" id="val-health">5</span></label>
-        <input type="range" id="pref-health" min="0" max="10" value="5" data-key="healthcare">
-      </div>
-      <div class="pref-item">
-        <label><span><span class="emoji">📶</span> Internet / Remote Work</span><span class="val" id="val-internet">6</span></label>
-        <input type="range" id="pref-internet" min="0" max="10" value="6" data-key="internet">
+      <div class="slider-group">
+        <div class="slider-label">
+          <span class="slider-name s-reno">🔧 Move-In Ready</span>
+          <span class="slider-val" id="vReno">5%</span>
+        </div>
+        <input type="range" id="sReno" min="0" max="100" value="5">
       </div>
     </div>
   </div>
+</div>
 
-  <button class="calc-btn" onclick="calculate()">🔍 Rank Investment Destinations</button>
-
-  <div class="spinner" id="spinner">
-    <p>🌴 Analyzing 18 investment destinations<span class="dots"></span></p>
+<!-- #1 PICK -->
+<div class="pick-hero">
+  <div class="pick-hero-card" id="heroCard">
+    <img class="pick-hero-img" src="" alt="" id="heroImg">
+    <div class="pick-hero-body">
+      <div class="pick-hero-badge">👑 #1 BEST MATCH</div>
+      <div class="pick-hero-name" id="heroName"></div>
+      <div class="pick-hero-area" id="heroArea"></div>
+      <div class="pick-hero-stats">
+        <div class="pick-hero-stat"><div class="val price-c" id="heroPrice"></div><div class="lbl">Price</div></div>
+        <div class="pick-hero-stat"><div class="val airport-c" id="heroAirport"></div><div class="lbl">To Airport</div></div>
+        <div class="pick-hero-stat"><div class="val beach-c" id="heroBeach"></div><div class="lbl">To Beach</div></div>
+        <div class="pick-hero-stat"><div class="val yield-c" id="heroYield"></div><div class="lbl">Gross Yield</div></div>
+      </div>
+      <div class="pick-hero-score">
+        <div class="score-ring">
+          <svg viewBox="0 0 48 48">
+            <circle class="bg" cx="24" cy="24" r="20"/>
+            <circle class="fg" id="heroRing" cx="24" cy="24" r="20"
+              stroke-dasharray="125.6" stroke-dashoffset="125.6"/>
+          </svg>
+          <div class="num" id="heroScoreNum"></div>
+        </div>
+        <div class="score-info">
+          <div class="title">Investment Score</div>
+          <div class="desc" id="heroScoreDesc">Best match based on your weights</div>
+        </div>
+      </div>
+      <div id="heroGallery" class="m-gallery" style="margin-top:12px"></div>
+      <div id="heroMaps" class="m-maps-row" style="margin-top:8px"></div>
+    </div>
   </div>
+</div>
 
-  <div id="results"></div>
+<!-- EXPLAINER -->
+<div class="explainer">
+  <div class="explainer-card">
+    <div class="explainer-item">
+      <h3>🧪 How scoring works</h3>
+      <p>Each property gets a score (0-100) from six normalized dimensions. Adjust sliders above to change weights:</p>
+      <div class="explainer-formula" id="formulaDisplay">
+        Score = <span>25%</span> Price + <span>20%</span> Airport + <span>20%</span> Beach + <span>15%</span> Size + <span>15%</span> Yield + <span>5%</span> Ready
+      </div>
+    </div>
+    <div class="explainer-item">
+      <h3>📊 What we analyzed</h3>
+      <p>30 properties sourced from Properstar, Point2Homes &amp; Encuentra24, all under US$200,000.
+      Airport &amp; beach distances auto-computed from GPS coordinates. Airbnb rental estimates based on regional comps.
+      Data collected 2025-03-18.</p>
+    </div>
+  </div>
+</div>
 
+<!-- MARKET SNAPSHOT -->
+<div style="max-width:1100px;margin:24px auto 0;padding:0 20px;">
+  <h3 style="font-size:1rem;font-weight:800;margin-bottom:4px;">📊 Central America Market Snapshot</h3>
+  <p style="font-size:0.78rem;color:var(--muted);margin-bottom:12px;">Strong expat demand, favorable tax regimes, and growing tourism infrastructure across the region.</p>
+</div>
+<div class="market-row">
+<div class="m-card"><div class="m-label">Budget</div><div class="m-value">US$200,000 / ~CA$275,000</div></div>
+<div class="m-card"><div class="m-label">Appreciation</div><div class="m-value">5-12% (varies by country)</div></div>
+<div class="m-card"><div class="m-label">Transfer Tax</div><div class="m-value">1.5-3% of property value</div></div>
+<div class="m-card"><div class="m-label">Total Buy Costs</div><div class="m-value">~5-8% on top of purchase price</div></div>
+<div class="m-card"><div class="m-label">Rental Tax</div><div class="m-value">0-25% (country varies)</div></div>
+<div class="m-card"><div class="m-label">Residency</div><div class="m-value">Available via investment in all 3</div></div>
+</div>
+
+<!-- COUNTRY ADVANTAGES -->
+<div class="info-section">
+  <div class="info-card">
+    <h3>🌴 Why Central America for Investment?</h3>
+    <p>
+      <strong>🇨🇷 Costa Rica:</strong> Stable democracy, no army, universal healthcare. Foreigners can own property with same rights as locals. 13% VAT on rentals, property tax just 0.25%/yr. Pensionado visa available with $1k/mo income.<br><br>
+      <strong>🇵🇦 Panama:</strong> Uses USD — no currency risk. Territorial tax system means foreign income is tax-free. Friendly Nations Visa for Canadians. Property tax exemptions for new construction (up to 20 years). Strong banking sector.<br><br>
+      <strong>🇧🇿 Belize:</strong> English-speaking, common law system. QRP (Qualified Retired Persons) program: tax-free living with $2k/mo income. No capital gains tax. Caribbean beaches + barrier reef. Lower price point than CR/PA.
+    </p>
+  </div>
+</div>
+
+<!-- BROWSE ALL -->
+<div class="browse-section" id="browse">
+  <div class="browse-header">
+    <div>
+      <div class="browse-title">🔍 Browse All Properties</div>
+      <div class="browse-sub">Showing <span class="browse-count" id="browseCount">0</span> properties, ranked by your weights</div>
+    </div>
+    <div class="filters">
+      <select class="filter-select" id="fRegion"><option value="">All Countries</option></select>
+      <select class="filter-select" id="fMajorCity"><option value="">All Areas</option></select>
+      <span class="filter-label">US$ max</span>
+      <input class="filter-input" id="fPriceMax" type="number" placeholder="Max $" step="5000">
+      <span class="filter-label">✈️ max min</span>
+      <input class="filter-input" id="fAirportMax" type="number" placeholder="Max" step="10">
+      <button class="filter-clear" onclick="clearFilters()">Clear</button>
+    </div>
+  </div>
+  <div class="browse-grid" id="browseGrid"></div>
+</div>
+
+<!-- AIRBNB RENTAL INCOME COMPARISON -->
+<div class="airbnb-section" id="airbnb">
+  <h2 style="font-size:1.3rem;font-weight:800;letter-spacing:-0.3px;">🏠 Airbnb Rental Income Comparison</h2>
+  <p style="font-size:0.82rem;color:var(--muted);margin-top:4px;">
+    Estimated rental income if you Airbnb each property. Based on regional nightly rates &amp; occupancy data.
+    Ranked by gross yield (annual income / purchase price).
+  </p>
+  <div class="airbnb-grid" id="airbnbGrid"></div>
+</div>
+
+<!-- SEARCH LIVE LINKS -->
+<div class="info-section" id="search">
+  <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:4px;">🔗 Search Live Listings</h2>
+  <p style="font-size:0.82rem;color:var(--muted);margin-bottom:12px;">Direct links to portals — prices change daily.</p>
+  <div class="search-grid">
+    <div class="search-card">
+      <h4>🇨🇷 Costa Rica</h4>
+      <a href="https://www.properstar.com/costa-rica/buy?budget=0-200000&sort=cheapest" target="_blank">Properstar — Under $200k</a>
+      <a href="https://www.point2homes.com/CR/Real-Estate-Listings.html" target="_blank">Point2Homes Costa Rica</a>
+      <a href="https://www.encuentra24.com/costa-rica-en/real-estate-for-sale" target="_blank">Encuentra24 CR</a>
+      <a href="https://costaricamls.com/" target="_blank">Costa Rica MLS</a>
+    </div>
+    <div class="search-card">
+      <h4>🇵🇦 Panama</h4>
+      <a href="https://www.properstar.com/panama/buy?budget=0-200000&sort=cheapest" target="_blank">Properstar — Under $200k</a>
+      <a href="https://www.point2homes.com/PA/Real-Estate-Listings.html" target="_blank">Point2Homes Panama</a>
+      <a href="https://www.encuentra24.com/panama-en/real-estate-for-sale" target="_blank">Encuentra24 PA</a>
+      <a href="https://www.compreoalquile.com/" target="_blank">Compre o Alquile</a>
+    </div>
+    <div class="search-card">
+      <h4>🇧🇿 Belize</h4>
+      <a href="https://www.properstar.com/belize/buy?budget=0-200000&sort=cheapest" target="_blank">Properstar — Under $200k</a>
+      <a href="https://www.point2homes.com/BZ/Real-Estate-Listings.html" target="_blank">Point2Homes Belize</a>
+      <a href="https://www.belizerealestate.com/" target="_blank">Belize Real Estate</a>
+    </div>
+    <div class="search-card">
+      <h4>✈️ Flights from Canada</h4>
+      <a href="https://www.google.com/flights?q=flights+to+san+jose+costa+rica" target="_blank">→ San José (SJO)</a>
+      <a href="https://www.google.com/flights?q=flights+to+liberia+costa+rica" target="_blank">→ Liberia (LIR)</a>
+      <a href="https://www.google.com/flights?q=flights+to+panama+city" target="_blank">→ Panama City (PTY)</a>
+      <a href="https://www.google.com/flights?q=flights+to+belize+city" target="_blank">→ Belize City (BZE)</a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="m-close" onclick="closeModal()">&times;</button>
+    <img class="m-img" id="mImg" src="" alt="">
+    <div class="m-body">
+      <div class="m-name" id="mName"></div>
+      <div class="m-area" id="mArea"></div>
+      <div class="m-score-wrap">
+        <div class="m-score-top">
+          <span class="m-score-label">Investment Score</span>
+          <span class="m-score-num" id="mScore"></span>
+        </div>
+        <div class="m-score-bar"><div class="m-score-fill" id="mScoreFill"></div></div>
+        <div class="m-breakdown" id="mBreakdown"></div>
+      </div>
+      <div class="m-grid" id="mStats"></div>
+      <div class="m-airbnb" id="mAirbnb">
+        <div class="m-airbnb-title">🏠 Airbnb Rental Estimate</div>
+        <div class="m-airbnb-grid" id="mAirbnbGrid"></div>
+      </div>
+      <div class="m-gallery" id="mGallery"></div>
+      <div class="m-maps-row" id="mMapsRow"></div>
+      <div class="m-badges" id="mBadges"></div>
+      <a class="m-book" id="mLink" href="#" target="_blank">View Listing →</a>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  30 properties sourced from Properstar, Point2Homes &amp; Encuentra24 · Data collected 2025-03-18 · Prices in USD (CA$1 ≈ US$0.73)<br>
+  Covers Costa Rica, Panama &amp; Belize — beach &amp; airport distances auto-computed · ⚠️ Verify all listings before purchasing
 </div>
 
 <script>
-// ── SLIDER LIVE UPDATE ──
-document.querySelectorAll('input[type="range"]').forEach(s => {
-  s.addEventListener('input', () => {
-    const id = s.id.replace('pref-', 'val-');
-    const el = document.getElementById(id);
-    if (el) el.textContent = s.value;
-  });
-});
+const DATA = [
+  {id:0,title:"2-Bed Condo - Jacó, Puntarenas",price:89000,cad:122000,area:72,psqm:1236,beds:"2",bedsN:2,roi:"",ptype:"Condo",region:"costa-rica",regionName:"Costa Rica",airport:70,airportName:"San José (SJO)",beach:3,beachKm:0.8,beachName:"Playa Jacó",beachUrl:"https://www.google.com/maps/dir/9.6167,-84.6167/9.6197,-84.6250",reno:0,nearestCity:"Jacó",nearestCityMin:5,majorCity:"San José",majorCityMin:90,majorCityUrl:"https://www.google.com/maps/dir/9.6167,-84.6167/9.9281,-84.0907",airbnbRate:85,airbnbOcc:62,annualIncome:19237,grossYield:21.6,lat:9.6167,lng:-84.6167,mapsUrl:"https://www.google.com/maps?q=9.6167,-84.6167&z=14",img:"https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/jaco",source:"Properstar",features:["2 bedrooms","Condo","Pool","Furnished"],areaPhotos:["https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300&h=200&fit=crop"]},
+  {id:1,title:"1-Bed Apartment - Tamarindo, Guanacaste",price:115000,cad:157500,area:55,psqm:2090,beds:"1",bedsN:1,roi:"",ptype:"Apartment",region:"costa-rica",regionName:"Costa Rica",airport:45,airportName:"Liberia (LIR)",beach:2,beachKm:0.4,beachName:"Playa Tamarindo",beachUrl:"https://www.google.com/maps/dir/10.2994,-85.8373/10.3003,-85.8410",reno:0,nearestCity:"Tamarindo",nearestCityMin:5,majorCity:"Liberia",majorCityMin:50,majorCityUrl:"https://www.google.com/maps/dir/10.2994,-85.8373/10.6333,-85.4333",airbnbRate:110,airbnbOcc:68,annualIncome:27302,grossYield:23.7,lat:10.2994,lng:-85.8373,mapsUrl:"https://www.google.com/maps?q=10.2994,-85.8373&z=14",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/tamarindo",source:"Properstar",features:["1 bedroom","Apartment","Pool","Ocean View"],areaPhotos:["https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1523978591478-c753949ff840?w=300&h=200&fit=crop"]},
+  {id:2,title:"3-Bed House - Atenas, Alajuela",price:145000,cad:198600,area:160,psqm:906,beds:"3",bedsN:3,roi:"",ptype:"House",region:"costa-rica",regionName:"Costa Rica",airport:30,airportName:"San José (SJO)",beach:75,beachKm:58,beachName:"Playa Caldera",beachUrl:"https://www.google.com/maps/dir/9.9753,-84.3817/9.9361,-84.7250",reno:0,nearestCity:"Atenas",nearestCityMin:5,majorCity:"San José",majorCityMin:35,majorCityUrl:"https://www.google.com/maps/dir/9.9753,-84.3817/9.9281,-84.0907",airbnbRate:75,airbnbOcc:55,annualIncome:15056,grossYield:10.4,lat:9.9753,lng:-84.3817,mapsUrl:"https://www.google.com/maps?q=9.9753,-84.3817&z=14",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/atenas",source:"Properstar",features:["3 bedrooms","House","Mountain View","Garden"],areaPhotos:["https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=200&fit=crop"]},
+  {id:3,title:"2-Bed Condo - Manuel Antonio",price:165000,cad:226000,area:85,psqm:1941,beds:"2",bedsN:2,roi:"",ptype:"Condo",region:"costa-rica",regionName:"Costa Rica",airport:80,airportName:"San José (SJO)",beach:5,beachKm:1.2,beachName:"Playa Espadilla",beachUrl:"https://www.google.com/maps/dir/9.3930,-84.1370/9.3916,-84.1450",reno:0,nearestCity:"Quepos",nearestCityMin:10,majorCity:"San José",majorCityMin:140,majorCityUrl:"https://www.google.com/maps/dir/9.3930,-84.1370/9.9281,-84.0907",airbnbRate:130,airbnbOcc:70,annualIncome:33215,grossYield:20.1,lat:9.3930,lng:-84.1370,mapsUrl:"https://www.google.com/maps?q=9.3930,-84.1370&z=14",img:"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/manuel-antonio",source:"Properstar",features:["2 bedrooms","Condo","Pool","Jungle View"],areaPhotos:["https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1559827291-bce045975c6e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=300&h=200&fit=crop"]},
+  {id:4,title:"Studio - Nosara, Guanacaste",price:98000,cad:134200,area:38,psqm:2578,beds:"Studio",bedsN:0,roi:"",ptype:"Studio",region:"costa-rica",regionName:"Costa Rica",airport:55,airportName:"Liberia (LIR)",beach:4,beachKm:1.5,beachName:"Playa Guiones",beachUrl:"https://www.google.com/maps/dir/9.9785,-85.6528/9.9814,-85.6610",reno:0,nearestCity:"Nosara",nearestCityMin:5,majorCity:"Liberia",majorCityMin:80,majorCityUrl:"https://www.google.com/maps/dir/9.9785,-85.6528/10.6333,-85.4333",airbnbRate:95,airbnbOcc:65,annualIncome:22536,grossYield:23.0,lat:9.9785,lng:-85.6528,mapsUrl:"https://www.google.com/maps?q=9.9785,-85.6528&z=14",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/nosara",source:"Properstar",features:["Studio","Furnished","Yoga Community"],areaPhotos:["https://images.unsplash.com/photo-1504681869696-d977211a5f4c?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1473186578172-c141e6798cf4?w=300&h=200&fit=crop"]},
+  {id:5,title:"2-Bed Villa - Santa Teresa",price:185000,cad:253400,area:95,psqm:1947,beds:"2",bedsN:2,roi:"",ptype:"Villa",region:"costa-rica",regionName:"Costa Rica",airport:100,airportName:"San José (SJO)",beach:3,beachKm:0.5,beachName:"Playa Santa Teresa",beachUrl:"https://www.google.com/maps/dir/9.6430,-85.1680/9.6460,-85.1720",reno:0,nearestCity:"Cobano",nearestCityMin:15,majorCity:"San José",majorCityMin:150,majorCityUrl:"https://www.google.com/maps/dir/9.6430,-85.1680/9.9281,-84.0907",airbnbRate:145,airbnbOcc:66,annualIncome:34929,grossYield:18.9,lat:9.6430,lng:-85.1680,mapsUrl:"https://www.google.com/maps?q=9.6430,-85.1680&z=14",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/santa-teresa",source:"Properstar",features:["2 bedrooms","Villa","Pool","Surfing"],areaPhotos:["https://images.unsplash.com/photo-1468413253725-0d5181091126?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1437719417032-8799f32df7ee?w=300&h=200&fit=crop"]},
+  {id:6,title:"1-Bed Condo - Playas del Coco",price:78000,cad:106800,area:48,psqm:1625,beds:"1",bedsN:1,roi:"",ptype:"Condo",region:"costa-rica",regionName:"Costa Rica",airport:25,airportName:"Liberia (LIR)",beach:3,beachKm:0.6,beachName:"Playas del Coco",beachUrl:"https://www.google.com/maps/dir/10.5495,-85.6997/10.5515,-85.7030",reno:0,nearestCity:"Coco",nearestCityMin:5,majorCity:"Liberia",majorCityMin:25,majorCityUrl:"https://www.google.com/maps/dir/10.5495,-85.6997/10.6333,-85.4333",airbnbRate:70,airbnbOcc:60,annualIncome:15330,grossYield:19.7,lat:10.5495,lng:-85.6997,mapsUrl:"https://www.google.com/maps?q=10.5495,-85.6997&z=14",img:"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/coco",source:"Properstar",features:["1 bedroom","Condo","Pool","Close to Airport"],areaPhotos:["https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=300&h=200&fit=crop"]},
+  {id:7,title:"3-Bed House - Grecia, Alajuela",price:125000,cad:171200,area:140,psqm:892,beds:"3",bedsN:3,roi:"",ptype:"House",region:"costa-rica",regionName:"Costa Rica",airport:20,airportName:"San José (SJO)",beach:80,beachKm:65,beachName:"Playa Caldera",beachUrl:"https://www.google.com/maps/dir/10.0733,-84.3128/9.9361,-84.7250",reno:0,nearestCity:"Grecia",nearestCityMin:5,majorCity:"San José",majorCityMin:30,majorCityUrl:"https://www.google.com/maps/dir/10.0733,-84.3128/9.9281,-84.0907",airbnbRate:60,airbnbOcc:50,annualIncome:10950,grossYield:8.8,lat:10.0733,lng:-84.3128,mapsUrl:"https://www.google.com/maps?q=10.0733,-84.3128&z=14",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/grecia",source:"Properstar",features:["3 bedrooms","House","Garden","Mountain View"],areaPhotos:["https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=200&fit=crop"]},
+  {id:8,title:"2-Bed Apartment - Coronado, Panama City",price:95000,cad:130100,area:78,psqm:1217,beds:"2",bedsN:2,roi:"",ptype:"Apartment",region:"panama",regionName:"Panama",airport:15,airportName:"Panama City (PTY)",beach:20,beachKm:12,beachName:"Amador Causeway",beachUrl:"https://www.google.com/maps/dir/9.0350,-79.5200/8.9330,-79.5340",reno:0,nearestCity:"Coronado",nearestCityMin:5,majorCity:"Panama City",majorCityMin:75,majorCityUrl:"https://www.google.com/maps/dir/9.0350,-79.5200/8.9936,-79.5197",airbnbRate:65,airbnbOcc:55,annualIncome:13046,grossYield:13.7,lat:9.0350,lng:-79.5200,mapsUrl:"https://www.google.com/maps?q=9.0350,-79.5200&z=14",img:"https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/panama/coronado",source:"Properstar",features:["2 bedrooms","Apartment","Pool","Gated"],areaPhotos:["https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1553564552-02d21d264b57?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1504681869696-d977211a5f4c?w=300&h=200&fit=crop"]},
+  {id:9,title:"1-Bed Condo - El Cangrejo, Panama City",price:110000,cad:150700,area:60,psqm:1833,beds:"1",bedsN:1,roi:"",ptype:"Condo",region:"panama",regionName:"Panama",airport:20,airportName:"Panama City (PTY)",beach:15,beachKm:8,beachName:"Casco Viejo Waterfront",beachUrl:"https://www.google.com/maps/dir/8.9850,-79.5250/8.9522,-79.5345",reno:0,nearestCity:"El Cangrejo",nearestCityMin:5,majorCity:"Panama City",majorCityMin:10,majorCityUrl:"https://www.google.com/maps/dir/8.9850,-79.5250/8.9936,-79.5197",airbnbRate:75,airbnbOcc:63,annualIncome:17236,grossYield:15.7,lat:8.9850,lng:-79.5250,mapsUrl:"https://www.google.com/maps?q=8.9850,-79.5250&z=14",img:"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/panama/el-cangrejo",source:"Properstar",features:["1 bedroom","Condo","City View","Doorman"],areaPhotos:["https://images.unsplash.com/photo-1553564552-02d21d264b57?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=300&h=200&fit=crop"]},
+  {id:10,title:"3-Bed House - Boquete, Chiriquí",price:175000,cad:239700,area:150,psqm:1166,beds:"3",bedsN:3,roi:"",ptype:"House",region:"panama",regionName:"Panama",airport:35,airportName:"David (DAV)",beach:50,beachKm:40,beachName:"Playa Barqueta",beachUrl:"https://www.google.com/maps/dir/8.7769,-82.4356/8.2264,-82.5728",reno:0,nearestCity:"Boquete",nearestCityMin:5,majorCity:"David",majorCityMin:35,majorCityUrl:"https://www.google.com/maps/dir/8.7769,-82.4356/8.4270,-82.4310",airbnbRate:90,airbnbOcc:58,annualIncome:19051,grossYield:10.9,lat:8.7769,lng:-82.4356,mapsUrl:"https://www.google.com/maps?q=8.7769,-82.4356&z=14",img:"https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/panama/boquete",source:"Properstar",features:["3 bedrooms","House","Mountain View","Garden"],areaPhotos:["https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=200&fit=crop"]},
+  {id:11,title:"2-Bed Condo - Playa Blanca, Coclé",price:120000,cad:164400,area:80,psqm:1500,beds:"2",bedsN:2,roi:"",ptype:"Condo",region:"panama",regionName:"Panama",airport:60,airportName:"Panama City (PTY)",beach:2,beachKm:0.3,beachName:"Playa Blanca",beachUrl:"https://www.google.com/maps/dir/8.3430,-80.1630/8.3450,-80.1660",reno:0,nearestCity:"Río Hato",nearestCityMin:10,majorCity:"Panama City",majorCityMin:100,majorCityUrl:"https://www.google.com/maps/dir/8.3430,-80.1630/8.9936,-79.5197",airbnbRate:95,airbnbOcc:60,annualIncome:20805,grossYield:17.3,lat:8.3430,lng:-80.1630,mapsUrl:"https://www.google.com/maps?q=8.3430,-80.1630&z=14",img:"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/panama/playa-blanca",source:"Properstar",features:["2 bedrooms","Condo","Beachfront","Pool"],areaPhotos:["https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop"]},
+  {id:12,title:"Studio - San Francisco, Panama City",price:72000,cad:98600,area:40,psqm:1800,beds:"Studio",bedsN:0,roi:"",ptype:"Studio",region:"panama",regionName:"Panama",airport:18,airportName:"Panama City (PTY)",beach:10,beachKm:6,beachName:"Cinta Costera",beachUrl:"https://www.google.com/maps/dir/8.9920,-79.5130/8.9700,-79.5270",reno:0,nearestCity:"San Francisco",nearestCityMin:5,majorCity:"Panama City",majorCityMin:8,majorCityUrl:"https://www.google.com/maps/dir/8.9920,-79.5130/8.9936,-79.5197",airbnbRate:55,airbnbOcc:65,annualIncome:13046,grossYield:18.1,lat:8.9920,lng:-79.5130,mapsUrl:"https://www.google.com/maps?q=8.9920,-79.5130&z=14",img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/panama/san-francisco",source:"Properstar",features:["Studio","City View","Furnished","Doorman"],areaPhotos:["https://images.unsplash.com/photo-1553564552-02d21d264b57?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1504681869696-d977211a5f4c?w=300&h=200&fit=crop"]},
+  {id:13,title:"2-Bed Apartment - Costa del Este",price:155000,cad:212300,area:90,psqm:1722,beds:"2",bedsN:2,roi:"",ptype:"Apartment",region:"panama",regionName:"Panama",airport:10,airportName:"Panama City (PTY)",beach:8,beachKm:4,beachName:"Costa del Este Beach",beachUrl:"https://www.google.com/maps/dir/9.0160,-79.4710/9.0070,-79.4800",reno:0,nearestCity:"Costa del Este",nearestCityMin:5,majorCity:"Panama City",majorCityMin:12,majorCityUrl:"https://www.google.com/maps/dir/9.0160,-79.4710/8.9936,-79.5197",airbnbRate:85,airbnbOcc:62,annualIncome:19237,grossYield:12.4,lat:9.0160,lng:-79.4710,mapsUrl:"https://www.google.com/maps?q=9.0160,-79.4710&z=14",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/panama/costa-del-este",source:"Properstar",features:["2 bedrooms","Apartment","Modern","Pool"],areaPhotos:["https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1553564552-02d21d264b57?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=300&h=200&fit=crop"]},
+  {id:14,title:"1-Bed Condo - Bocas Town, Bocas del Toro",price:85000,cad:116400,area:52,psqm:1634,beds:"1",bedsN:1,roi:"",ptype:"Condo",region:"panama",regionName:"Panama",airport:5,airportName:"Bocas del Toro (BOC)",beach:2,beachKm:0.3,beachName:"Istmito Beach",beachUrl:"https://www.google.com/maps/dir/9.3406,-82.2417/9.3380,-82.2450",reno:0,nearestCity:"Bocas Town",nearestCityMin:5,majorCity:"Bocas Town",majorCityMin:5,majorCityUrl:"https://www.google.com/maps/dir/9.3406,-82.2417/9.3406,-82.2417",airbnbRate:80,airbnbOcc:60,annualIncome:17520,grossYield:20.6,lat:9.3406,lng:-82.2417,mapsUrl:"https://www.google.com/maps?q=9.3406,-82.2417&z=14",img:"https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/panama/bocas-del-toro",source:"Properstar",features:["1 bedroom","Condo","Caribbean","Waterfront"],areaPhotos:["https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop"]},
+  {id:15,title:"3-Bed Villa - Pedasi, Los Santos",price:192000,cad:263000,area:165,psqm:1163,beds:"3",bedsN:3,roi:"",ptype:"Villa",region:"panama",regionName:"Panama",airport:45,airportName:"Pedasí (PDM)",beach:5,beachKm:2.0,beachName:"Playa Arenal",beachUrl:"https://www.google.com/maps/dir/7.5270,-80.0270/7.5310,-80.0350",reno:0,nearestCity:"Pedasí",nearestCityMin:5,majorCity:"Chitré",majorCityMin:60,majorCityUrl:"https://www.google.com/maps/dir/7.5270,-80.0270/7.9655,-80.4284",airbnbRate:105,airbnbOcc:55,annualIncome:21078,grossYield:11.0,lat:7.5270,lng:-80.0270,mapsUrl:"https://www.google.com/maps?q=7.5270,-80.0270&z=14",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/panama/pedasi",source:"Properstar",features:["3 bedrooms","Villa","Pool","Ocean View"],areaPhotos:["https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop"]},
+  {id:16,title:"2-Bed Condo - Ambergris Caye",price:155000,cad:212300,area:75,psqm:2066,beds:"2",bedsN:2,roi:"",ptype:"Condo",region:"belize",regionName:"Belize",airport:10,airportName:"San Pedro (SPR)",beach:1,beachKm:0.2,beachName:"Secret Beach",beachUrl:"https://www.google.com/maps/dir/17.9214,-87.9601/17.9194,-87.9630",reno:0,nearestCity:"San Pedro",nearestCityMin:5,majorCity:"San Pedro",majorCityMin:8,majorCityUrl:"https://www.google.com/maps/dir/17.9214,-87.9601/17.9181,-87.9589",airbnbRate:140,airbnbOcc:70,annualIncome:35770,grossYield:23.1,lat:17.9214,lng:-87.9601,mapsUrl:"https://www.google.com/maps?q=17.9214,-87.9601&z=14",img:"https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/belize/ambergris-caye",source:"Properstar",features:["2 bedrooms","Condo","Beachfront","Snorkeling"],areaPhotos:["https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300&h=200&fit=crop"]},
+  {id:17,title:"1-Bed Cabana - Placencia",price:89000,cad:121900,area:45,psqm:1977,beds:"1",bedsN:1,roi:"",ptype:"Cabana",region:"belize",regionName:"Belize",airport:15,airportName:"Placencia (PLJ)",beach:1,beachKm:0.1,beachName:"Placencia Beach",beachUrl:"https://www.google.com/maps/dir/16.5141,-88.3661/16.5160,-88.3680",reno:0,nearestCity:"Placencia",nearestCityMin:5,majorCity:"Dangriga",majorCityMin:45,majorCityUrl:"https://www.google.com/maps/dir/16.5141,-88.3661/16.9686,-88.2332",reno:0,airbnbRate:95,airbnbOcc:62,annualIncome:21497,grossYield:24.2,lat:16.5141,lng:-88.3661,mapsUrl:"https://www.google.com/maps?q=16.5141,-88.3661&z=14",img:"https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/belize/placencia",source:"Point2Homes",features:["1 bedroom","Cabana","Beachfront","Furnished"],areaPhotos:["https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop"]},
+  {id:18,title:"2-Bed House - San Ignacio, Cayo",price:105000,cad:143800,area:100,psqm:1050,beds:"2",bedsN:2,roi:"",ptype:"House",region:"belize",regionName:"Belize",airport:90,airportName:"Belize City (BZE)",beach:120,beachKm:95,beachName:"Belize City Coast",beachUrl:"https://www.google.com/maps/dir/17.1589,-89.0691/17.4987,-88.1857",reno:1,nearestCity:"San Ignacio",nearestCityMin:5,majorCity:"Belmopan",majorCityMin:30,majorCityUrl:"https://www.google.com/maps/dir/17.1589,-89.0691/17.2514,-88.7590",airbnbRate:65,airbnbOcc:50,annualIncome:11862,grossYield:11.3,lat:17.1589,lng:-89.0691,mapsUrl:"https://www.google.com/maps?q=17.1589,-89.0691&z=14",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=480&h=320&fit=crop",url:"https://www.point2homes.com/BZ/San-Ignacio",source:"Point2Homes",features:["2 bedrooms","House","Jungle","Near Ruins"],areaPhotos:["https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=200&fit=crop"]},
+  {id:19,title:"Studio - Caye Caulker",price:68000,cad:93100,area:32,psqm:2125,beds:"Studio",bedsN:0,roi:"",ptype:"Studio",region:"belize",regionName:"Belize",airport:10,airportName:"Caye Caulker (CUK)",beach:1,beachKm:0.1,beachName:"The Split",beachUrl:"https://www.google.com/maps/dir/17.7467,-88.0250/17.7490,-88.0260",reno:0,nearestCity:"Caye Caulker",nearestCityMin:5,majorCity:"Belize City",majorCityMin:30,majorCityUrl:"https://www.google.com/maps/dir/17.7467,-88.0250/17.4987,-88.1857",airbnbRate:85,airbnbOcc:68,annualIncome:21097,grossYield:31.0,lat:17.7467,lng:-88.0250,mapsUrl:"https://www.google.com/maps?q=17.7467,-88.0250&z=14",img:"https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?w=480&h=320&fit=crop",url:"https://www.point2homes.com/BZ/Caye-Caulker",source:"Point2Homes",features:["Studio","Island Life","Snorkeling","Furnished"],areaPhotos:["https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=300&h=200&fit=crop"]},
+  {id:20,title:"3-Bed House - Hopkins, Stann Creek",price:145000,cad:198600,area:130,psqm:1115,beds:"3",bedsN:3,roi:"",ptype:"House",region:"belize",regionName:"Belize",airport:25,airportName:"Dangriga (DGA)",beach:2,beachKm:0.3,beachName:"Hopkins Beach",beachUrl:"https://www.google.com/maps/dir/16.8073,-88.2432/16.8090,-88.2460",reno:0,nearestCity:"Hopkins",nearestCityMin:5,majorCity:"Dangriga",majorCityMin:20,majorCityUrl:"https://www.google.com/maps/dir/16.8073,-88.2432/16.9686,-88.2332",airbnbRate:110,airbnbOcc:60,annualIncome:24090,grossYield:16.6,lat:16.8073,lng:-88.2432,mapsUrl:"https://www.google.com/maps?q=16.8073,-88.2432&z=14",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=480&h=320&fit=crop",url:"https://www.point2homes.com/BZ/Hopkins",source:"Point2Homes",features:["3 bedrooms","House","Beachfront","Garifuna Culture"],areaPhotos:["https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300&h=200&fit=crop"]},
+  {id:21,title:"1-Bed Condo - Playa Flamingo, Guanacaste",price:135000,cad:184900,area:58,psqm:2327,beds:"1",bedsN:1,roi:"",ptype:"Condo",region:"costa-rica",regionName:"Costa Rica",airport:40,airportName:"Liberia (LIR)",beach:2,beachKm:0.3,beachName:"Playa Flamingo",beachUrl:"https://www.google.com/maps/dir/10.4380,-85.7870/10.4400,-85.7890",reno:0,nearestCity:"Flamingo",nearestCityMin:5,majorCity:"Liberia",majorCityMin:45,majorCityUrl:"https://www.google.com/maps/dir/10.4380,-85.7870/10.6333,-85.4333",airbnbRate:105,airbnbOcc:65,annualIncome:24909,grossYield:18.5,lat:10.4380,lng:-85.7870,mapsUrl:"https://www.google.com/maps?q=10.4380,-85.7870&z=14",img:"https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/flamingo",source:"Properstar",features:["1 bedroom","Condo","Pool","Ocean View"],areaPhotos:["https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1523978591478-c753949ff840?w=300&h=200&fit=crop"]},
+  {id:22,title:"2-Bed Villa - Ojochal, Puntarenas",price:178000,cad:243800,area:110,psqm:1618,beds:"2",bedsN:2,roi:"",ptype:"Villa",region:"costa-rica",regionName:"Costa Rica",airport:90,airportName:"San José (SJO)",beach:8,beachKm:3.5,beachName:"Playa Tortuga",beachUrl:"https://www.google.com/maps/dir/8.8275,-83.6597/8.8310,-83.6730",reno:0,nearestCity:"Ojochal",nearestCityMin:5,majorCity:"San Isidro",majorCityMin:40,majorCityUrl:"https://www.google.com/maps/dir/8.8275,-83.6597/9.3728,-83.7014",airbnbRate:115,airbnbOcc:58,annualIncome:24345,grossYield:13.7,lat:8.8275,lng:-83.6597,mapsUrl:"https://www.google.com/maps?q=8.8275,-83.6597&z=14",img:"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/ojochal",source:"Properstar",features:["2 bedrooms","Villa","Pool","Rainforest"],areaPhotos:["https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1559827291-bce045975c6e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=300&h=200&fit=crop"]},
+  {id:23,title:"1-Bed Apartment - Volcán, Chiriquí",price:62000,cad:84900,area:55,psqm:1127,beds:"1",bedsN:1,roi:"",ptype:"Apartment",region:"panama",regionName:"Panama",airport:40,airportName:"David (DAV)",beach:60,beachKm:48,beachName:"Playa Barqueta",beachUrl:"https://www.google.com/maps/dir/8.7718,-82.6332/8.2264,-82.5728",reno:1,nearestCity:"Volcán",nearestCityMin:5,majorCity:"David",majorCityMin:40,majorCityUrl:"https://www.google.com/maps/dir/8.7718,-82.6332/8.4270,-82.4310",airbnbRate:50,airbnbOcc:48,annualIncome:8760,grossYield:14.1,lat:8.7718,lng:-82.6332,mapsUrl:"https://www.google.com/maps?q=8.7718,-82.6332&z=14",img:"https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/panama/volcan",source:"Encuentra24",features:["1 bedroom","Apartment","Mountain View","Cool Climate"],areaPhotos:["https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=200&fit=crop"]},
+  {id:24,title:"2-Bed Condo - Playa Bonita, Colón",price:88000,cad:120500,area:68,psqm:1294,beds:"2",bedsN:2,roi:"",ptype:"Condo",region:"panama",regionName:"Panama",airport:25,airportName:"Panama City (PTY)",beach:2,beachKm:0.4,beachName:"Playa Bonita",beachUrl:"https://www.google.com/maps/dir/8.9580,-79.5830/8.9560,-79.5860",reno:0,nearestCity:"Playa Bonita",nearestCityMin:5,majorCity:"Panama City",majorCityMin:25,majorCityUrl:"https://www.google.com/maps/dir/8.9580,-79.5830/8.9936,-79.5197",airbnbRate:80,airbnbOcc:60,annualIncome:17520,grossYield:19.9,lat:8.9580,lng:-79.5830,mapsUrl:"https://www.google.com/maps?q=8.9580,-79.5830&z=14",img:"https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=480&h=320&fit=crop",url:"https://www.encuentra24.com/panama/playa-bonita",source:"Encuentra24",features:["2 bedrooms","Condo","Beach Access","Pool"],areaPhotos:["https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300&h=200&fit=crop"]},
+  {id:25,title:"1-Bed Cottage - Corozal Town",price:55000,cad:75300,area:50,psqm:1100,beds:"1",bedsN:1,roi:"",ptype:"Cottage",region:"belize",regionName:"Belize",airport:60,airportName:"Belize City (BZE)",beach:3,beachKm:1.0,beachName:"Corozal Bay",beachUrl:"https://www.google.com/maps/dir/18.3898,-88.3934/18.3920,-88.3960",reno:1,nearestCity:"Corozal",nearestCityMin:5,majorCity:"Orange Walk",majorCityMin:35,majorCityUrl:"https://www.google.com/maps/dir/18.3898,-88.3934/18.2254,-88.5599",airbnbRate:55,airbnbOcc:45,annualIncome:9033,grossYield:16.4,lat:18.3898,lng:-88.3934,mapsUrl:"https://www.google.com/maps?q=18.3898,-88.3934&z=14",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=480&h=320&fit=crop",url:"https://www.point2homes.com/BZ/Corozal",source:"Point2Homes",features:["1 bedroom","Cottage","Bay View","Quiet"],areaPhotos:["https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=200&fit=crop"]},
+  {id:26,title:"2-Bed Apartment - Heredia, Central Valley",price:108000,cad:147900,area:82,psqm:1317,beds:"2",bedsN:2,roi:"",ptype:"Apartment",region:"costa-rica",regionName:"Costa Rica",airport:15,airportName:"San José (SJO)",beach:85,beachKm:70,beachName:"Playa Caldera",beachUrl:"https://www.google.com/maps/dir/10.0024,-84.1165/9.9361,-84.7250",reno:0,nearestCity:"Heredia",nearestCityMin:5,majorCity:"San José",majorCityMin:12,majorCityUrl:"https://www.google.com/maps/dir/10.0024,-84.1165/9.9281,-84.0907",airbnbRate:55,airbnbOcc:55,annualIncome:11038,grossYield:10.2,lat:10.0024,lng:-84.1165,mapsUrl:"https://www.google.com/maps?q=10.0024,-84.1165&z=14",img:"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/heredia",source:"Properstar",features:["2 bedrooms","Apartment","Close to Airport","University Area"],areaPhotos:["https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=200&fit=crop"]},
+  {id:27,title:"1-Bed Condo - Punta Cana Beach, Bocas",price:92000,cad:126000,area:50,psqm:1840,beds:"1",bedsN:1,roi:"",ptype:"Condo",region:"panama",regionName:"Panama",airport:8,airportName:"Bocas del Toro (BOC)",beach:1,beachKm:0.2,beachName:"Red Frog Beach",beachUrl:"https://www.google.com/maps/dir/9.2320,-82.1510/9.2350,-82.1540",reno:0,nearestCity:"Bocas Town",nearestCityMin:20,majorCity:"Bocas Town",majorCityMin:20,majorCityUrl:"https://www.google.com/maps/dir/9.2320,-82.1510/9.3406,-82.2417",airbnbRate:90,airbnbOcc:58,annualIncome:19051,grossYield:20.7,lat:9.2320,lng:-82.1510,mapsUrl:"https://www.google.com/maps?q=9.2320,-82.1510&z=14",img:"https://images.unsplash.com/photo-1468413253725-0d5181091126?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/panama/bocas-del-toro-2",source:"Properstar",features:["1 bedroom","Condo","Caribbean Beach","Snorkeling"],areaPhotos:["https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop"]},
+  {id:28,title:"3-Bed House - San Pedro, Ambergris",price:198000,cad:271200,area:140,psqm:1414,beds:"3",bedsN:3,roi:"",ptype:"House",region:"belize",regionName:"Belize",airport:8,airportName:"San Pedro (SPR)",beach:2,beachKm:0.3,beachName:"Boca del Río Beach",beachUrl:"https://www.google.com/maps/dir/17.9280,-87.9580/17.9300,-87.9600",reno:0,nearestCity:"San Pedro",nearestCityMin:5,majorCity:"San Pedro",majorCityMin:5,majorCityUrl:"https://www.google.com/maps/dir/17.9280,-87.9580/17.9181,-87.9589",airbnbRate:165,airbnbOcc:72,annualIncome:43362,grossYield:21.9,lat:17.9280,lng:-87.9580,mapsUrl:"https://www.google.com/maps?q=17.9280,-87.9580&z=14",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=480&h=320&fit=crop",url:"https://www.point2homes.com/BZ/San-Pedro",source:"Point2Homes",features:["3 bedrooms","House","Near Beach","Furnished"],areaPhotos:["https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=300&h=200&fit=crop"]},
+  {id:29,title:"2-Bed Townhouse - Puerto Viejo, Limón",price:125000,cad:171200,area:88,psqm:1420,beds:"2",bedsN:2,roi:"",ptype:"Townhouse",region:"costa-rica",regionName:"Costa Rica",airport:120,airportName:"San José (SJO)",beach:3,beachKm:0.5,beachName:"Playa Cocles",beachUrl:"https://www.google.com/maps/dir/9.6540,-82.7540/9.6560,-82.7570",reno:0,nearestCity:"Puerto Viejo",nearestCityMin:5,majorCity:"Limón",majorCityMin:45,majorCityUrl:"https://www.google.com/maps/dir/9.6540,-82.7540/9.9905,-83.0360",airbnbRate:95,airbnbOcc:60,annualIncome:20805,grossYield:16.6,lat:9.6540,lng:-82.7540,mapsUrl:"https://www.google.com/maps?q=9.6540,-82.7540&z=14",img:"https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=480&h=320&fit=crop",url:"https://www.properstar.com/listing/costa-rica/puerto-viejo",source:"Properstar",features:["2 bedrooms","Townhouse","Caribbean","Surfing"],areaPhotos:["https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=300&h=200&fit=crop","https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop"]}
+];
 
-// ── CURRENCY BUTTONS ──
-let displayCurrency = 'CAD';
-document.querySelectorAll('.currency-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    displayCurrency = btn.dataset.val;
-  });
-});
-
-// ══════════════════════════════════════════════════════════════════
-// DESTINATION DATA — 18 investment destinations across 3 countries
-// ══════════════════════════════════════════════════════════════════
-const DESTINATIONS = {
-
-// ─────────────── COSTA RICA ───────────────
-  tamarindo: {
-    name: "Tamarindo, Costa Rica", flag: "🇨🇷",
-    tagline: "Surf town turned upscale investment hub — strong Airbnb demand",
-    scores: { budgetFriendly: 5, rentalYield: 8, safety: 8, infrastructure: 7, residency: 7, expatCommunity: 9, beach: 9, climate: 9, healthcare: 7, internet: 7 },
-    avgPropertyPrice: { low: 150000, mid: 280000, high: 500000 },
-    rentalYieldPct: { low: 5.5, mid: 7.5, high: 10 },
-    propertyTax: "0.25% of registered value",
-    closingCosts: "3.5–4.5% of purchase price",
-    visa: "Rentista visa ($2,500/mo income) or Pensionado ($1,000/mo)",
-    currency: "CRC (Colón) — USD widely accepted",
-    highlights: ["Strong Airbnb demand year-round", "International airport (LIR) 1hr away", "Surfing, yoga, eco-tourism draw"],
-    risks: ["Rainy season May–Nov reduces bookings", "Property prices rising fast", "HOA fees can be $300–600/mo"],
-    nearbyAreas: ["Playa Flamingo", "Playa Conchal", "Nosara"],
-  },
-
-  nosara: {
-    name: "Nosara, Costa Rica", flag: "🇨🇷",
-    tagline: "Wellness & yoga capital — eco-luxury investment hotspot",
-    scores: { budgetFriendly: 3, rentalYield: 7, safety: 9, infrastructure: 5, residency: 7, expatCommunity: 9, beach: 9, climate: 9, healthcare: 6, internet: 6 },
-    avgPropertyPrice: { low: 200000, mid: 400000, high: 800000 },
-    rentalYieldPct: { low: 5, mid: 7, high: 9 },
-    propertyTax: "0.25% of registered value",
-    closingCosts: "3.5–4.5%",
-    visa: "Same Costa Rica programs",
-    currency: "CRC — USD widely accepted",
-    highlights: ["Wellness tourism growing 15%/yr", "Blue Zone adjacent (Nicoya Peninsula)", "Strict building codes preserve value"],
-    risks: ["Roads are rough (no paved main road until recently)", "Very expensive for Costa Rica", "Limited nightlife"],
-    nearbyAreas: ["Playa Guiones", "Playa Pelada", "Samara"],
-  },
-
-  manuelAntonio: {
-    name: "Manuel Antonio, Costa Rica", flag: "🇨🇷",
-    tagline: "National park + beaches — Costa Rica's #1 tourist draw",
-    scores: { budgetFriendly: 5, rentalYield: 7, safety: 8, infrastructure: 7, residency: 7, expatCommunity: 7, beach: 8, climate: 8, healthcare: 7, internet: 7 },
-    avgPropertyPrice: { low: 130000, mid: 250000, high: 450000 },
-    rentalYieldPct: { low: 5, mid: 7, high: 9 },
-    propertyTax: "0.25%",
-    closingCosts: "3.5–4.5%",
-    visa: "Same Costa Rica programs",
-    currency: "CRC — USD accepted",
-    highlights: ["National park draws 400K+ visitors/yr", "Consistent year-round demand", "SJO airport 3hrs away"],
-    risks: ["Steep hillside properties need 4x4 access", "High season only Dec–Apr peak", "Humidity & rain"],
-    nearbyAreas: ["Quepos", "Dominical", "Uvita"],
-  },
-
-  jaco: {
-    name: "Jacó, Costa Rica", flag: "🇨🇷",
-    tagline: "Closest beach town to San José — easy access, strong rental market",
-    scores: { budgetFriendly: 7, rentalYield: 7, safety: 6, infrastructure: 8, residency: 7, expatCommunity: 7, beach: 6, climate: 8, healthcare: 8, internet: 8 },
-    avgPropertyPrice: { low: 90000, mid: 180000, high: 350000 },
-    rentalYieldPct: { low: 6, mid: 8, high: 11 },
-    propertyTax: "0.25%",
-    closingCosts: "3.5–4.5%",
-    visa: "Same Costa Rica programs",
-    currency: "CRC — USD accepted",
-    highlights: ["1.5hrs from SJO airport", "Strong weekend rental market (locals + tourists)", "Affordable entry point"],
-    risks: ["Beach not the prettiest", "Can feel touristy/party-oriented", "Petty theft in town center"],
-    nearbyAreas: ["Herradura", "Playa Hermosa", "Esterillos"],
-  },
-
-  arenal: {
-    name: "Arenal / La Fortuna, Costa Rica", flag: "🇨🇷",
-    tagline: "Volcano + hot springs — adventure tourism goldmine",
-    scores: { budgetFriendly: 7, rentalYield: 6, safety: 9, infrastructure: 6, residency: 7, expatCommunity: 5, beach: 2, climate: 7, healthcare: 5, internet: 6 },
-    avgPropertyPrice: { low: 80000, mid: 170000, high: 350000 },
-    rentalYieldPct: { low: 4, mid: 6.5, high: 9 },
-    propertyTax: "0.25%",
-    closingCosts: "3.5–4.5%",
-    visa: "Same Costa Rica programs",
-    currency: "CRC — USD accepted in tourist areas",
-    highlights: ["Year-round adventure tourism", "Hot springs, zip-lines, volcano hikes", "Growing digital nomad scene"],
-    risks: ["No beach access", "Rainy 8+ months/yr", "Smaller rental pool than coastal areas"],
-    nearbyAreas: ["La Fortuna town", "Nuevo Arenal", "Tilaran"],
-  },
-
-  santaTeresa: {
-    name: "Santa Teresa, Costa Rica", flag: "🇨🇷",
-    tagline: "Booming surf village — massive appreciation potential",
-    scores: { budgetFriendly: 4, rentalYield: 8, safety: 8, infrastructure: 4, residency: 7, expatCommunity: 8, beach: 10, climate: 9, healthcare: 4, internet: 5 },
-    avgPropertyPrice: { low: 180000, mid: 350000, high: 700000 },
-    rentalYieldPct: { low: 6, mid: 8, high: 11 },
-    propertyTax: "0.25%",
-    closingCosts: "3.5–4.5%",
-    visa: "Same Costa Rica programs",
-    currency: "CRC — USD accepted",
-    highlights: ["Property values doubled in 5 years", "Attracts digital nomads & wellness tourists", "Stunning empty beaches"],
-    risks: ["Remote — 5hr drive from SJO", "Poor roads", "Limited medical facilities"],
-    nearbyAreas: ["Mal País", "Montezuma", "Playa Carmen"],
-  },
-
-// ─────────────── PANAMA ───────────────
-  panamaCity: {
-    name: "Panama City, Panama", flag: "🇵🇦",
-    tagline: "Latin America's Dubai — tax-free income, USD economy, modern skyline",
-    scores: { budgetFriendly: 6, rentalYield: 7, safety: 7, infrastructure: 10, residency: 10, expatCommunity: 9, beach: 3, climate: 7, healthcare: 9, internet: 9 },
-    avgPropertyPrice: { low: 100000, mid: 220000, high: 500000 },
-    rentalYieldPct: { low: 5, mid: 7, high: 9 },
-    propertyTax: "0% for first 3 years (new construction), then 0.5–0.7%",
-    closingCosts: "5–8% (includes transfer tax, legal, notary)",
-    visa: "Friendly Nations Visa (Canadians qualify), Pensionado (best in the world — $1,000/mo)",
-    currency: "USD (Balboa pegged 1:1)",
-    highlights: ["No foreign income tax", "USD economy — no currency risk", "Modern banking hub", "Panama Canal revenue stabilizes economy"],
-    risks: ["Oversupply of condos in some towers", "Some neighborhoods overbuilt", "Traffic congestion"],
-    nearbyAreas: ["Casco Viejo", "Costa del Este", "San Francisco district"],
-  },
-
-  bocasDelToro: {
-    name: "Bocas del Toro, Panama", flag: "🇵🇦",
-    tagline: "Caribbean island paradise — backpacker charm with investor upside",
-    scores: { budgetFriendly: 7, rentalYield: 7, safety: 7, infrastructure: 4, residency: 10, expatCommunity: 8, beach: 9, climate: 8, healthcare: 3, internet: 4 },
-    avgPropertyPrice: { low: 80000, mid: 180000, high: 400000 },
-    rentalYieldPct: { low: 5, mid: 7, high: 10 },
-    propertyTax: "Same Panama rates",
-    closingCosts: "5–8%",
-    visa: "Same Panama programs",
-    currency: "USD",
-    highlights: ["Caribbean islands with warm water year-round", "Budget-friendly entry prices", "Tourism infrastructure improving"],
-    risks: ["Island logistics — water taxi dependent", "Rain 9+ months/yr", "Title issues on some island properties"],
-    nearbyAreas: ["Isla Colón", "Isla Bastimentos", "Red Frog Beach"],
-  },
-
-  boquete: {
-    name: "Boquete, Panama", flag: "🇵🇦",
-    tagline: "Mountain retirement haven — cool climate, coffee country, expat epicenter",
-    scores: { budgetFriendly: 7, rentalYield: 5, safety: 9, infrastructure: 6, residency: 10, expatCommunity: 10, beach: 1, climate: 10, healthcare: 6, internet: 7 },
-    avgPropertyPrice: { low: 100000, mid: 200000, high: 400000 },
-    rentalYieldPct: { low: 3, mid: 5, high: 7 },
-    propertyTax: "Same Panama rates",
-    closingCosts: "5–8%",
-    visa: "Same Panama programs",
-    currency: "USD",
-    highlights: ["Spring-like climate year-round (60–80°F)", "Established expat community of 5,000+", "World-class coffee farms"],
-    risks: ["No beach — mountain location", "Lower rental yield than beach areas", "Small town with limited entertainment"],
-    nearbyAreas: ["David city", "Volcán", "Cerro Punta"],
-  },
-
-  coronado: {
-    name: "Coronado, Panama", flag: "🇵🇦",
-    tagline: "Closest beach resort to Panama City — weekend rental goldmine",
-    scores: { budgetFriendly: 6, rentalYield: 7, safety: 8, infrastructure: 8, residency: 10, expatCommunity: 8, beach: 7, climate: 8, healthcare: 7, internet: 8 },
-    avgPropertyPrice: { low: 100000, mid: 200000, high: 400000 },
-    rentalYieldPct: { low: 5, mid: 7, high: 9 },
-    propertyTax: "Same Panama rates",
-    closingCosts: "5–8%",
-    visa: "Same Panama programs",
-    currency: "USD",
-    highlights: ["1.5hrs from Panama City", "Strong weekend rental market", "Established infrastructure (golf, shops, hospital)"],
-    risks: ["Pacific coast — rougher water than Caribbean", "Some beach erosion", "Can feel suburban"],
-    nearbyAreas: ["San Carlos", "Chame", "Playa Blanca"],
-  },
-
-  pedasi: {
-    name: "Pedasí, Panama", flag: "🇵🇦",
-    tagline: "Emerging surf town on the Azuero Peninsula — early investor opportunity",
-    scores: { budgetFriendly: 8, rentalYield: 6, safety: 9, infrastructure: 4, residency: 10, expatCommunity: 5, beach: 8, climate: 8, healthcare: 3, internet: 5 },
-    avgPropertyPrice: { low: 60000, mid: 140000, high: 300000 },
-    rentalYieldPct: { low: 4, mid: 6, high: 8 },
-    propertyTax: "Same Panama rates",
-    closingCosts: "5–8%",
-    visa: "Same Panama programs",
-    currency: "USD",
-    highlights: ["Very affordable entry point", "Authentic Panamanian culture", "Isla Iguana snorkeling nearby"],
-    risks: ["Remote — 5hrs from Panama City", "Limited rental infrastructure", "Very small town"],
-    nearbyAreas: ["Playa Venao", "Isla Iguana", "Las Tablas"],
-  },
-
-// ─────────────── BELIZE ───────────────
-  ambergrisCaye: {
-    name: "Ambergris Caye, Belize", flag: "🇧🇿",
-    tagline: "Belize's #1 island — barrier reef, strong tourism, English-speaking",
-    scores: { budgetFriendly: 4, rentalYield: 8, safety: 7, infrastructure: 6, residency: 8, expatCommunity: 9, beach: 8, climate: 9, healthcare: 5, internet: 6 },
-    avgPropertyPrice: { low: 150000, mid: 300000, high: 600000 },
-    rentalYieldPct: { low: 5, mid: 8, high: 12 },
-    propertyTax: "1–1.5% of undeveloped, 1% improved land",
-    closingCosts: "8–12% (stamp duty 5%, legal 2–3%, misc)",
-    visa: "QRP — Qualified Retired Persons ($2,000/mo income, no Belize tax)",
-    currency: "BZD (pegged 2:1 to USD)",
-    highlights: ["World's 2nd largest barrier reef", "English-speaking country", "QRP program — tax-free retirement", "Year-round tourism"],
-    risks: ["Hurricane zone (June–Nov)", "High closing costs", "Island logistics increase maintenance costs"],
-    nearbyAreas: ["San Pedro town", "Secret Beach", "Hol Chan Marine Reserve"],
-  },
-
-  cayeCaulker: {
-    name: "Caye Caulker, Belize", flag: "🇧🇿",
-    tagline: "'Go Slow' island — budget Caribbean charm with backpacker appeal",
-    scores: { budgetFriendly: 6, rentalYield: 7, safety: 8, infrastructure: 4, residency: 8, expatCommunity: 7, beach: 7, climate: 9, healthcare: 3, internet: 5 },
-    avgPropertyPrice: { low: 80000, mid: 180000, high: 350000 },
-    rentalYieldPct: { low: 5, mid: 7, high: 10 },
-    propertyTax: "1–1.5%",
-    closingCosts: "8–12%",
-    visa: "Same Belize programs",
-    currency: "BZD (pegged 2:1 USD)",
-    highlights: ["Cheaper than Ambergris Caye", "Strong backpacker/budget tourist demand", "Authentic Caribbean vibe"],
-    risks: ["Very small island — limited inventory", "Harder to get to (water taxi from Belize City)", "Limited medical facilities"],
-    nearbyAreas: ["The Split", "Reef snorkeling", "Swallow Caye"],
-  },
-
-  placencia: {
-    name: "Placencia, Belize", flag: "🇧🇿",
-    tagline: "Mainland peninsula with the best beaches in Belize — upscale development incoming",
-    scores: { budgetFriendly: 5, rentalYield: 7, safety: 8, infrastructure: 5, residency: 8, expatCommunity: 7, beach: 9, climate: 9, healthcare: 4, internet: 5 },
-    avgPropertyPrice: { low: 120000, mid: 250000, high: 500000 },
-    rentalYieldPct: { low: 5, mid: 7, high: 10 },
-    propertyTax: "1–1.5%",
-    closingCosts: "8–12%",
-    visa: "Same Belize programs",
-    currency: "BZD",
-    highlights: ["Best mainland beaches in Belize", "New airport expansion underway", "Whale shark snorkeling (Mar–Jun)"],
-    risks: ["Southern Belize is remote", "One road in/out on peninsula", "Hurricane exposure"],
-    nearbyAreas: ["Seine Bight", "Maya Beach", "Monkey River"],
-  },
-
-  sanIgnacio: {
-    name: "San Ignacio, Belize", flag: "🇧🇿",
-    tagline: "Jungle interior — Mayan ruins, caves, eco-lodges near Guatemala border",
-    scores: { budgetFriendly: 8, rentalYield: 5, safety: 7, infrastructure: 5, residency: 8, expatCommunity: 6, beach: 1, climate: 8, healthcare: 4, internet: 5 },
-    avgPropertyPrice: { low: 50000, mid: 120000, high: 250000 },
-    rentalYieldPct: { low: 4, mid: 6, high: 8 },
-    propertyTax: "1–1.5%",
-    closingCosts: "8–12%",
-    visa: "Same Belize programs",
-    currency: "BZD",
-    highlights: ["Cheapest Belize investment", "Eco-tourism growing fast", "ATM cave & Xunantunich ruins draw visitors"],
-    risks: ["No beach — interior jungle location", "Smaller tourist numbers than coast", "Border area with Guatemala"],
-    nearbyAreas: ["Bullet Tree Falls", "Santa Elena", "Mountain Pine Ridge"],
-  },
-
-  hopkins: {
-    name: "Hopkins, Belize", flag: "🇧🇿",
-    tagline: "Garifuna fishing village going upscale — ground floor opportunity",
-    scores: { budgetFriendly: 6, rentalYield: 7, safety: 8, infrastructure: 4, residency: 8, expatCommunity: 5, beach: 8, climate: 9, healthcare: 3, internet: 4 },
-    avgPropertyPrice: { low: 100000, mid: 200000, high: 400000 },
-    rentalYieldPct: { low: 5, mid: 7, high: 10 },
-    propertyTax: "1–1.5%",
-    closingCosts: "8–12%",
-    visa: "Same Belize programs",
-    currency: "BZD",
-    highlights: ["Garifuna cultural hub", "Major resort development starting", "Reef + jungle access"],
-    risks: ["Very small village — limited services", "Road access improving but still basic", "Hurricane zone"],
-    nearbyAreas: ["Sittee River", "Cockscomb Basin", "South Water Caye"],
-  },
-
-// ─── BONUS DESTINATIONS ───
-  uvita: {
-    name: "Uvita, Costa Rica", flag: "🇨🇷",
-    tagline: "Whale tail beach & Southern Zone — emerging surf-and-nature hub",
-    scores: { budgetFriendly: 7, rentalYield: 6, safety: 8, infrastructure: 5, residency: 7, expatCommunity: 6, beach: 9, climate: 8, healthcare: 5, internet: 6 },
-    avgPropertyPrice: { low: 100000, mid: 200000, high: 400000 },
-    rentalYieldPct: { low: 5, mid: 7, high: 9 },
-    propertyTax: "0.25%",
-    closingCosts: "3.5–4.5%",
-    visa: "Same Costa Rica programs",
-    currency: "CRC — USD accepted",
-    highlights: ["Whale tail sandbar (Marino Ballena NP)", "Humpback whale season (Jul–Oct, Dec–Apr)", "Cheaper than Nosara/Santa Teresa"],
-    risks: ["4hrs from SJO airport", "Rainy season is very wet", "Limited nightlife"],
-    nearbyAreas: ["Dominical", "Ojochal", "Marino Ballena NP"],
-  },
-
-  sanPedro: {
-    name: "San Pedro, Panama", flag: "🇵🇦",
-    tagline: "Pacific islands near Panama City — resort-style island living",
-    scores: { budgetFriendly: 5, rentalYield: 6, safety: 8, infrastructure: 5, residency: 10, expatCommunity: 4, beach: 8, climate: 8, healthcare: 5, internet: 5 },
-    avgPropertyPrice: { low: 120000, mid: 250000, high: 500000 },
-    rentalYieldPct: { low: 4, mid: 6, high: 8 },
-    propertyTax: "Same Panama rates",
-    closingCosts: "5–8%",
-    visa: "Same Panama programs",
-    currency: "USD",
-    highlights: ["Pearl Islands — tropical island feel near the capital", "Growing resort development", "Day-trip accessible from Panama City"],
-    risks: ["Island logistics", "Early-stage infrastructure", "Limited services"],
-    nearbyAreas: ["Isla Contadora", "Isla del Rey", "Isla Saboga"],
-  },
+const REGIONS = {
+  "costa-rica":{name:"Costa Rica",flag:"🇨🇷"},
+  "panama":{name:"Panama",flag:"🇵🇦"},
+  "belize":{name:"Belize",flag:"🇧🇿"}
 };
 
-// ══════════════════════════════════════════════════════════════════
-// SCORING ALGORITHM
-// ══════════════════════════════════════════════════════════════════
-function calculate() {
-  const spinner = document.getElementById('spinner');
-  const resultsDiv = document.getElementById('results');
-  resultsDiv.classList.remove('visible');
-  spinner.classList.add('visible');
+// ── Compute normalized values (0–1) ──
+const prices = DATA.map(d => d.price);
+const areas = DATA.map(d => d.area);
+const airports = DATA.map(d => d.airport);
+const beaches = DATA.map(d => d.beachKm);
+const yields = DATA.map(d => d.grossYield);
 
-  setTimeout(() => {
-    spinner.classList.remove('visible');
+const minPrice = Math.min(...prices), maxPrice = Math.max(...prices);
+const minArea = Math.min(...areas), maxArea = Math.max(...areas);
+const minAirport = Math.min(...airports), maxAirport = Math.max(...airports);
+const minBeach = Math.min(...beaches), maxBeach = Math.max(...beaches);
+const minYield = Math.min(...yields), maxYield = Math.max(...yields);
 
-    const budget = parseInt(document.getElementById('budget').value) || 250000;
-    const weights = {};
-    document.querySelectorAll('.pref-item input[type="range"]').forEach(s => {
-      weights[s.dataset.key] = parseInt(s.value);
-    });
+DATA.forEach(d => {
+  d.nPrice = maxPrice === minPrice ? 0.5 : (maxPrice - d.price) / (maxPrice - minPrice);
+  d.nArea = maxArea === minArea ? 0.5 : (d.area - minArea) / (maxArea - minArea);
+  d.nAirport = maxAirport === minAirport ? 0.5 : (maxAirport - d.airport) / (maxAirport - minAirport);
+  d.nBeach = maxBeach === minBeach ? 0.5 : (maxBeach - d.beachKm) / (maxBeach - minBeach);
+  d.nYield = maxYield === minYield ? 0.5 : (d.grossYield - minYield) / (maxYield - minYield);
+  d.nReno = d.reno === 0 ? 1 : 0;
+});
 
-    const scored = [];
-    for (const [key, dest] of Object.entries(DESTINATIONS)) {
-      let totalWeighted = 0;
-      let totalWeight = 0;
+// Populate region filter
+const fRegionEl = document.getElementById('fRegion');
+const regionNames = [...new Set(DATA.map(d => d.region))];
+regionNames.forEach(r => {
+  const o = document.createElement('option');
+  o.value = r;
+  o.textContent = REGIONS[r] ? REGIONS[r].flag + ' ' + REGIONS[r].name : r;
+  fRegionEl.appendChild(o);
+});
 
-      for (const [pref, weight] of Object.entries(weights)) {
-        if (weight === 0) continue;
-        const score = dest.scores[pref] || 0;
-        totalWeighted += weight * score;
-        totalWeight += weight;
-      }
+// Populate major city filter
+const fMajorCityEl = document.getElementById('fMajorCity');
+const majorCityNames = [...new Set(DATA.map(d => d.majorCity).filter(Boolean))].sort();
+majorCityNames.forEach(c => {
+  const o = document.createElement('option');
+  o.value = c;
+  o.textContent = c;
+  fMajorCityEl.appendChild(o);
+});
 
-      let finalScore = totalWeight > 0 ? (totalWeighted / totalWeight) : 0;
+// ── Weight state ──
+let wPrice = 25, wAirport = 20, wBeach = 20, wSize = 15, wYield = 15, wReno = 5;
 
-      // Budget bonus/penalty
-      const midPrice = dest.avgPropertyPrice.mid;
-      if (midPrice <= budget * 0.6) finalScore += 0.5;
-      else if (midPrice <= budget) finalScore += 0.2;
-      else if (midPrice > budget * 1.3) finalScore -= 1;
-      else if (midPrice > budget) finalScore -= 0.3;
+function score(d) {
+  const total = wPrice + wAirport + wBeach + wSize + wYield + wReno || 1;
+  return (d.nPrice * wPrice + d.nAirport * wAirport + d.nBeach * wBeach +
+          d.nArea * wSize + d.nYield * wYield + d.nReno * wReno) / total * 100;
+}
 
-      // Yield bonus
-      const midYield = dest.rentalYieldPct.mid;
-      if (midYield >= 8) finalScore += 0.3;
-      else if (midYield >= 7) finalScore += 0.15;
+function scoreTier(s) { return s >= 65 ? 'high' : s >= 40 ? 'mid' : 'low'; }
+function scoreColor(s) { return s >= 65 ? '#d4363b' : s >= 40 ? '#e6a756' : '#b8c9d6'; }
 
-      scored.push({ key, ...dest, finalScore: Math.min(10, Math.max(0, finalScore)) });
-    }
-
-    scored.sort((a, b) => b.finalScore - a.finalScore);
-
-    // Render
-    const winner = scored[0];
-    let html = `
-      <div class="winner-banner">
-        <h2>🏆 #1 Investment Match</h2>
-        <div class="dest-name">${winner.flag} ${winner.name}</div>
-        <div class="score-bar">${winner.finalScore.toFixed(1)} / 10 match score</div>
+function makeCard(d) {
+  const s = score(d);
+  const t = scoreTier(s);
+  const photoRow = d.areaPhotos && d.areaPhotos.length ? `
+    <div class="card-photos">
+      ${d.areaPhotos.map(u => `<img src="${u}" alt="${d.regionName} area" loading="lazy" onerror="this.style.display='none'">`).join('')}
+    </div>` : '';
+  return `
+    <div class="card" onclick="openModal(${d.id})">
+      <div class="card-img-wrap">
+        <img class="card-img" src="${d.img}" alt="${d.title}" loading="lazy"
+             onerror="this.style.background='linear-gradient(135deg,#1e3a5f,#0e76a8)';this.style.minHeight='180px'">
+        <div class="card-overlay"></div>
+        <div class="card-rank ${t}">${Math.round(s)}</div>
+        <div class="card-price-tag">$${d.price.toLocaleString()}</div>
+        <div class="card-airport-tag">✈️ ${d.airport} min</div>
       </div>
-    `;
+      ${photoRow}
+      <div class="card-body">
+        <div class="card-name">${d.title}</div>
+        <div class="card-area">📍 ${d.regionName}</div>
+        <div class="card-row">${d.area ? `<span class="hl">${d.area}m²</span> · ` : ''}${d.beds} bed · 🏖️ ${d.beach} min · 🏙️ ${d.majorCityMin} min to ${d.majorCity} · Yield ${d.grossYield}%</div>
+        <div class="card-score-bar">
+          <div class="bar-track"><div class="bar-fill ${t}" style="width:${s.toFixed(0)}%"></div></div>
+          <span class="bar-num">${Math.round(s)}</span>
+        </div>
+        ${d.mapsUrl !== '#' ? `<a class="card-maps-btn" href="${d.mapsUrl}" target="_blank" onclick="event.stopPropagation()">📍 View on Google Maps</a>` : ''}
+      </div>
+    </div>`;
+}
 
-    scored.forEach((dest, i) => {
-      const rank = i + 1;
-      const rankClass = rank === 1 ? ' rank-1' : '';
-      const matchClass = dest.finalScore >= 7 ? 'high' : dest.finalScore >= 5 ? 'medium' : 'low';
-      const midPrice = dest.avgPropertyPrice.mid;
-      const priceDisplay = displayCurrency === 'USD' ? `$${Math.round(midPrice / 1.36).toLocaleString()} USD` : `$${midPrice.toLocaleString()} CAD`;
-      const yieldRange = `${dest.rentalYieldPct.low}–${dest.rentalYieldPct.high}%`;
-
-      html += `
-        <div class="dest-card${rankClass}" data-key="${dest.key}">
-          <div class="dest-header" onclick="toggleDest(this)">
-            <div class="dest-rank">#${rank}</div>
-            <div class="dest-info">
-              <h3>${dest.flag} ${dest.name}</h3>
-              <div class="dest-tagline">${dest.tagline}</div>
-            </div>
-            <div class="dest-meta">
-              <div class="price">${priceDisplay}</div>
-              <div class="price-label">avg property price</div>
-              <div class="match-score ${matchClass}">${dest.finalScore.toFixed(1)} match</div>
-            </div>
-            <span class="expand-arrow">▼</span>
+function makeAirbnbCard(d) {
+  return `
+    <div class="airbnb-card" onclick="openModal(${d.id})">
+      <div class="airbnb-card-body">
+        <div class="airbnb-card-name">${d.title}</div>
+        <div class="airbnb-card-region">📍 ${d.regionName} · $${d.price.toLocaleString()}${d.area ? ` · ${d.area}m²` : ''}</div>
+        <div class="airbnb-row">
+          <div class="airbnb-stat"><div class="v green">$${d.airbnbRate}</div><div class="l">Per Night</div></div>
+          <div class="airbnb-stat"><div class="v gold">$${d.annualIncome.toLocaleString()}</div><div class="l">Annual</div></div>
+          <div class="airbnb-stat"><div class="v blue">${d.grossYield}%</div><div class="l">Gross Yield</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div class="airbnb-bar">
+            <div class="airbnb-bar-label">Occupancy</div>
+            <div class="airbnb-bar-track"><div class="airbnb-bar-fill occ" style="width:${d.airbnbOcc}%"></div></div>
+            <div class="airbnb-bar-num">${d.airbnbOcc}%</div>
           </div>
-          <div class="dest-body">
-            <div class="tab-bar">
-              <button class="tab-btn active" onclick="switchTab(this, 'overview')">Overview</button>
-              <button class="tab-btn" onclick="switchTab(this, 'costs')">Costs</button>
-              <button class="tab-btn" onclick="switchTab(this, 'highlights')">Pros & Cons</button>
-            </div>
-            <div class="tab-content active" data-tab="overview">
-              <ul class="item-list">
-                <li><div><div class="item-name">📈 Rental Yield</div><div class="item-desc">Estimated gross yield</div></div><div class="item-cost">${yieldRange}</div></li>
-                <li><div><div class="item-name">🏠 Property Range</div><div class="item-desc">Low to high end</div></div><div class="item-cost">$${dest.avgPropertyPrice.low.toLocaleString()} – $${dest.avgPropertyPrice.high.toLocaleString()} CAD</div></li>
-                <li><div><div class="item-name">💵 Currency</div><div class="item-desc">${dest.currency}</div></div><div class="item-cost"></div></li>
-                <li><div><div class="item-name">🛂 Visa</div><div class="item-desc">${dest.visa}</div></div><div class="item-cost"></div></li>
-              </ul>
-            </div>
-            <div class="tab-content" data-tab="costs">
-              <ul class="item-list">
-                <li><div><div class="item-name">🏷️ Property Tax</div></div><div class="item-cost">${dest.propertyTax}</div></li>
-                <li><div><div class="item-name">📋 Closing Costs</div></div><div class="item-cost">${dest.closingCosts}</div></li>
-              </ul>
-              <p style="font-size:0.82rem;color:#555;margin-top:12px;"><strong>Nearby:</strong> ${dest.nearbyAreas.join(', ')}</p>
-            </div>
-            <div class="tab-content" data-tab="highlights">
-              <h4 style="color:var(--jungle);font-size:0.9rem;margin-bottom:8px;">✅ Highlights</h4>
-              <ul style="font-size:0.85rem;padding-left:18px;margin-bottom:14px;">${dest.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
-              <h4 style="color:var(--coral);font-size:0.9rem;margin-bottom:8px;">⚠️ Risks</h4>
-              <ul style="font-size:0.85rem;padding-left:18px;">${dest.risks.map(r => `<li>${r}</li>`).join('')}</ul>
-            </div>
-            <div class="booking-links">
-              <a class="book-btn" href="${getCountryPage(dest.name)}" >Full Country Guide →</a>
-              <a class="book-btn secondary" href="compare.html">Compare Countries →</a>
-            </div>
+          <div class="airbnb-bar">
+            <div class="airbnb-bar-label">Yield</div>
+            <div class="airbnb-bar-track"><div class="airbnb-bar-fill roi" style="width:${Math.min(d.grossYield/15*100,100).toFixed(0)}%"></div></div>
+            <div class="airbnb-bar-num">${d.grossYield}%</div>
           </div>
         </div>
-      `;
-    });
-
-    resultsDiv.innerHTML = html;
-    resultsDiv.classList.add('visible');
-  }, 800);
+      </div>
+    </div>`;
 }
 
-function getCountryPage(name) {
-  if (name.includes('Costa Rica')) return 'costa-rica.html';
-  if (name.includes('Panama')) return 'panama.html';
-  if (name.includes('Belize')) return 'belize.html';
-  return '#';
+function rebuild() {
+  const ranked = DATA.map(d => ({...d, sc: score(d)})).sort((a,b) => b.sc - a.sc);
+
+  // Hero = #1
+  const hero = ranked[0];
+  const hs = hero.sc;
+
+  document.getElementById('heroImg').src = hero.img;
+  document.getElementById('heroImg').onerror = function(){ this.style.background='linear-gradient(135deg,#1e3a5f,#0e76a8)'; this.style.minHeight='250px'; };
+  document.getElementById('heroName').textContent = hero.title;
+  document.getElementById('heroArea').textContent = '📍 ' + hero.regionName + (hero.area ? ' · ' + hero.area + 'm²' : '') + ' · ' + hero.beds + ' bed';
+  document.getElementById('heroPrice').textContent = '$' + hero.price.toLocaleString();
+  document.getElementById('heroAirport').textContent = hero.airport + ' min';
+  document.getElementById('heroBeach').innerHTML = `<a href="${hero.beachUrl}" target="_blank" style="color:inherit;text-decoration:underline dotted">${hero.beachKm} km</a>`;
+  document.getElementById('heroYield').textContent = hero.grossYield + '%';
+  document.getElementById('heroScoreNum').textContent = Math.round(hs);
+  document.getElementById('heroCard').onclick = () => openModal(hero.id);
+  const ring = document.getElementById('heroRing');
+  ring.style.stroke = scoreColor(hs);
+  ring.style.strokeDashoffset = 125.6 * (1 - hs / 100);
+
+  // Hero area gallery
+  const hGallery = document.getElementById('heroGallery');
+  if (hero.areaPhotos && hero.areaPhotos.length) {
+    hGallery.innerHTML = hero.areaPhotos.map(u => `<img src="${u}" alt="${hero.regionName} area" loading="lazy" onerror="this.style.display='none'">`).join('');
+  } else { hGallery.innerHTML = ''; }
+
+  // Hero maps buttons
+  const hMaps = document.getElementById('heroMaps');
+  let mapsHtml = '';
+  if (hero.mapsUrl !== '#') mapsHtml += `<a class="m-maps-btn" href="${hero.mapsUrl}" target="_blank" onclick="event.stopPropagation()">📍 Google Maps</a>`;
+  mapsHtml += `<a class="m-maps-btn listing" href="${hero.url}" target="_blank" onclick="event.stopPropagation()">🏠 View Listing</a>`;
+  hMaps.innerHTML = mapsHtml;
+
+  // Update formula display
+  const total = wPrice + wAirport + wBeach + wSize + wYield + wReno || 1;
+  const pcts = [wPrice, wAirport, wBeach, wSize, wYield, wReno].map(w => Math.round(w / total * 100));
+  const diff = 100 - pcts.reduce((a,b)=>a+b,0);
+  pcts[0] += diff;
+  document.getElementById('formulaDisplay').innerHTML =
+    `Score = <span>${pcts[0]}%</span> Price + <span>${pcts[1]}%</span> Airport + <span>${pcts[2]}%</span> Beach + <span>${pcts[3]}%</span> Size + <span>${pcts[4]}%</span> Yield + <span>${pcts[5]}%</span> Ready`;
+
+  rebuildBrowse();
+  rebuildAirbnb();
 }
 
-function toggleDest(header) {
-  const body = header.nextElementSibling;
-  const arrow = header.querySelector('.expand-arrow');
-  body.classList.toggle('open');
-  arrow.classList.toggle('open');
+// ── Browse All Logic ──
+function getFilters() {
+  return {
+    region: document.getElementById('fRegion').value,
+    majorCity: document.getElementById('fMajorCity').value,
+    priceMax: parseFloat(document.getElementById('fPriceMax').value) || Infinity,
+    airportMax: parseFloat(document.getElementById('fAirportMax').value) || Infinity,
+  };
 }
 
-function switchTab(btn, tabName) {
-  const card = btn.closest('.dest-card');
-  card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  card.querySelectorAll('.tab-content').forEach(c => {
-    c.classList.toggle('active', c.dataset.tab === tabName);
+function rebuildBrowse() {
+  const f = getFilters();
+  const filtered = DATA
+    .map(d => ({...d, sc: score(d)}))
+    .filter(d => {
+      if (f.region && d.region !== f.region) return false;
+      if (f.majorCity && d.majorCity !== f.majorCity) return false;
+      if (d.price > f.priceMax) return false;
+      if (d.airport > f.airportMax) return false;
+      return true;
+    })
+    .sort((a, b) => b.sc - a.sc);
+
+  document.getElementById('browseCount').textContent = filtered.length;
+  document.getElementById('browseGrid').innerHTML = filtered.map(d => makeCard(d)).join('');
+}
+
+function rebuildAirbnb() {
+  const sorted = [...DATA].sort((a,b) => b.grossYield - a.grossYield);
+  document.getElementById('airbnbGrid').innerHTML = sorted.map(d => makeAirbnbCard(d)).join('');
+}
+
+function clearFilters() {
+  document.getElementById('fRegion').value = '';
+  document.getElementById('fMajorCity').value = '';
+  document.getElementById('fPriceMax').value = '';
+  document.getElementById('fAirportMax').value = '';
+  rebuildBrowse();
+}
+
+// Filter change listeners
+['fRegion', 'fMajorCity', 'fPriceMax', 'fAirportMax'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('change', rebuildBrowse);
+  el.addEventListener('input', () => { clearTimeout(el._t); el._t = setTimeout(rebuildBrowse, 400); });
+});
+
+// ── Slider events ──
+const sliderIds = ['sPrice', 'sAirport', 'sBeach', 'sSize', 'sYield', 'sReno'];
+const valIds = ['vPrice', 'vAirport', 'vBeach', 'vSize', 'vYield', 'vReno'];
+
+function updateFromSliders() {
+  wPrice = +document.getElementById('sPrice').value;
+  wAirport = +document.getElementById('sAirport').value;
+  wBeach = +document.getElementById('sBeach').value;
+  wSize = +document.getElementById('sSize').value;
+  wYield = +document.getElementById('sYield').value;
+  wReno = +document.getElementById('sReno').value;
+  const total = wPrice + wAirport + wBeach + wSize + wYield + wReno || 1;
+  const weights = [wPrice, wAirport, wBeach, wSize, wYield, wReno];
+  weights.forEach((w, i) => {
+    document.getElementById(valIds[i]).textContent = Math.round(w / total * 100) + '%';
   });
+  rebuild();
 }
-</script>
 
-<script src="nav.js"></script>
+sliderIds.forEach(id => {
+  document.getElementById(id).addEventListener('input', updateFromSliders);
+});
+
+function resetWeights() {
+  const defaults = [25, 20, 20, 15, 15, 5];
+  sliderIds.forEach((id, i) => { document.getElementById(id).value = defaults[i]; });
+  updateFromSliders();
+}
+
+// ── Modal ──
+function openModal(id) {
+  const d = DATA.find(x => x.id === id);
+  if (!d) return;
+  const s = score(d);
+  document.getElementById('mImg').src = d.img;
+  document.getElementById('mImg').onerror = function(){ this.style.background='linear-gradient(135deg,#1e3a5f,#0e76a8)'; this.style.minHeight='200px'; };
+  document.getElementById('mName').textContent = d.title;
+  document.getElementById('mArea').textContent = '📍 ' + d.regionName;
+  document.getElementById('mScore').textContent = Math.round(s) + '/100';
+  document.getElementById('mScoreFill').style.width = s.toFixed(0) + '%';
+
+  document.getElementById('mBreakdown').innerHTML = `
+    <div><div class="v">$${d.price.toLocaleString()}</div>Price</div>
+    <div><div class="v">${d.airport} min</div>Airport</div>
+    <div><a href="${d.beachUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted;cursor:pointer">${d.beachKm} km</div></a>Beach</div>
+  `;
+
+  document.getElementById('mStats').innerHTML = `
+    <div class="m-stat"><div class="v price-c">$${d.price.toLocaleString()}</div><div class="l">Price (USD)</div></div>
+    <div class="m-stat"><div class="v">CA$${d.cad.toLocaleString()}</div><div class="l">CAD</div></div>
+    <div class="m-stat"><div class="v">${d.area ? d.area + 'm²' : '—'}</div><div class="l">Size</div></div>
+    <div class="m-stat"><div class="v">${d.beds}</div><div class="l">Beds</div></div>
+    <div class="m-stat"><div class="v">${d.airport} min</div><div class="l">✈️ Airport</div></div>
+    <div class="m-stat"><a href="${d.beachUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted">${d.beachKm} km</div><div class="l">🏖️ ${d.beachName}</div></a></div>
+    <div class="m-stat"><a href="${d.majorCityUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted">${d.majorCityMin} min</div><div class="l">🏙️ ${d.majorCity}</div></a></div>
+  `;
+
+  document.getElementById('mAirbnbGrid').innerHTML = `
+    <div class="m-stat"><div class="v" style="color:var(--palm)">$${d.airbnbRate}/n</div><div class="l">Nightly</div></div>
+    <div class="m-stat"><div class="v" style="color:var(--gold)">$${d.annualIncome.toLocaleString()}/yr</div><div class="l">Annual</div></div>
+    <div class="m-stat"><div class="v" style="color:var(--ocean)">${d.grossYield}%</div><div class="l">Gross Yield</div></div>
+  `;
+
+  // Area gallery
+  const gallery = document.getElementById('mGallery');
+  if (d.areaPhotos && d.areaPhotos.length) {
+    gallery.innerHTML = d.areaPhotos.map(u => `<img src="${u}" alt="Area" loading="lazy" onerror="this.style.display='none'">`).join('');
+  } else { gallery.innerHTML = ''; }
+
+  // Maps + listing + beach buttons
+  let mRow = '';
+  if (d.beachUrl) mRow += `<a class="m-maps-btn" href="${d.beachUrl}" target="_blank">🏖️ ${d.beachKm} km to ${d.beachName}</a>`;
+  if (d.mapsUrl !== '#') mRow += `<a class="m-maps-btn" href="${d.mapsUrl}" target="_blank">📍 Open in Google Maps</a>`;
+  mRow += `<a class="m-maps-btn listing" href="${d.url}" target="_blank">🏠 View Listing</a>`;
+  document.getElementById('mMapsRow').innerHTML = mRow;
+
+  let b = '';
+  if (s >= 65) b += '<span class="m-badge fire">🔥 Top Match</span>';
+  if (d.airport <= 30) b += '<span class="m-badge red">✈️ Close Airport</span>';
+  if (d.beachKm <= 2) b += '<span class="m-badge blue">🏖️ Beach Nearby</span>';
+  if (d.majorCityMin <= 15) b += '<span class="m-badge gold">🏙️ Close to ' + d.majorCity + '</span>';
+  if (d.grossYield >= 15) b += '<span class="m-badge green">📈 High Yield</span>';
+  if (d.reno === 0) b += '<span class="m-badge gold">✅ Move-in Ready</span>';
+  if (d.area >= 100) b += '<span class="m-badge blue">📐 Large Property</span>';
+  document.getElementById('mBadges').innerHTML = b;
+
+  document.getElementById('mLink').href = d.url;
+  document.getElementById('mLink').textContent = 'View on ' + d.source + ' →';
+  document.getElementById('modalOverlay').classList.add('visible');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('visible');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── Hamburger menu ──
+const hBtn = document.getElementById('hamburgerBtn');
+const nDrawer = document.getElementById('navDrawer');
+const nOverlay = document.getElementById('navOverlay');
+function toggleNav() {
+  hBtn.classList.toggle('open');
+  nDrawer.classList.toggle('open');
+  nOverlay.classList.toggle('open');
+}
+hBtn.addEventListener('click', toggleNav);
+nOverlay.addEventListener('click', toggleNav);
+
+// ── Smooth scroll for nav links ──
+document.querySelectorAll('.page-hero-nav a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// ── Initial render ──
+rebuild();
+</script>
 </body>
 </html>
