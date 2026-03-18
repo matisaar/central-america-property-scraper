@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central America Investment Properties</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --jungle: #1a5632;
+    --jungle-light: #2d8a4e;
+    --jungle-dark: #0d3b1f;
+    --ocean: #0077b6;
+    --ocean-dark: #023e8a;
+    --ocean-light: #00b4d8;
+    --sunset: #ff6b35;
+    --sunset-light: #ff9f1c;
+    --coral: #e63946;
+    --sand: #f5e6d3;
+    --white: #ffffff;
+    --dark: #1a1a2e;
+    --gray: #6b7280;
+    --light-gray: #f3f4f6;
+    --card-bg: rgba(255,255,255,0.95);
+    --shadow: 0 10px 40px rgba(0,0,0,0.1);
+    --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(135deg, #1a5632 0%, #0d3b1f 30%, #1a1a2e 100%);
+    color: var(--dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    position: relative;
+    padding: 60px 20px 40px;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff10" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,170.7C960,160,1056,192,1152,197.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L0,320Z"/></svg>') no-repeat bottom;
+    background-size: cover;
+    opacity: 0.3;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    margin-bottom: 8px;
+    position: relative;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .hero p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    position: relative;
+    font-weight: 300;
+  }
+  .hero .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-top: 12px;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  .section {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+  .section h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: var(--jungle-dark);
+  }
+  .section .subtitle {
+    font-size: 0.9rem;
+    color: var(--gray);
+    margin-bottom: 20px;
+  }
+
+  .pref-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .pref-item {
+    background: var(--light-gray);
+    border-radius: 14px;
+    padding: 18px 20px;
+    transition: all 0.2s;
+  }
+  .pref-item:hover { background: #e8f8ee; }
+  .pref-item label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+  }
+  .pref-item label .emoji { font-size: 1.3rem; }
+  .pref-item label .val {
+    background: var(--jungle);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    min-width: 30px;
+    text-align: center;
+  }
+  .pref-item input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #d1d5db;
+    outline: none;
+  }
+  .pref-item input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--jungle);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(26,86,50,0.4);
+  }
+
+  .budget-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .budget-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .budget-input label { font-weight: 600; font-size: 0.95rem; }
+  .budget-input input[type="number"] {
+    width: 140px;
+    padding: 10px 14px;
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--jungle-dark);
+    transition: border 0.2s;
+  }
+  .budget-input input[type="number"]:focus {
+    outline: none;
+    border-color: var(--jungle);
+  }
+
+  .currency-row {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 12px;
+  }
+  .currency-btn {
+    padding: 10px 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .currency-btn:hover { border-color: var(--jungle); }
+  .currency-btn.active {
+    background: var(--jungle);
+    color: white;
+    border-color: var(--jungle);
+  }
+
+  .calc-btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--jungle), var(--jungle-light));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 1.2rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 30px rgba(26,86,50,0.3);
+    letter-spacing: 0.5px;
+  }
+  .calc-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(26,86,50,0.4);
+  }
+  .calc-btn:active { transform: translateY(0); }
+
+  #results { display: none; }
+  #results.visible { display: block; animation: fadeUp 0.6s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .winner-banner {
+    background: linear-gradient(135deg, var(--jungle-dark), var(--jungle));
+    color: white;
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .winner-banner::after {
+    content: '🏆';
+    position: absolute;
+    top: 10px; right: 20px;
+    font-size: 3rem;
+    opacity: 0.3;
+  }
+  .winner-banner h2 { font-size: 1rem; font-weight: 500; opacity: 0.85; margin-bottom: 4px; color: white; }
+  .winner-banner .dest-name { font-size: 2.2rem; font-weight: 900; margin-bottom: 6px; }
+  .winner-banner .score-bar {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 20px;
+    font-weight: 700; font-size: 1rem;
+  }
+
+  .dest-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255,255,255,0.8);
+    transition: all 0.3s;
+  }
+  .dest-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .dest-card.rank-1 { border: 2px solid var(--sunset); }
+
+  .dest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 28px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .dest-header:hover { background: #f8faf8; }
+  .dest-rank {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--jungle);
+    min-width: 50px;
+  }
+  .dest-card.rank-1 .dest-rank { color: var(--sunset); }
+  .dest-info { flex: 1; margin: 0 16px; }
+  .dest-info h3 { font-size: 1.3rem; font-weight: 800; }
+  .dest-info .dest-tagline { color: var(--gray); font-size: 0.85rem; }
+  .dest-meta { text-align: right; }
+  .dest-meta .price { font-size: 1.5rem; font-weight: 800; color: var(--jungle-dark); }
+  .dest-meta .price-label { font-size: 0.75rem; color: var(--gray); }
+  .dest-meta .match-score {
+    display: inline-block;
+    background: var(--jungle);
+    color: white;
+    padding: 3px 12px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .dest-meta .match-score.high { background: var(--jungle); }
+  .dest-meta .match-score.medium { background: var(--sunset); }
+  .dest-meta .match-score.low { background: var(--coral); }
+
+  .dest-body { display: none; padding: 0 28px 28px; }
+  .dest-body.open { display: block; animation: fadeUp 0.3s ease; }
+
+  .expand-arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+    color: var(--gray);
+  }
+  .expand-arrow.open { transform: rotate(180deg); }
+
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    background: var(--light-gray);
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    color: var(--gray);
+  }
+  .tab-btn:hover { background: rgba(255,255,255,0.5); }
+  .tab-btn.active { background: white; color: var(--jungle-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeUp 0.2s ease; }
+
+  .budget-bar-container { margin-bottom: 14px; }
+  .budget-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+  }
+  .budget-bar-label span:first-child { font-weight: 600; }
+  .budget-bar-label span:last-child { color: var(--gray); }
+  .budget-bar {
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .budget-bar-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.8s ease;
+  }
+  .budget-bar-fill.purchase { background: var(--jungle); }
+  .budget-bar-fill.fees { background: var(--sunset); }
+  .budget-bar-fill.reno { background: var(--ocean); }
+  .budget-bar-fill.legal { background: var(--coral); }
+
+  .item-list { list-style: none; }
+  .item-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .item-list li:last-child { border: none; }
+  .item-name { font-weight: 600; font-size: 0.9rem; }
+  .item-desc { color: var(--gray); font-size: 0.8rem; margin-top: 2px; }
+  .item-cost {
+    font-weight: 700;
+    color: var(--jungle-dark);
+    white-space: nowrap;
+    font-size: 0.85rem;
+  }
+
+  .book-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--jungle);
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin: 4px;
+    transition: all 0.2s;
+  }
+  .book-btn:hover { background: var(--jungle-dark); transform: translateY(-1px); }
+  .book-btn.secondary { background: var(--sunset); }
+  .book-btn.secondary:hover { background: #e65a2a; }
+
+  .booking-links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .day-card {
+    background: var(--light-gray);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+  }
+  .day-card h4 {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--jungle-dark);
+    margin-bottom: 4px;
+  }
+  .day-card p { font-size: 0.85rem; color: #444; line-height: 1.5; }
+
+  .spinner {
+    display: none;
+    text-align: center;
+    padding: 40px;
+    color: white;
+    font-size: 1.2rem;
+  }
+  .spinner.visible { display: block; }
+  .spinner .dots::after {
+    content: '';
+    animation: dots 1.5s infinite;
+  }
+  @keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+  }
+
+  @media (max-width: 640px) {
+    .section { padding: 20px; border-radius: 16px; }
+    .dest-header { padding: 16px; flex-wrap: wrap; }
+    .dest-body { padding: 0 16px 16px; }
+    .dest-rank { font-size: 1.5rem; min-width: 36px; }
+    .dest-info h3 { font-size: 1.1rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .pref-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🌴 Central America Investment Properties</h1>
+  <p>Costa Rica · Panama · Belize — Find your ideal rental investment</p>
+  <div class="tag">📊 Set your priorities — we'll rank 18 investment destinations</div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>💰 Investment Basics</h2>
+    <p class="subtitle">Set your budget and investment currency</p>
+
+    <div class="budget-row">
+      <div class="budget-input">
+        <label>💰 Max Budget (CAD)</label>
+        <input type="number" id="budget" value="250000" min="50000" max="2000000" step="10000">
+      </div>
+    </div>
+
+    <div class="currency-row">
+      <span style="font-weight:600; font-size:0.9rem;">💵 Display Currency:</span>
+      <button class="currency-btn active" data-val="CAD">CAD 🇨🇦</button>
+      <button class="currency-btn" data-val="USD">USD 🇺🇸</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🎯 What Matters to You?</h2>
+    <p class="subtitle">Drag sliders to prioritize — we'll score each investment destination</p>
+
+    <div class="pref-grid">
+      <div class="pref-item">
+        <label><span><span class="emoji">💸</span> Budget Friendly</span><span class="val" id="val-budget-pref">7</span></label>
+        <input type="range" id="pref-budget" min="0" max="10" value="7" data-key="budgetFriendly">
+      </div>
+      <div class="pref-item">
+        <label><span><span class="emoji">📈</span> Rental Yield</span><span class="val" id="val-yield">8</span></label>
+        <input type="range" id="pref-yield" min="0" max="10" value="8" data-key="rentalYield">
+      </div>
+      <div class="pref-item">
+        <label><span><span class="emoji">🛡️</span> Safety & Stability</span><span class="val" id="val-safety">7</span></label>
+        <input type="range" id="pref-safety" min="0" max="10" value="7" data-key="safety">
+      </div>
+      <div class="pref-item">
+        <label><span><span class="emoji">🏗️</span> Infrastructure</span><span class="val" id="val-infra">6</span></label>
+        <input type="range" id="pref-infra" min="0" max="10" value="6" data-key="infrastructure">
+      </div>
+      <div class="pref-item">
+        <label><span><span class="emoji">🛂</span> Residency Programs</span><span class="val" id="val-residency">5</span></label>
+        <input type="range" id="pref-residency" min="0" max="10" value="5" data-key="residency">
+      </div>
+      <div class="pref-item">
+        <label><span><span class="emoji">👥</span> Expat Community</span><span class="val" id="val-expat">6</span></label>
+        <input type="range" id="pref-expat" min="0" max="10" value="6" data-key="expatCommunity">
+      </div>
+      <div class="pref-item">
+        <label><span><span class="emoji">🏖️</span> Beach Quality</span><span class="val" id="val-beach">7</span></label>
+        <input type="range" id="pref-beach" min="0" max="10" value="7" data-key="beach">
+      </div>
+      <div class="pref-item">
+        <label><span><span class="emoji">☀️</span> Climate</span><span class="val" id="val-climate">6</span></label>
+        <input type="range" id="pref-climate" min="0" max="10" value="6" data-key="climate">
+      </div>
+      <div class="pref-item">
+        <label><span><span class="emoji">🏥</span> Healthcare</span><span class="val" id="val-health">5</span></label>
+        <input type="range" id="pref-health" min="0" max="10" value="5" data-key="healthcare">
+      </div>
+      <div class="pref-item">
+        <label><span><span class="emoji">📶</span> Internet / Remote Work</span><span class="val" id="val-internet">6</span></label>
+        <input type="range" id="pref-internet" min="0" max="10" value="6" data-key="internet">
+      </div>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calculate()">🔍 Rank Investment Destinations</button>
+
+  <div class="spinner" id="spinner">
+    <p>🌴 Analyzing 18 investment destinations<span class="dots"></span></p>
+  </div>
+
+  <div id="results"></div>
+
+</div>
+
+<script>
+// ── SLIDER LIVE UPDATE ──
+document.querySelectorAll('input[type="range"]').forEach(s => {
+  s.addEventListener('input', () => {
+    const id = s.id.replace('pref-', 'val-');
+    const el = document.getElementById(id);
+    if (el) el.textContent = s.value;
+  });
+});
+
+// ── CURRENCY BUTTONS ──
+let displayCurrency = 'CAD';
+document.querySelectorAll('.currency-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    displayCurrency = btn.dataset.val;
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════
+// DESTINATION DATA — 18 investment destinations across 3 countries
+// ══════════════════════════════════════════════════════════════════
+const DESTINATIONS = {
+
+// ─────────────── COSTA RICA ───────────────
+  tamarindo: {
+    name: "Tamarindo, Costa Rica", flag: "🇨🇷",
+    tagline: "Surf town turned upscale investment hub — strong Airbnb demand",
+    scores: { budgetFriendly: 5, rentalYield: 8, safety: 8, infrastructure: 7, residency: 7, expatCommunity: 9, beach: 9, climate: 9, healthcare: 7, internet: 7 },
+    avgPropertyPrice: { low: 150000, mid: 280000, high: 500000 },
+    rentalYieldPct: { low: 5.5, mid: 7.5, high: 10 },
+    propertyTax: "0.25% of registered value",
+    closingCosts: "3.5–4.5% of purchase price",
+    visa: "Rentista visa ($2,500/mo income) or Pensionado ($1,000/mo)",
+    currency: "CRC (Colón) — USD widely accepted",
+    highlights: ["Strong Airbnb demand year-round", "International airport (LIR) 1hr away", "Surfing, yoga, eco-tourism draw"],
+    risks: ["Rainy season May–Nov reduces bookings", "Property prices rising fast", "HOA fees can be $300–600/mo"],
+    nearbyAreas: ["Playa Flamingo", "Playa Conchal", "Nosara"],
+  },
+
+  nosara: {
+    name: "Nosara, Costa Rica", flag: "🇨🇷",
+    tagline: "Wellness & yoga capital — eco-luxury investment hotspot",
+    scores: { budgetFriendly: 3, rentalYield: 7, safety: 9, infrastructure: 5, residency: 7, expatCommunity: 9, beach: 9, climate: 9, healthcare: 6, internet: 6 },
+    avgPropertyPrice: { low: 200000, mid: 400000, high: 800000 },
+    rentalYieldPct: { low: 5, mid: 7, high: 9 },
+    propertyTax: "0.25% of registered value",
+    closingCosts: "3.5–4.5%",
+    visa: "Same Costa Rica programs",
+    currency: "CRC — USD widely accepted",
+    highlights: ["Wellness tourism growing 15%/yr", "Blue Zone adjacent (Nicoya Peninsula)", "Strict building codes preserve value"],
+    risks: ["Roads are rough (no paved main road until recently)", "Very expensive for Costa Rica", "Limited nightlife"],
+    nearbyAreas: ["Playa Guiones", "Playa Pelada", "Samara"],
+  },
+
+  manuelAntonio: {
+    name: "Manuel Antonio, Costa Rica", flag: "🇨🇷",
+    tagline: "National park + beaches — Costa Rica's #1 tourist draw",
+    scores: { budgetFriendly: 5, rentalYield: 7, safety: 8, infrastructure: 7, residency: 7, expatCommunity: 7, beach: 8, climate: 8, healthcare: 7, internet: 7 },
+    avgPropertyPrice: { low: 130000, mid: 250000, high: 450000 },
+    rentalYieldPct: { low: 5, mid: 7, high: 9 },
+    propertyTax: "0.25%",
+    closingCosts: "3.5–4.5%",
+    visa: "Same Costa Rica programs",
+    currency: "CRC — USD accepted",
+    highlights: ["National park draws 400K+ visitors/yr", "Consistent year-round demand", "SJO airport 3hrs away"],
+    risks: ["Steep hillside properties need 4x4 access", "High season only Dec–Apr peak", "Humidity & rain"],
+    nearbyAreas: ["Quepos", "Dominical", "Uvita"],
+  },
+
+  jaco: {
+    name: "Jacó, Costa Rica", flag: "🇨🇷",
+    tagline: "Closest beach town to San José — easy access, strong rental market",
+    scores: { budgetFriendly: 7, rentalYield: 7, safety: 6, infrastructure: 8, residency: 7, expatCommunity: 7, beach: 6, climate: 8, healthcare: 8, internet: 8 },
+    avgPropertyPrice: { low: 90000, mid: 180000, high: 350000 },
+    rentalYieldPct: { low: 6, mid: 8, high: 11 },
+    propertyTax: "0.25%",
+    closingCosts: "3.5–4.5%",
+    visa: "Same Costa Rica programs",
+    currency: "CRC — USD accepted",
+    highlights: ["1.5hrs from SJO airport", "Strong weekend rental market (locals + tourists)", "Affordable entry point"],
+    risks: ["Beach not the prettiest", "Can feel touristy/party-oriented", "Petty theft in town center"],
+    nearbyAreas: ["Herradura", "Playa Hermosa", "Esterillos"],
+  },
+
+  arenal: {
+    name: "Arenal / La Fortuna, Costa Rica", flag: "🇨🇷",
+    tagline: "Volcano + hot springs — adventure tourism goldmine",
+    scores: { budgetFriendly: 7, rentalYield: 6, safety: 9, infrastructure: 6, residency: 7, expatCommunity: 5, beach: 2, climate: 7, healthcare: 5, internet: 6 },
+    avgPropertyPrice: { low: 80000, mid: 170000, high: 350000 },
+    rentalYieldPct: { low: 4, mid: 6.5, high: 9 },
+    propertyTax: "0.25%",
+    closingCosts: "3.5–4.5%",
+    visa: "Same Costa Rica programs",
+    currency: "CRC — USD accepted in tourist areas",
+    highlights: ["Year-round adventure tourism", "Hot springs, zip-lines, volcano hikes", "Growing digital nomad scene"],
+    risks: ["No beach access", "Rainy 8+ months/yr", "Smaller rental pool than coastal areas"],
+    nearbyAreas: ["La Fortuna town", "Nuevo Arenal", "Tilaran"],
+  },
+
+  santaTeresa: {
+    name: "Santa Teresa, Costa Rica", flag: "🇨🇷",
+    tagline: "Booming surf village — massive appreciation potential",
+    scores: { budgetFriendly: 4, rentalYield: 8, safety: 8, infrastructure: 4, residency: 7, expatCommunity: 8, beach: 10, climate: 9, healthcare: 4, internet: 5 },
+    avgPropertyPrice: { low: 180000, mid: 350000, high: 700000 },
+    rentalYieldPct: { low: 6, mid: 8, high: 11 },
+    propertyTax: "0.25%",
+    closingCosts: "3.5–4.5%",
+    visa: "Same Costa Rica programs",
+    currency: "CRC — USD accepted",
+    highlights: ["Property values doubled in 5 years", "Attracts digital nomads & wellness tourists", "Stunning empty beaches"],
+    risks: ["Remote — 5hr drive from SJO", "Poor roads", "Limited medical facilities"],
+    nearbyAreas: ["Mal País", "Montezuma", "Playa Carmen"],
+  },
+
+// ─────────────── PANAMA ───────────────
+  panamaCity: {
+    name: "Panama City, Panama", flag: "🇵🇦",
+    tagline: "Latin America's Dubai — tax-free income, USD economy, modern skyline",
+    scores: { budgetFriendly: 6, rentalYield: 7, safety: 7, infrastructure: 10, residency: 10, expatCommunity: 9, beach: 3, climate: 7, healthcare: 9, internet: 9 },
+    avgPropertyPrice: { low: 100000, mid: 220000, high: 500000 },
+    rentalYieldPct: { low: 5, mid: 7, high: 9 },
+    propertyTax: "0% for first 3 years (new construction), then 0.5–0.7%",
+    closingCosts: "5–8% (includes transfer tax, legal, notary)",
+    visa: "Friendly Nations Visa (Canadians qualify), Pensionado (best in the world — $1,000/mo)",
+    currency: "USD (Balboa pegged 1:1)",
+    highlights: ["No foreign income tax", "USD economy — no currency risk", "Modern banking hub", "Panama Canal revenue stabilizes economy"],
+    risks: ["Oversupply of condos in some towers", "Some neighborhoods overbuilt", "Traffic congestion"],
+    nearbyAreas: ["Casco Viejo", "Costa del Este", "San Francisco district"],
+  },
+
+  bocasDelToro: {
+    name: "Bocas del Toro, Panama", flag: "🇵🇦",
+    tagline: "Caribbean island paradise — backpacker charm with investor upside",
+    scores: { budgetFriendly: 7, rentalYield: 7, safety: 7, infrastructure: 4, residency: 10, expatCommunity: 8, beach: 9, climate: 8, healthcare: 3, internet: 4 },
+    avgPropertyPrice: { low: 80000, mid: 180000, high: 400000 },
+    rentalYieldPct: { low: 5, mid: 7, high: 10 },
+    propertyTax: "Same Panama rates",
+    closingCosts: "5–8%",
+    visa: "Same Panama programs",
+    currency: "USD",
+    highlights: ["Caribbean islands with warm water year-round", "Budget-friendly entry prices", "Tourism infrastructure improving"],
+    risks: ["Island logistics — water taxi dependent", "Rain 9+ months/yr", "Title issues on some island properties"],
+    nearbyAreas: ["Isla Colón", "Isla Bastimentos", "Red Frog Beach"],
+  },
+
+  boquete: {
+    name: "Boquete, Panama", flag: "🇵🇦",
+    tagline: "Mountain retirement haven — cool climate, coffee country, expat epicenter",
+    scores: { budgetFriendly: 7, rentalYield: 5, safety: 9, infrastructure: 6, residency: 10, expatCommunity: 10, beach: 1, climate: 10, healthcare: 6, internet: 7 },
+    avgPropertyPrice: { low: 100000, mid: 200000, high: 400000 },
+    rentalYieldPct: { low: 3, mid: 5, high: 7 },
+    propertyTax: "Same Panama rates",
+    closingCosts: "5–8%",
+    visa: "Same Panama programs",
+    currency: "USD",
+    highlights: ["Spring-like climate year-round (60–80°F)", "Established expat community of 5,000+", "World-class coffee farms"],
+    risks: ["No beach — mountain location", "Lower rental yield than beach areas", "Small town with limited entertainment"],
+    nearbyAreas: ["David city", "Volcán", "Cerro Punta"],
+  },
+
+  coronado: {
+    name: "Coronado, Panama", flag: "🇵🇦",
+    tagline: "Closest beach resort to Panama City — weekend rental goldmine",
+    scores: { budgetFriendly: 6, rentalYield: 7, safety: 8, infrastructure: 8, residency: 10, expatCommunity: 8, beach: 7, climate: 8, healthcare: 7, internet: 8 },
+    avgPropertyPrice: { low: 100000, mid: 200000, high: 400000 },
+    rentalYieldPct: { low: 5, mid: 7, high: 9 },
+    propertyTax: "Same Panama rates",
+    closingCosts: "5–8%",
+    visa: "Same Panama programs",
+    currency: "USD",
+    highlights: ["1.5hrs from Panama City", "Strong weekend rental market", "Established infrastructure (golf, shops, hospital)"],
+    risks: ["Pacific coast — rougher water than Caribbean", "Some beach erosion", "Can feel suburban"],
+    nearbyAreas: ["San Carlos", "Chame", "Playa Blanca"],
+  },
+
+  pedasi: {
+    name: "Pedasí, Panama", flag: "🇵🇦",
+    tagline: "Emerging surf town on the Azuero Peninsula — early investor opportunity",
+    scores: { budgetFriendly: 8, rentalYield: 6, safety: 9, infrastructure: 4, residency: 10, expatCommunity: 5, beach: 8, climate: 8, healthcare: 3, internet: 5 },
+    avgPropertyPrice: { low: 60000, mid: 140000, high: 300000 },
+    rentalYieldPct: { low: 4, mid: 6, high: 8 },
+    propertyTax: "Same Panama rates",
+    closingCosts: "5–8%",
+    visa: "Same Panama programs",
+    currency: "USD",
+    highlights: ["Very affordable entry point", "Authentic Panamanian culture", "Isla Iguana snorkeling nearby"],
+    risks: ["Remote — 5hrs from Panama City", "Limited rental infrastructure", "Very small town"],
+    nearbyAreas: ["Playa Venao", "Isla Iguana", "Las Tablas"],
+  },
+
+// ─────────────── BELIZE ───────────────
+  ambergrisCaye: {
+    name: "Ambergris Caye, Belize", flag: "🇧🇿",
+    tagline: "Belize's #1 island — barrier reef, strong tourism, English-speaking",
+    scores: { budgetFriendly: 4, rentalYield: 8, safety: 7, infrastructure: 6, residency: 8, expatCommunity: 9, beach: 8, climate: 9, healthcare: 5, internet: 6 },
+    avgPropertyPrice: { low: 150000, mid: 300000, high: 600000 },
+    rentalYieldPct: { low: 5, mid: 8, high: 12 },
+    propertyTax: "1–1.5% of undeveloped, 1% improved land",
+    closingCosts: "8–12% (stamp duty 5%, legal 2–3%, misc)",
+    visa: "QRP — Qualified Retired Persons ($2,000/mo income, no Belize tax)",
+    currency: "BZD (pegged 2:1 to USD)",
+    highlights: ["World's 2nd largest barrier reef", "English-speaking country", "QRP program — tax-free retirement", "Year-round tourism"],
+    risks: ["Hurricane zone (June–Nov)", "High closing costs", "Island logistics increase maintenance costs"],
+    nearbyAreas: ["San Pedro town", "Secret Beach", "Hol Chan Marine Reserve"],
+  },
+
+  cayeCaulker: {
+    name: "Caye Caulker, Belize", flag: "🇧🇿",
+    tagline: "'Go Slow' island — budget Caribbean charm with backpacker appeal",
+    scores: { budgetFriendly: 6, rentalYield: 7, safety: 8, infrastructure: 4, residency: 8, expatCommunity: 7, beach: 7, climate: 9, healthcare: 3, internet: 5 },
+    avgPropertyPrice: { low: 80000, mid: 180000, high: 350000 },
+    rentalYieldPct: { low: 5, mid: 7, high: 10 },
+    propertyTax: "1–1.5%",
+    closingCosts: "8–12%",
+    visa: "Same Belize programs",
+    currency: "BZD (pegged 2:1 USD)",
+    highlights: ["Cheaper than Ambergris Caye", "Strong backpacker/budget tourist demand", "Authentic Caribbean vibe"],
+    risks: ["Very small island — limited inventory", "Harder to get to (water taxi from Belize City)", "Limited medical facilities"],
+    nearbyAreas: ["The Split", "Reef snorkeling", "Swallow Caye"],
+  },
+
+  placencia: {
+    name: "Placencia, Belize", flag: "🇧🇿",
+    tagline: "Mainland peninsula with the best beaches in Belize — upscale development incoming",
+    scores: { budgetFriendly: 5, rentalYield: 7, safety: 8, infrastructure: 5, residency: 8, expatCommunity: 7, beach: 9, climate: 9, healthcare: 4, internet: 5 },
+    avgPropertyPrice: { low: 120000, mid: 250000, high: 500000 },
+    rentalYieldPct: { low: 5, mid: 7, high: 10 },
+    propertyTax: "1–1.5%",
+    closingCosts: "8–12%",
+    visa: "Same Belize programs",
+    currency: "BZD",
+    highlights: ["Best mainland beaches in Belize", "New airport expansion underway", "Whale shark snorkeling (Mar–Jun)"],
+    risks: ["Southern Belize is remote", "One road in/out on peninsula", "Hurricane exposure"],
+    nearbyAreas: ["Seine Bight", "Maya Beach", "Monkey River"],
+  },
+
+  sanIgnacio: {
+    name: "San Ignacio, Belize", flag: "🇧🇿",
+    tagline: "Jungle interior — Mayan ruins, caves, eco-lodges near Guatemala border",
+    scores: { budgetFriendly: 8, rentalYield: 5, safety: 7, infrastructure: 5, residency: 8, expatCommunity: 6, beach: 1, climate: 8, healthcare: 4, internet: 5 },
+    avgPropertyPrice: { low: 50000, mid: 120000, high: 250000 },
+    rentalYieldPct: { low: 4, mid: 6, high: 8 },
+    propertyTax: "1–1.5%",
+    closingCosts: "8–12%",
+    visa: "Same Belize programs",
+    currency: "BZD",
+    highlights: ["Cheapest Belize investment", "Eco-tourism growing fast", "ATM cave & Xunantunich ruins draw visitors"],
+    risks: ["No beach — interior jungle location", "Smaller tourist numbers than coast", "Border area with Guatemala"],
+    nearbyAreas: ["Bullet Tree Falls", "Santa Elena", "Mountain Pine Ridge"],
+  },
+
+  hopkins: {
+    name: "Hopkins, Belize", flag: "🇧🇿",
+    tagline: "Garifuna fishing village going upscale — ground floor opportunity",
+    scores: { budgetFriendly: 6, rentalYield: 7, safety: 8, infrastructure: 4, residency: 8, expatCommunity: 5, beach: 8, climate: 9, healthcare: 3, internet: 4 },
+    avgPropertyPrice: { low: 100000, mid: 200000, high: 400000 },
+    rentalYieldPct: { low: 5, mid: 7, high: 10 },
+    propertyTax: "1–1.5%",
+    closingCosts: "8–12%",
+    visa: "Same Belize programs",
+    currency: "BZD",
+    highlights: ["Garifuna cultural hub", "Major resort development starting", "Reef + jungle access"],
+    risks: ["Very small village — limited services", "Road access improving but still basic", "Hurricane zone"],
+    nearbyAreas: ["Sittee River", "Cockscomb Basin", "South Water Caye"],
+  },
+
+// ─── BONUS DESTINATIONS ───
+  uvita: {
+    name: "Uvita, Costa Rica", flag: "🇨🇷",
+    tagline: "Whale tail beach & Southern Zone — emerging surf-and-nature hub",
+    scores: { budgetFriendly: 7, rentalYield: 6, safety: 8, infrastructure: 5, residency: 7, expatCommunity: 6, beach: 9, climate: 8, healthcare: 5, internet: 6 },
+    avgPropertyPrice: { low: 100000, mid: 200000, high: 400000 },
+    rentalYieldPct: { low: 5, mid: 7, high: 9 },
+    propertyTax: "0.25%",
+    closingCosts: "3.5–4.5%",
+    visa: "Same Costa Rica programs",
+    currency: "CRC — USD accepted",
+    highlights: ["Whale tail sandbar (Marino Ballena NP)", "Humpback whale season (Jul–Oct, Dec–Apr)", "Cheaper than Nosara/Santa Teresa"],
+    risks: ["4hrs from SJO airport", "Rainy season is very wet", "Limited nightlife"],
+    nearbyAreas: ["Dominical", "Ojochal", "Marino Ballena NP"],
+  },
+
+  sanPedro: {
+    name: "San Pedro, Panama", flag: "🇵🇦",
+    tagline: "Pacific islands near Panama City — resort-style island living",
+    scores: { budgetFriendly: 5, rentalYield: 6, safety: 8, infrastructure: 5, residency: 10, expatCommunity: 4, beach: 8, climate: 8, healthcare: 5, internet: 5 },
+    avgPropertyPrice: { low: 120000, mid: 250000, high: 500000 },
+    rentalYieldPct: { low: 4, mid: 6, high: 8 },
+    propertyTax: "Same Panama rates",
+    closingCosts: "5–8%",
+    visa: "Same Panama programs",
+    currency: "USD",
+    highlights: ["Pearl Islands — tropical island feel near the capital", "Growing resort development", "Day-trip accessible from Panama City"],
+    risks: ["Island logistics", "Early-stage infrastructure", "Limited services"],
+    nearbyAreas: ["Isla Contadora", "Isla del Rey", "Isla Saboga"],
+  },
+};
+
+// ══════════════════════════════════════════════════════════════════
+// SCORING ALGORITHM
+// ══════════════════════════════════════════════════════════════════
+function calculate() {
+  const spinner = document.getElementById('spinner');
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.classList.remove('visible');
+  spinner.classList.add('visible');
+
+  setTimeout(() => {
+    spinner.classList.remove('visible');
+
+    const budget = parseInt(document.getElementById('budget').value) || 250000;
+    const weights = {};
+    document.querySelectorAll('.pref-item input[type="range"]').forEach(s => {
+      weights[s.dataset.key] = parseInt(s.value);
+    });
+
+    const scored = [];
+    for (const [key, dest] of Object.entries(DESTINATIONS)) {
+      let totalWeighted = 0;
+      let totalWeight = 0;
+
+      for (const [pref, weight] of Object.entries(weights)) {
+        if (weight === 0) continue;
+        const score = dest.scores[pref] || 0;
+        totalWeighted += weight * score;
+        totalWeight += weight;
+      }
+
+      let finalScore = totalWeight > 0 ? (totalWeighted / totalWeight) : 0;
+
+      // Budget bonus/penalty
+      const midPrice = dest.avgPropertyPrice.mid;
+      if (midPrice <= budget * 0.6) finalScore += 0.5;
+      else if (midPrice <= budget) finalScore += 0.2;
+      else if (midPrice > budget * 1.3) finalScore -= 1;
+      else if (midPrice > budget) finalScore -= 0.3;
+
+      // Yield bonus
+      const midYield = dest.rentalYieldPct.mid;
+      if (midYield >= 8) finalScore += 0.3;
+      else if (midYield >= 7) finalScore += 0.15;
+
+      scored.push({ key, ...dest, finalScore: Math.min(10, Math.max(0, finalScore)) });
+    }
+
+    scored.sort((a, b) => b.finalScore - a.finalScore);
+
+    // Render
+    const winner = scored[0];
+    let html = `
+      <div class="winner-banner">
+        <h2>🏆 #1 Investment Match</h2>
+        <div class="dest-name">${winner.flag} ${winner.name}</div>
+        <div class="score-bar">${winner.finalScore.toFixed(1)} / 10 match score</div>
+      </div>
+    `;
+
+    scored.forEach((dest, i) => {
+      const rank = i + 1;
+      const rankClass = rank === 1 ? ' rank-1' : '';
+      const matchClass = dest.finalScore >= 7 ? 'high' : dest.finalScore >= 5 ? 'medium' : 'low';
+      const midPrice = dest.avgPropertyPrice.mid;
+      const priceDisplay = displayCurrency === 'USD' ? `$${Math.round(midPrice / 1.36).toLocaleString()} USD` : `$${midPrice.toLocaleString()} CAD`;
+      const yieldRange = `${dest.rentalYieldPct.low}–${dest.rentalYieldPct.high}%`;
+
+      html += `
+        <div class="dest-card${rankClass}" data-key="${dest.key}">
+          <div class="dest-header" onclick="toggleDest(this)">
+            <div class="dest-rank">#${rank}</div>
+            <div class="dest-info">
+              <h3>${dest.flag} ${dest.name}</h3>
+              <div class="dest-tagline">${dest.tagline}</div>
+            </div>
+            <div class="dest-meta">
+              <div class="price">${priceDisplay}</div>
+              <div class="price-label">avg property price</div>
+              <div class="match-score ${matchClass}">${dest.finalScore.toFixed(1)} match</div>
+            </div>
+            <span class="expand-arrow">▼</span>
+          </div>
+          <div class="dest-body">
+            <div class="tab-bar">
+              <button class="tab-btn active" onclick="switchTab(this, 'overview')">Overview</button>
+              <button class="tab-btn" onclick="switchTab(this, 'costs')">Costs</button>
+              <button class="tab-btn" onclick="switchTab(this, 'highlights')">Pros & Cons</button>
+            </div>
+            <div class="tab-content active" data-tab="overview">
+              <ul class="item-list">
+                <li><div><div class="item-name">📈 Rental Yield</div><div class="item-desc">Estimated gross yield</div></div><div class="item-cost">${yieldRange}</div></li>
+                <li><div><div class="item-name">🏠 Property Range</div><div class="item-desc">Low to high end</div></div><div class="item-cost">$${dest.avgPropertyPrice.low.toLocaleString()} – $${dest.avgPropertyPrice.high.toLocaleString()} CAD</div></li>
+                <li><div><div class="item-name">💵 Currency</div><div class="item-desc">${dest.currency}</div></div><div class="item-cost"></div></li>
+                <li><div><div class="item-name">🛂 Visa</div><div class="item-desc">${dest.visa}</div></div><div class="item-cost"></div></li>
+              </ul>
+            </div>
+            <div class="tab-content" data-tab="costs">
+              <ul class="item-list">
+                <li><div><div class="item-name">🏷️ Property Tax</div></div><div class="item-cost">${dest.propertyTax}</div></li>
+                <li><div><div class="item-name">📋 Closing Costs</div></div><div class="item-cost">${dest.closingCosts}</div></li>
+              </ul>
+              <p style="font-size:0.82rem;color:#555;margin-top:12px;"><strong>Nearby:</strong> ${dest.nearbyAreas.join(', ')}</p>
+            </div>
+            <div class="tab-content" data-tab="highlights">
+              <h4 style="color:var(--jungle);font-size:0.9rem;margin-bottom:8px;">✅ Highlights</h4>
+              <ul style="font-size:0.85rem;padding-left:18px;margin-bottom:14px;">${dest.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
+              <h4 style="color:var(--coral);font-size:0.9rem;margin-bottom:8px;">⚠️ Risks</h4>
+              <ul style="font-size:0.85rem;padding-left:18px;">${dest.risks.map(r => `<li>${r}</li>`).join('')}</ul>
+            </div>
+            <div class="booking-links">
+              <a class="book-btn" href="${getCountryPage(dest.name)}" >Full Country Guide →</a>
+              <a class="book-btn secondary" href="compare.html">Compare Countries →</a>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    resultsDiv.innerHTML = html;
+    resultsDiv.classList.add('visible');
+  }, 800);
+}
+
+function getCountryPage(name) {
+  if (name.includes('Costa Rica')) return 'costa-rica.html';
+  if (name.includes('Panama')) return 'panama.html';
+  if (name.includes('Belize')) return 'belize.html';
+  return '#';
+}
+
+function toggleDest(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.expand-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+function switchTab(btn, tabName) {
+  const card = btn.closest('.dest-card');
+  card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  card.querySelectorAll('.tab-content').forEach(c => {
+    c.classList.toggle('active', c.dataset.tab === tabName);
+  });
+}
+</script>
+
+<script src="nav.js"></script>
+</body>
+</html>

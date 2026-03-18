@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Central America Airbnbs for Investment</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  :root {
+    --jungle: #1a5632; --jungle-dark: #0d3b1f; --jungle-light: #2d8a4e;
+    --ocean: #0077b6; --ocean-dark: #023e8a; --ocean-light: #00b4d8;
+    --sunset: #ff6b35; --coral: #e63946;
+    --dark: #1a1a2e; --gray: #6b7280; --light: #f8fafc; --gold: #f59e0b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--light); color: var(--dark); line-height: 1.7; }
+  a { color: var(--ocean); text-decoration: none; font-weight: 600; }
+  a:hover { text-decoration: underline; }
+  .hero { background: linear-gradient(135deg, #0d3b1f 0%, #1a5632 50%, #2d8a4e 100%); color: white; padding: 60px 24px 50px; text-align: center; }
+  .hero h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 8px; }
+  .hero p { font-size: 0.95rem; opacity: 0.85; max-width: 600px; margin: 0 auto; }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+  .section { padding: 28px 0; }
+  .section h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 8px; color: var(--jungle-dark); }
+  .section .subtitle { font-size: 0.85rem; color: var(--gray); margin-bottom: 16px; }
+
+  .filters { background: white; border-radius: 14px; padding: 20px; margin: -30px 20px 20px; position: relative; z-index: 2; box-shadow: 0 6px 24px rgba(0,0,0,0.08); max-width: 960px; margin-left: auto; margin-right: auto; }
+  .filters h3 { font-size: 0.85rem; font-weight: 800; margin-bottom: 12px; color: var(--jungle-dark); }
+  .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .filter-item label { font-size: 0.75rem; font-weight: 700; color: var(--gray); display: block; margin-bottom: 4px; }
+  .filter-item input[type="range"] { width: 100%; accent-color: var(--jungle); }
+  .filter-value { font-weight: 800; color: var(--jungle-dark); font-size: 0.85rem; }
+  .filter-btn { background: var(--jungle); color: white; border: none; padding: 10px 28px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; margin-top: 10px; }
+  .filter-btn:hover { background: var(--jungle-dark); }
+
+  .listing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin: 16px 0; }
+  .listing { background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 3px 12px rgba(0,0,0,0.05); transition: all 0.15s; border: 1px solid #e5e7eb; }
+  .listing:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .listing-img { height: 160px; background: linear-gradient(135deg, #ddd, #bbb); position: relative; display: flex; align-items: flex-end; padding: 10px; }
+  .listing-badge { position: absolute; top: 10px; left: 10px; font-size: 0.65rem; font-weight: 800; padding: 3px 10px; border-radius: 8px; color: white; }
+  .badge-cr { background: var(--jungle); }
+  .badge-pa { background: var(--ocean-dark); }
+  .badge-bz { background: #1a237e; }
+  .listing-price { background: rgba(0,0,0,0.7); color: white; font-weight: 900; padding: 4px 10px; border-radius: 8px; font-size: 0.88rem; }
+  .listing-body { padding: 14px 16px; }
+  .listing-title { font-size: 0.9rem; font-weight: 800; margin-bottom: 4px; }
+  .listing-loc { font-size: 0.75rem; color: var(--gray); margin-bottom: 8px; }
+  .listing-stats { display: flex; gap: 12px; font-size: 0.75rem; flex-wrap: wrap; }
+  .listing-stat { display: flex; align-items: center; gap: 3px; }
+  .listing-stat strong { color: var(--jungle-dark); }
+  .listing-yield { font-weight: 800; color: var(--jungle); font-size: 0.82rem; margin-top: 8px; }
+  .listing-type { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; display: inline-block; margin-top: 6px; }
+
+  .tip { border-radius: 10px; padding: 12px 14px; font-size: 0.82rem; margin: 10px 0; line-height: 1.5; }
+  .tip-pro { background: #dbeafe; border-left: 4px solid var(--ocean); }
+  footer { background: var(--dark); color: rgba(255,255,255,0.6); text-align: center; padding: 24px 20px; font-size: 0.78rem; margin-top: 20px; }
+  footer a { color: var(--ocean-light); }
+  @media (max-width: 640px) { .listing-grid { grid-template-columns: 1fr; } .filter-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🏡 Top Airbnb Investment Properties</h1>
+  <p>Curated high-ROI short-term rental opportunities across Central America</p>
+</div>
+
+<div class="filters container">
+  <h3>🔍 Filter by Investment Criteria</h3>
+  <div class="filter-grid">
+    <div class="filter-item">
+      <label>Min Rating <span class="filter-value" id="ratingVal">4.0</span></label>
+      <input type="range" min="3.0" max="5.0" step="0.1" value="4.0" id="filterRating">
+    </div>
+    <div class="filter-item">
+      <label>Min Reviews <span class="filter-value" id="reviewsVal">20</span></label>
+      <input type="range" min="0" max="200" step="5" value="20" id="filterReviews">
+    </div>
+    <div class="filter-item">
+      <label>Max Price/Night (CAD) <span class="filter-value" id="priceVal">$500</span></label>
+      <input type="range" min="50" max="1000" step="25" value="500" id="filterPrice">
+    </div>
+    <div class="filter-item">
+      <label>Min Yield <span class="filter-value" id="yieldVal">5%</span></label>
+      <input type="range" min="0" max="15" step="0.5" value="5" id="filterYield">
+    </div>
+  </div>
+  <div style="margin-top:10px;">
+    <label style="font-size:0.75rem;font-weight:700;color:var(--gray);">Country: </label>
+    <select id="filterCountry" style="padding:6px 12px;border-radius:8px;border:1px solid #ddd;font-size:0.82rem;font-weight:600;">
+      <option value="all">All Countries</option>
+      <option value="cr">🇨🇷 Costa Rica</option>
+      <option value="pa">🇵🇦 Panama</option>
+      <option value="bz">🇧🇿 Belize</option>
+    </select>
+  </div>
+</div>
+
+<div class="container">
+  <div class="section">
+    <h2>🔥 Investment-Grade Listings</h2>
+    <p class="subtitle">Sorted by estimated gross yield • <span id="listingCount">18</span> properties</p>
+    <div class="listing-grid" id="listingGrid"></div>
+  </div>
+
+  <div class="tip tip-pro"><strong>How yields are estimated:</strong> We calculate avg nightly rate × 65% occupancy × 365 ÷ estimated purchase price. Actual yields depend on management fees (typically 20–30%), maintenance, and seasonal variation.</div>
+</div>
+
+<footer>
+  <p>🌴 Central America Property Scraper · <a href="https://github.com/matisaar">matisaar</a> · Data researched March 2026</p>
+</footer>
+
+<script>
+const LISTINGS = [
+  { title:"Ocean-View Villa with Pool", loc:"Tamarindo, Costa Rica", country:"cr", rating:4.9, reviews:187, price:280, yield:8.5, beds:3, type:"Villa", img:"#2d8a4e" },
+  { title:"Surf Casita Steps from Beach", loc:"Santa Teresa, Costa Rica", country:"cr", rating:4.8, reviews:142, price:165, yield:10.2, beds:1, type:"Studio", img:"#1a5632" },
+  { title:"Jungle Treehouse Retreat", loc:"Nosara, Costa Rica", country:"cr", rating:4.95, reviews:210, price:220, yield:7.8, beds:2, type:"Treehouse", img:"#0d3b1f" },
+  { title:"Beachfront Condo with AC", loc:"Jacó, Costa Rica", country:"cr", rating:4.7, reviews:95, price:120, yield:9.5, beds:2, type:"Condo", img:"#2d8a4e" },
+  { title:"Rainforest Lodge near Volcano", loc:"Arenal, Costa Rica", country:"cr", rating:4.85, reviews:165, price:150, yield:7.2, beds:2, type:"Lodge", img:"#1a5632" },
+  { title:"Eco Villa with Infinity Pool", loc:"Manuel Antonio, Costa Rica", country:"cr", rating:4.92, reviews:230, price:350, yield:6.8, beds:4, type:"Villa", img:"#0d3b1f" },
+  { title:"Casco Viejo Penthouse", loc:"Panama City, Panama", country:"pa", rating:4.8, reviews:175, price:190, yield:8.0, beds:2, type:"Penthouse", img:"#023e8a" },
+  { title:"Overwater Bungalow", loc:"Bocas del Toro, Panama", country:"pa", rating:4.75, reviews:88, price:130, yield:9.2, beds:1, type:"Bungalow", img:"#0077b6" },
+  { title:"Mountain Coffee Farm Cabin", loc:"Boquete, Panama", country:"pa", rating:4.9, reviews:120, price:95, yield:6.5, beds:1, type:"Cabin", img:"#023e8a" },
+  { title:"Beachfront Villa Resort", loc:"Coronado, Panama", country:"pa", rating:4.6, reviews:65, price:160, yield:7.8, beds:3, type:"Villa", img:"#0077b6" },
+  { title:"Surf Beach House", loc:"Pedasí, Panama", country:"pa", rating:4.7, reviews:45, price:85, yield:8.5, beds:2, type:"House", img:"#023e8a" },
+  { title:"Island Cabana on the Water", loc:"Ambergris Caye, Belize", country:"bz", rating:4.85, reviews:155, price:200, yield:9.0, beds:2, type:"Cabana", img:"#1a237e" },
+  { title:"Beachfront Studio Budget", loc:"Caye Caulker, Belize", country:"bz", rating:4.7, reviews:110, price:75, yield:11.0, beds:1, type:"Studio", img:"#303f9f" },
+  { title:"Luxury Beach House", loc:"Placencia, Belize", country:"bz", rating:4.9, reviews:98, price:250, yield:7.5, beds:3, type:"House", img:"#1a237e" },
+  { title:"Jungle Eco-Lodge", loc:"San Ignacio, Belize", country:"bz", rating:4.8, reviews:75, price:65, yield:8.0, beds:1, type:"Lodge", img:"#303f9f" },
+  { title:"Garifuna Beach Bungalow", loc:"Hopkins, Belize", country:"bz", rating:4.75, reviews:55, price:95, yield:9.5, beds:2, type:"Bungalow", img:"#1a237e" },
+  { title:"Modern Downtown Loft", loc:"Panama City, Panama", country:"pa", rating:4.6, reviews:200, price:110, yield:7.0, beds:1, type:"Loft", img:"#0077b6" },
+  { title:"Uvita Whale Tail Villa", loc:"Uvita, Costa Rica", country:"cr", rating:4.88, reviews:78, price:195, yield:8.8, beds:3, type:"Villa", img:"#2d8a4e" },
+];
+
+const grid = document.getElementById('listingGrid');
+const countEl = document.getElementById('listingCount');
+const ratingSlider = document.getElementById('filterRating');
+const reviewsSlider = document.getElementById('filterReviews');
+const priceSlider = document.getElementById('filterPrice');
+const yieldSlider = document.getElementById('filterYield');
+const countrySelect = document.getElementById('filterCountry');
+
+function render() {
+  const minRating = parseFloat(ratingSlider.value);
+  const minReviews = parseInt(reviewsSlider.value);
+  const maxPrice = parseInt(priceSlider.value);
+  const minYield = parseFloat(yieldSlider.value);
+  const country = countrySelect.value;
+
+  document.getElementById('ratingVal').textContent = minRating.toFixed(1);
+  document.getElementById('reviewsVal').textContent = minReviews;
+  document.getElementById('priceVal').textContent = '$' + maxPrice;
+  document.getElementById('yieldVal').textContent = minYield + '%';
+
+  const filtered = LISTINGS
+    .filter(l => l.rating >= minRating && l.reviews >= minReviews && l.price <= maxPrice && l.yield >= minYield)
+    .filter(l => country === 'all' || l.country === country)
+    .sort((a, b) => b.yield - a.yield);
+
+  countEl.textContent = filtered.length;
+
+  grid.innerHTML = filtered.map(l => `
+    <div class="listing">
+      <div class="listing-img" style="background:linear-gradient(135deg, ${l.img}, ${l.img}cc);">
+        <span class="listing-badge badge-${l.country}">${l.country === 'cr' ? '🇨🇷 CR' : l.country === 'pa' ? '🇵🇦 PA' : '🇧🇿 BZ'}</span>
+        <span class="listing-price">$${l.price} CAD/night</span>
+      </div>
+      <div class="listing-body">
+        <div class="listing-title">${l.title}</div>
+        <div class="listing-loc">📍 ${l.loc}</div>
+        <div class="listing-stats">
+          <span class="listing-stat">⭐ <strong>${l.rating}</strong></span>
+          <span class="listing-stat">💬 <strong>${l.reviews}</strong> reviews</span>
+          <span class="listing-stat">🛏️ <strong>${l.beds}</strong> bed${l.beds > 1 ? 's' : ''}</span>
+        </div>
+        <div class="listing-yield">📈 Est. ${l.yield}% gross yield</div>
+        <span class="listing-type" style="background:${l.img}22;color:${l.img};">${l.type}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+[ratingSlider, reviewsSlider, priceSlider, yieldSlider, countrySelect].forEach(el => el.addEventListener('input', render));
+render();
+</script>
+
+<script src="nav.js"></script>
+</body>
+</html>
