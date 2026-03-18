@@ -15,7 +15,7 @@ Investment property finder for **Costa Rica**, **Panama**, and **Belize** — ra
 - Filter by country, area, max price, airport distance
 - Detail modals with full stats, badges, and listing links
 - Prices in both USD and CAD
-| [**ROI Calculator**](roi-calculator.html) | 📊 Interactive yield, cap rate & cash-on-cash calculator          |
+  | [**ROI Calculator**](roi-calculator.html) | 📊 Interactive yield, cap rate & cash-on-cash calculator |
 
 ## 🛠️ Tech Stack
 

@@ -36,11 +36,6 @@ a{color:var(--ocean)}
 .page-hero{background:linear-gradient(135deg,#023e8a 0%,#0077b6 40%,#2d6a4f 100%);color:#fff;padding:80px 20px 48px;text-align:center}
 .page-hero h1{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:900;letter-spacing:-1px;line-height:1.15}
 .page-hero .sub{font-size:clamp(.82rem,1.6vw,1rem);opacity:.85;margin-top:8px;max-width:600px;margin-inline:auto}
-.page-hero-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px}
-.page-hero-badges span{background:rgba(255,255,255,.18);backdrop-filter:blur(6px);padding:5px 14px;border-radius:20px;font-size:.75rem;font-weight:600}
-.page-hero-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
-.page-hero-nav a{color:#fff;text-decoration:none;font-size:.78rem;font-weight:600;background:rgba(255,255,255,.13);padding:6px 16px;border-radius:8px;transition:.2s}
-.page-hero-nav a:hover{background:rgba(255,255,255,.25)}
 
 /* ── Weights panel ── */
 .weights-panel{max-width:720px;margin:24px auto 0;padding:0 20px}
@@ -77,25 +72,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .score-ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800}
 .score-info .title{font-weight:700;font-size:.82rem}.score-info .desc{font-size:.72rem;color:var(--muted)}
 
-/* ── Explainer ── */
-.explainer{max-width:800px;margin:20px auto 0;padding:0 20px}
-.explainer-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px}
-.explainer-item h3{font-size:.88rem;font-weight:800;margin-bottom:4px}
-.explainer-item p{font-size:.78rem;color:var(--muted)}
-.explainer-item+.explainer-item{margin-top:14px}
-.explainer-formula{font-size:.75rem;font-weight:600;background:#f0f4ff;padding:8px 12px;border-radius:8px;margin-top:8px}
-.explainer-formula span{color:var(--ocean);font-weight:800}
-
-/* ── Market row ── */
-.market-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;max-width:1100px;margin:12px auto 0;padding:0 20px}
-.m-card{background:var(--card);border-radius:10px;box-shadow:var(--shadow);padding:12px 14px;text-align:center}
-.m-label{font-size:.68rem;color:var(--muted);font-weight:600}.m-value{font-size:.82rem;font-weight:800;margin-top:2px}
-
-/* ── Info section ── */
-.info-section{max-width:1100px;margin:24px auto 0;padding:0 20px}
-.info-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px}
-.info-card h3{font-size:1rem;font-weight:800;margin-bottom:6px}
-.info-card p{font-size:.82rem;color:#444;line-height:1.6}
 
 /* ── Browse section ── */
 .browse-section{max-width:1200px;margin:28px auto 0;padding:0 20px}
@@ -190,12 +166,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .airbnb-bar-fill.occ{background:var(--ocean)}.airbnb-bar-fill.roi{background:var(--palm)}
 .airbnb-bar-num{font-size:.65rem;font-weight:700;min-width:30px}
 
-/* ── Search links ── */
-.search-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-.search-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px}
-.search-card h4{font-size:.85rem;font-weight:800;margin-bottom:8px}
-.search-card a{display:block;font-size:.78rem;padding:3px 0;color:var(--ocean);text-decoration:none}
-.search-card a:hover{text-decoration:underline}
 
 /* ── Footer ── */
 .footer{text-align:center;padding:32px 20px;font-size:.72rem;color:var(--muted);max-width:800px;margin:32px auto 0}
@@ -235,20 +205,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <!-- HERO -->
 <div class="page-hero">
   <h1>🌴 Central America Property Finder</h1>
-  <div class="sub">Find the best investment properties in Costa Rica, Panama &amp; Belize — ranked by your priorities</div>
-  <div class="page-hero-badges">
-    <span>🇨🇷 Costa Rica</span>
-    <span>🇵🇦 Panama</span>
-    <span>🇧🇿 Belize</span>
-    <span>💰 Under US$200k</span>
-    <span>📈 Airbnb Yield Data</span>
-  </div>
-  <div class="page-hero-nav">
-    <a href="#weights">⚙️ Weights</a>
-    <a href="#browse">🔍 Browse</a>
-    <a href="#airbnb">🏠 Airbnb</a>
-    <a href="#search">🔗 Search</a>
-  </div>
+  <div class="sub">🇨🇷 Costa Rica · 🇵🇦 Panama · 🇧🇿 Belize — 30 properties under US$200k</div>
 </div>
 
 <!-- WEIGHT SLIDERS -->
@@ -339,50 +296,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   </div>
 </div>
 
-<!-- EXPLAINER -->
-<div class="explainer">
-  <div class="explainer-card">
-    <div class="explainer-item">
-      <h3>🧪 How scoring works</h3>
-      <p>Each property gets a score (0-100) from six normalized dimensions. Adjust sliders above to change weights:</p>
-      <div class="explainer-formula" id="formulaDisplay">
-        Score = <span>25%</span> Price + <span>20%</span> Airport + <span>20%</span> Beach + <span>15%</span> Size + <span>15%</span> Yield + <span>5%</span> Ready
-      </div>
-    </div>
-    <div class="explainer-item">
-      <h3>📊 What we analyzed</h3>
-      <p>30 properties sourced from Properstar, Point2Homes &amp; Encuentra24, all under US$200,000.
-      Airport &amp; beach distances auto-computed from GPS coordinates. Airbnb rental estimates based on regional comps.
-      Data collected 2025-03-18.</p>
-    </div>
-  </div>
-</div>
 
-<!-- MARKET SNAPSHOT -->
-<div style="max-width:1100px;margin:24px auto 0;padding:0 20px;">
-  <h3 style="font-size:1rem;font-weight:800;margin-bottom:4px;">📊 Central America Market Snapshot</h3>
-  <p style="font-size:0.78rem;color:var(--muted);margin-bottom:12px;">Strong expat demand, favorable tax regimes, and growing tourism infrastructure across the region.</p>
-</div>
-<div class="market-row">
-<div class="m-card"><div class="m-label">Budget</div><div class="m-value">US$200,000 / ~CA$275,000</div></div>
-<div class="m-card"><div class="m-label">Appreciation</div><div class="m-value">5-12% (varies by country)</div></div>
-<div class="m-card"><div class="m-label">Transfer Tax</div><div class="m-value">1.5-3% of property value</div></div>
-<div class="m-card"><div class="m-label">Total Buy Costs</div><div class="m-value">~5-8% on top of purchase price</div></div>
-<div class="m-card"><div class="m-label">Rental Tax</div><div class="m-value">0-25% (country varies)</div></div>
-<div class="m-card"><div class="m-label">Residency</div><div class="m-value">Available via investment in all 3</div></div>
-</div>
-
-<!-- COUNTRY ADVANTAGES -->
-<div class="info-section">
-  <div class="info-card">
-    <h3>🌴 Why Central America for Investment?</h3>
-    <p>
-      <strong>🇨🇷 Costa Rica:</strong> Stable democracy, no army, universal healthcare. Foreigners can own property with same rights as locals. 13% VAT on rentals, property tax just 0.25%/yr. Pensionado visa available with $1k/mo income.<br><br>
-      <strong>🇵🇦 Panama:</strong> Uses USD — no currency risk. Territorial tax system means foreign income is tax-free. Friendly Nations Visa for Canadians. Property tax exemptions for new construction (up to 20 years). Strong banking sector.<br><br>
-      <strong>🇧🇿 Belize:</strong> English-speaking, common law system. QRP (Qualified Retired Persons) program: tax-free living with $2k/mo income. No capital gains tax. Caribbean beaches + barrier reef. Lower price point than CR/PA.
-    </p>
-  </div>
-</div>
 
 <!-- BROWSE ALL -->
 <div class="browse-section" id="browse">
@@ -406,48 +320,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
 <!-- AIRBNB RENTAL INCOME COMPARISON -->
 <div class="airbnb-section" id="airbnb">
-  <h2 style="font-size:1.3rem;font-weight:800;letter-spacing:-0.3px;">🏠 Airbnb Rental Income Comparison</h2>
-  <p style="font-size:0.82rem;color:var(--muted);margin-top:4px;">
-    Estimated rental income if you Airbnb each property. Based on regional nightly rates &amp; occupancy data.
-    Ranked by gross yield (annual income / purchase price).
-  </p>
+  <h2 style="font-size:1.3rem;font-weight:800;letter-spacing:-0.3px;">🏠 Airbnb Yield Comparison</h2>
   <div class="airbnb-grid" id="airbnbGrid"></div>
 </div>
 
-<!-- SEARCH LIVE LINKS -->
-<div class="info-section" id="search">
-  <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:4px;">🔗 Search Live Listings</h2>
-  <p style="font-size:0.82rem;color:var(--muted);margin-bottom:12px;">Direct links to portals — prices change daily.</p>
-  <div class="search-grid">
-    <div class="search-card">
-      <h4>🇨🇷 Costa Rica</h4>
-      <a href="https://www.properstar.com/costa-rica/buy?budget=0-200000&sort=cheapest" target="_blank">Properstar — Under $200k</a>
-      <a href="https://www.point2homes.com/CR/Real-Estate-Listings.html" target="_blank">Point2Homes Costa Rica</a>
-      <a href="https://www.encuentra24.com/costa-rica-en/real-estate-for-sale" target="_blank">Encuentra24 CR</a>
-      <a href="https://costaricamls.com/" target="_blank">Costa Rica MLS</a>
-    </div>
-    <div class="search-card">
-      <h4>🇵🇦 Panama</h4>
-      <a href="https://www.properstar.com/panama/buy?budget=0-200000&sort=cheapest" target="_blank">Properstar — Under $200k</a>
-      <a href="https://www.point2homes.com/PA/Real-Estate-Listings.html" target="_blank">Point2Homes Panama</a>
-      <a href="https://www.encuentra24.com/panama-en/real-estate-for-sale" target="_blank">Encuentra24 PA</a>
-      <a href="https://www.compreoalquile.com/" target="_blank">Compre o Alquile</a>
-    </div>
-    <div class="search-card">
-      <h4>🇧🇿 Belize</h4>
-      <a href="https://www.properstar.com/belize/buy?budget=0-200000&sort=cheapest" target="_blank">Properstar — Under $200k</a>
-      <a href="https://www.point2homes.com/BZ/Real-Estate-Listings.html" target="_blank">Point2Homes Belize</a>
-      <a href="https://www.belizerealestate.com/" target="_blank">Belize Real Estate</a>
-    </div>
-    <div class="search-card">
-      <h4>✈️ Flights from Canada</h4>
-      <a href="https://www.google.com/flights?q=flights+to+san+jose+costa+rica" target="_blank">→ San José (SJO)</a>
-      <a href="https://www.google.com/flights?q=flights+to+liberia+costa+rica" target="_blank">→ Liberia (LIR)</a>
-      <a href="https://www.google.com/flights?q=flights+to+panama+city" target="_blank">→ Panama City (PTY)</a>
-      <a href="https://www.google.com/flights?q=flights+to+belize+city" target="_blank">→ Belize City (BZE)</a>
-    </div>
-  </div>
-</div>
+
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
@@ -479,8 +356,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 </div>
 
 <div class="footer">
-  30 properties sourced from Properstar, Point2Homes &amp; Encuentra24 · Data collected 2025-03-18 · Prices in USD (CA$1 ≈ US$0.73)<br>
-  Covers Costa Rica, Panama &amp; Belize — beach &amp; airport distances auto-computed · ⚠️ Verify all listings before purchasing
+  30 properties · Properstar, Point2Homes &amp; Encuentra24 · Data 2025-03-18 · ⚠️ Verify before purchasing
 </div>
 
 <script>
@@ -674,8 +550,8 @@ function rebuild() {
   const pcts = [wPrice, wAirport, wBeach, wSize, wYield, wReno].map(w => Math.round(w / total * 100));
   const diff = 100 - pcts.reduce((a,b)=>a+b,0);
   pcts[0] += diff;
-  document.getElementById('formulaDisplay').innerHTML =
-    `Score = <span>${pcts[0]}%</span> Price + <span>${pcts[1]}%</span> Airport + <span>${pcts[2]}%</span> Beach + <span>${pcts[3]}%</span> Size + <span>${pcts[4]}%</span> Yield + <span>${pcts[5]}%</span> Ready`;
+  const fd = document.getElementById('formulaDisplay');
+  if (fd) fd.innerHTML = `Score = <span>${pcts[0]}%</span> Price + <span>${pcts[1]}%</span> Airport + <span>${pcts[2]}%</span> Beach + <span>${pcts[3]}%</span> Size + <span>${pcts[4]}%</span> Yield + <span>${pcts[5]}%</span> Ready`;
 
   rebuildBrowse();
   rebuildAirbnb();
