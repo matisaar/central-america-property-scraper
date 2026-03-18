@@ -12,6 +12,9 @@ explore_*.py
 extract_*.py
 find_*.py
 test_sites*.py
+test_sources*.py
+data/properties_old*.json
+scrape_output.log
 
 # OS
 .DS_Store
