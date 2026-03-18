@@ -36,6 +36,7 @@ def to_js_data(properties):
         airbnb_occ = p.get("airbnb_occupancy_pct") or 0
         annual_income = int(airbnb_rate * (airbnb_occ / 100) * 365)
         gross_yield = round(annual_income / price * 100, 1) if price else 0
+        gross_yield = min(gross_yield, 30.0)  # cap at 30% to avoid absurd values
         
         lat = p.get("lat", 0)
         lng = p.get("lng", 0)

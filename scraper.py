@@ -17,6 +17,7 @@ from datetime import datetime
 
 # ── Currency conversion ────────────────────────────────────────────
 GBP_TO_USD = 1.29   # March 2026 approx
+MIN_USD = 20_000      # skip listings under $20k (likely garbage/scam)
 MAX_USD = 500_000     # scrape up to $500k, frontend can filter further
 MAX_GBP = int(MAX_USD / GBP_TO_USD)
 
@@ -918,6 +919,26 @@ def run_scraper():
             seen.add(key)
             unique.append(p)
     all_properties = unique
+
+    # Filter out listings under minimum price
+    before = len(all_properties)
+    all_properties = [p for p in all_properties if p["price"] >= MIN_USD]
+    if before != len(all_properties):
+        print(f"  Removed {before - len(all_properties)} listings under US${MIN_USD:,}")
+
+    # Deduplicate by image URL (catches same property listed under different names)
+    seen_imgs = set()
+    deduped = []
+    for p in all_properties:
+        img = p.get("image_url", "")
+        if img and img in seen_imgs:
+            continue
+        if img:
+            seen_imgs.add(img)
+        deduped.append(p)
+    if len(deduped) < len(all_properties):
+        print(f"  Removed {len(all_properties) - len(deduped)} image-duplicate listings")
+    all_properties = deduped
 
     print(f"\n📊 Total unique properties: {len(all_properties)}")
 
