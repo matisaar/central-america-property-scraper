@@ -87,7 +87,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:.18s}
 .card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.12)}
 .card-img-wrap{position:relative;height:200px;overflow:hidden;background:#e5e7eb}
-.card-img{width:100%;height:100%;object-fit:cover}
+.card-img-wrap img.card-img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0;transition:opacity .25s}
+.card-img-wrap img.card-img.visible{opacity:1}
+.card-dots{position:absolute;top:8px;left:0;right:0;display:flex;justify-content:center;gap:4px;z-index:3}
+.card-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);transition:.2s}
+.card-dots span.active{background:#fff;transform:scale(1.3)}
+.card-tap{position:absolute;inset:0;display:flex;z-index:2}
+.card-tap .left,.card-tap .right{flex:1}
 .card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.45) 100%)}
 .card-rank{position:absolute;top:10px;left:10px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:#fff}
 .card-rank.high{background:var(--coral)}.card-rank.mid{background:var(--gold)}.card-rank.low{background:#94a3b8}
@@ -595,22 +601,22 @@ function scoreColor(s) { return s >= 65 ? '#d4363b' : s >= 40 ? '#e6a756' : '#b8
 function makeCard(d) {
   const s = score(d);
   const t = scoreTier(s);
-  const photoRow = d.areaPhotos && d.areaPhotos.length ? `
-    <div class="card-photos">
-      ${d.areaPhotos.map(u => `<img src="${u}" alt="${d.regionName} area" loading="lazy" onerror="this.style.display='none'">`).join('')}
-    </div>` : '';
+  const allPhotos = [d.img, ...(d.areaPhotos || [])].filter(Boolean);
+  const photoImgs = allPhotos.map((u, i) => `<img class="card-img${i===0?' visible':''}" src="${u}" alt="${d.title}" loading="lazy" onerror="this.remove()">`).join('');
+  const dots = allPhotos.length > 1 ? `<div class="card-dots">${allPhotos.map((_, i) => `<span class="${i===0?'active':''}"></span>`).join('')}</div>` : '';
+  const tapZones = allPhotos.length > 1 ? `<div class="card-tap"><div class="left" onclick="event.stopPropagation();cardPhotoNav(this,-1)"></div><div class="right" onclick="event.stopPropagation();cardPhotoNav(this,1)"></div></div>` : '';
   return `
     <div class="card" onclick="openModal(${d.id})">
-      <div class="card-img-wrap">
-        <img class="card-img" src="${d.img}" alt="${d.title}" loading="lazy"
-             onerror="this.style.background='linear-gradient(135deg,#1e3a5f,#0e76a8)';this.style.minHeight='180px'">
+      <div class="card-img-wrap" data-idx="0">
+        ${photoImgs}
         <div class="card-overlay"></div>
+        ${dots}
+        ${tapZones}
         <div class="card-rank ${t}">${Math.round(s)}</div>
         <div class="card-price-tag">CA$${d.cad.toLocaleString()}<span class="usd-sub">US$${d.price.toLocaleString()}</span></div>
         <div class="card-airport-tag">🛡️ ${d.safety}</div>
         <button class="like-btn" data-uid="${d.uid}" onclick="event.stopPropagation();toggleLike('${d.uid}',this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="like-count"></span></button>
       </div>
-      ${photoRow}
       <div class="card-body">
         <div class="card-name">${d.title}</div>
         <div class="card-area">📍 ${d.regionName}</div>
@@ -622,6 +628,21 @@ function makeCard(d) {
         ${d.mapsUrl !== '#' ? `<a class="card-maps-btn" href="${d.mapsUrl}" target="_blank" onclick="event.stopPropagation()">📍 View on Google Maps</a>` : ''}
       </div>
     </div>`;
+}
+
+function cardPhotoNav(el, dir) {
+  const wrap = el.closest('.card-img-wrap');
+  if (!wrap) return;
+  const imgs = wrap.querySelectorAll('img.card-img');
+  const dots = wrap.querySelectorAll('.card-dots span');
+  const count = imgs.length;
+  if (count <= 1) return;
+  let idx = parseInt(wrap.dataset.idx || 0) + dir;
+  if (idx < 0) idx = count - 1;
+  if (idx >= count) idx = 0;
+  wrap.dataset.idx = idx;
+  imgs.forEach((img, i) => img.classList.toggle('visible', i === idx));
+  dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
 }
 
 function rebuild() {
