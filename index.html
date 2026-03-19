@@ -111,13 +111,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 /* ── Modal ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.25s}
 .modal-overlay.visible{opacity:1;pointer-events:all}
-.modal{background:var(--card);border-radius:16px;width:94%;max-width:600px;max-height:88vh;overflow-y:auto;position:relative}
+.modal{background:var(--card);border-radius:16px;width:94%;max-width:600px;max-height:92vh;overflow-y:auto;position:relative}
 .m-close{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.5);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center}
-.m-img{width:100%;height:220px;object-fit:cover}
-.m-body{padding:18px 20px 24px}
+.m-img{width:100%;height:180px;object-fit:cover}
+.m-body{padding:14px 20px 18px}
 .m-name{font-size:1.05rem;font-weight:800;letter-spacing:-.3px}
 .m-area{font-size:.78rem;color:var(--muted);margin-top:2px}
-.m-score-wrap{margin-top:12px;background:#f8f9fa;border-radius:10px;padding:12px}
+.m-score-wrap{margin-top:8px;background:#f8f9fa;border-radius:10px;padding:10px}
 .m-score-top{display:flex;justify-content:space-between;align-items:center}
 .m-score-label{font-size:.78rem;font-weight:600}
 .m-score-num{font-size:.88rem;font-weight:800;color:var(--coral)}
@@ -125,22 +125,24 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .m-score-fill{height:100%;background:var(--coral);border-radius:4px;transition:.4s}
 .m-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;text-align:center;font-size:.7rem;color:var(--muted)}
 .m-breakdown .v{font-weight:700;color:var(--text);font-size:.82rem}
-.m-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-top:14px}
+.m-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;margin-top:10px}
 .m-stat{text-align:center}
 .m-stat .v{font-size:.88rem;font-weight:800}
 .m-stat .l{font-size:.65rem;color:var(--muted)}
 .m-gallery{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px}
 .m-gallery img{height:56px;width:80px;object-fit:cover;border-radius:6px;flex-shrink:0}
-.m-maps-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.m-maps-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .m-maps-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:8px;font-size:.72rem;font-weight:600;text-decoration:none;background:#e8f4f8;color:var(--ocean)}
 .m-maps-btn.listing{background:var(--ocean);color:#fff}
-.m-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.m-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
 .m-badge{font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:6px}
 .m-badge.fire{background:#fef2f2;color:var(--coral)}.m-badge.red{background:#fef2f2;color:var(--coral)}
 .m-badge.blue{background:#eff6ff;color:var(--ocean)}.m-badge.gold{background:#fffbeb;color:#b45309}
 .m-badge.green{background:#f0fdf4;color:var(--palm)}
-.m-book{display:block;text-align:center;margin-top:16px;padding:12px;background:var(--ocean);color:#fff;border-radius:10px;font-weight:700;font-size:.88rem;text-decoration:none}
+.m-book{display:block;text-align:center;margin-top:12px;padding:12px;background:var(--ocean);color:#fff;border-radius:10px;font-weight:700;font-size:.88rem;text-decoration:none}
 .m-book:hover{background:var(--ocean-dark)}
+.share-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:10px 24px;border-radius:10px;font-size:.82rem;font-weight:600;z-index:3000;opacity:0;transition:opacity .3s;pointer-events:none}
+.share-toast.show{opacity:1}
 
 /* ── Footer ── */
 .footer{text-align:center;padding:32px 20px;font-size:.72rem;color:var(--muted);max-width:800px;margin:32px auto 0}
@@ -228,14 +230,14 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   <div class="browse-header">
     <div>
       <div class="browse-title">🔍 Browse All Properties</div>
-      <div class="browse-sub">Showing <span class="browse-count" id="browseCount">0</span> properties, ranked by your weights</div>
+      <div class="browse-sub">Showing <span class="browse-count" id="browseCount">0</span> properties</div>
     </div>
     <div class="filters">
       <select class="filter-select" id="fRegion"><option value="">All Countries</option></select>
       <select class="filter-select" id="fMajorCity"><option value="">All Areas</option></select>
       <select class="filter-select" id="fPtype">
         <option value="">All Types</option>
-        <option value="House">🏠 Houses</option>
+        <option value="House" selected>🏠 Houses</option>
         <option value="Apartment">🏢 Apartments</option>
       </select>
       <span class="filter-label">CA$ max</span>
@@ -246,6 +248,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
         <option value="priceAsc">Price: Low → High</option>
       </select>
       <button class="filter-clear" onclick="clearFilters()">Clear</button>
+      <button class="filter-clear" onclick="shareLink()" title="Copy shareable link">🔗 Share</button>
     </div>
   </div>
   <div class="browse-grid" id="browseGrid"></div>
@@ -267,17 +270,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
           <span class="m-score-num" id="mScore"></span>
         </div>
         <div class="m-score-bar"><div class="m-score-fill" id="mScoreFill"></div></div>
-        <div class="m-breakdown" id="mBreakdown"></div>
       </div>
       <div class="m-grid" id="mStats"></div>
       <div class="m-gallery" id="mGallery"></div>
-      <div class="m-maps-row" id="mMapsRow"></div>
       <div class="m-badges" id="mBadges"></div>
       <a class="m-book" id="mLink" href="#" target="_blank">View Listing →</a>
     </div>
   </div>
 </div>
 
+<div class="share-toast" id="shareToast">✅ Link copied to clipboard!</div>
 <div class="footer">
   147 properties · Rightmove Overseas &amp; Realtor.com International · ⚠️ Verify before purchasing
 </div>
@@ -502,7 +504,7 @@ function loadMore() {
 function clearFilters() {
   document.getElementById('fRegion').value = '';
   document.getElementById('fMajorCity').value = '';
-  document.getElementById('fPtype').value = '';
+  document.getElementById('fPtype').value = 'House';
   document.getElementById('fPriceMax').value = '';
   document.getElementById('fSort').value = 'score';
   rebuildBrowse();
@@ -556,13 +558,7 @@ function openModal(id) {
   document.getElementById('mScore').textContent = Math.round(s) + '/100';
   document.getElementById('mScoreFill').style.width = s.toFixed(0) + '%';
 
-  document.getElementById('mBreakdown').innerHTML = `
-    <div><div class="v">CA$${d.cad.toLocaleString()}</div><div style="font-size:.7em;color:#999">US$${d.price.toLocaleString()}</div>Price</div>
-    <div><a href="${d.beachUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted;cursor:pointer">${d.beachKm} km</div></a>Beach</div>
-    <div><div class="v">${d.safety}/100</div>Safety</div>
-  `;
-
-  document.getElementById('mStats').innerHTML = `
+  let statsHtml = `
     <div class="m-stat"><div class="v price-c">CA$${d.cad.toLocaleString()}</div><div class="l" style="font-size:.7em;color:#999">US$${d.price.toLocaleString()}</div><div class="l">Price</div></div>
     <div class="m-stat"><div class="v">${d.area ? d.area + 'm²' : '—'}</div><div class="l">Size</div></div>
     <div class="m-stat"><div class="v">${d.beds}</div><div class="l">Beds</div></div>
@@ -570,6 +566,8 @@ function openModal(id) {
     <div class="m-stat"><a href="${d.beachUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted">${d.beachKm} km</div><div class="l">🏖️ ${d.beachName}</div></a></div>
     <div class="m-stat"><a href="${d.majorCityUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted">${d.majorCityMin} min</div><div class="l">🏙️ ${d.majorCity}</div></a></div>
   `;
+  if (d.mapsUrl !== '#') statsHtml += `<div class="m-stat"><a href="${d.mapsUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted">📍</div><div class="l">Google Maps</div></a></div>`;
+  document.getElementById('mStats').innerHTML = statsHtml;
 
   // Update modal like button
   const mLike = document.getElementById('mLikeBtn');
@@ -584,13 +582,6 @@ function openModal(id) {
     gallery.innerHTML = d.areaPhotos.map(u => `<img src="${u}" alt="Area" loading="lazy" onerror="this.style.display='none'">`).join('');
   } else { gallery.innerHTML = ''; }
 
-  // Maps + listing + beach buttons
-  let mRow = '';
-  if (d.beachUrl) mRow += `<a class="m-maps-btn" href="${d.beachUrl}" target="_blank">🏖️ ${d.beachKm} km to ${d.beachName}</a>`;
-  if (d.mapsUrl !== '#') mRow += `<a class="m-maps-btn" href="${d.mapsUrl}" target="_blank">📍 Open in Google Maps</a>`;
-  mRow += `<a class="m-maps-btn listing" href="${d.url}" target="_blank">🏠 View Listing</a>`;
-  document.getElementById('mMapsRow').innerHTML = mRow;
-
   let b = '';
   if (s >= 65) b += '<span class="m-badge fire">🔥 Top Match</span>';
   if (d.safety >= 75) b += '<span class="m-badge green">🛡️ Safe Area</span>';
@@ -602,7 +593,7 @@ function openModal(id) {
   document.getElementById('mBadges').innerHTML = b;
 
   document.getElementById('mLink').href = d.url;
-  document.getElementById('mLink').textContent = 'View on ' + d.source + ' →';
+  document.getElementById('mLink').textContent = 'View Listing on ' + d.source + ' →';
   document.getElementById('modalOverlay').classList.add('visible');
 }
 
@@ -631,6 +622,38 @@ document.querySelectorAll('.page-hero-nav a[href^="#"]').forEach(a => {
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
+
+// ── Share link ──
+function shareLink() {
+  const params = new URLSearchParams();
+  const r = document.getElementById('fRegion').value;
+  const mc = document.getElementById('fMajorCity').value;
+  const pt = document.getElementById('fPtype').value;
+  const pm = document.getElementById('fPriceMax').value;
+  const s = document.getElementById('fSort').value;
+  if (r) params.set('region', r);
+  if (mc) params.set('city', mc);
+  if (pt) params.set('type', pt);
+  if (pm) params.set('maxPrice', pm);
+  if (s && s !== 'score') params.set('sort', s);
+  const url = location.origin + location.pathname + (params.toString() ? '?' + params : '');
+  navigator.clipboard.writeText(url).then(() => {
+    const t = document.getElementById('shareToast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  });
+}
+
+// ── Load filters from URL params ──
+function loadFromURL() {
+  const p = new URLSearchParams(location.search);
+  if (p.has('region')) document.getElementById('fRegion').value = p.get('region');
+  if (p.has('city')) document.getElementById('fMajorCity').value = p.get('city');
+  if (p.has('type')) document.getElementById('fPtype').value = p.get('type');
+  if (p.has('maxPrice')) document.getElementById('fPriceMax').value = p.get('maxPrice');
+  if (p.has('sort')) document.getElementById('fSort').value = p.get('sort');
+}
+loadFromURL();
 
 // ── Initial render ──
 rebuild();
