@@ -592,6 +592,11 @@ def scrape_rightmove(country_name, max_pages=10):
                 if ptype and any(w in ptype.lower() for w in ("plot", "land", "industrial", "warehouse", "commercial", "farm", "garage", "townhouse")):
                     continue
 
+                # Skip lots disguised as houses (check title/summary)
+                _text_low = (title + " " + summary).lower()
+                if any(w in _text_low.split() for w in LOT_TITLE_WORDS):
+                    continue
+
                 listing_url = f"https://www.rightmove.co.uk/properties/{pid}#/?channel=OVERSEAS"
 
                 # Compute distances
@@ -700,6 +705,8 @@ REALTOR_GQL_QUERY = """
 
 LAND_WORDS = {"plot", "land", "industrial", "warehouse", "commercial", "farm",
               "garage", "office", "retail", "hotel", "leisure", "other", "townhouse"}
+LOT_TITLE_WORDS = {"lot", "lote", "lots", "acres", "acre", "terrain", "terreno",
+                   "finca", "parcela", "vacant", "solar", "hectare", "hectares"}
 
 
 def scrape_realtor_graphql(country_code, max_pages=60):
@@ -779,6 +786,11 @@ def scrape_realtor_graphql(country_code, max_pages=60):
             ptype = ptypes[0] if ptypes else ""
             all_types_str = " ".join(ptypes + search_types).lower()
             if any(w in all_types_str for w in LAND_WORDS):
+                continue
+
+            # Skip lots disguised as houses (check address/title text)
+            _addr_low = display_addr.lower()
+            if any(w in _addr_low.split() for w in LOT_TITLE_WORDS):
                 continue
 
             # Photos
