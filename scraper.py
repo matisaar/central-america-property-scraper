@@ -836,6 +836,11 @@ def scrape_realtor_graphql(country_code, max_pages=60):
                 continue
             lat, lng = float(lat), float(lng)
 
+            # Info
+            bedrooms = l.get("bedrooms")
+            bathrooms = l.get("bathrooms")
+            display_addr = l.get("displayAddress", "")
+
             # Property type filtering
             ptypes = l.get("propertyTypes") or []
             search_types = l.get("searchPropertyTypes") or []
@@ -861,11 +866,6 @@ def scrape_realtor_graphql(country_code, max_pages=60):
             # Detail URL
             detail_path = l.get("detailPageUrl", "")
             listing_url = f"https://www.realtor.com{detail_path}" if detail_path else ""
-
-            # Info
-            bedrooms = l.get("bedrooms")
-            bathrooms = l.get("bathrooms")
-            display_addr = l.get("displayAddress", "")
 
             beds_str = f"{bedrooms}-Bed " if bedrooms else ""
             addr_clean = display_addr.split(",")[0].strip() if "," in display_addr else display_addr
@@ -951,7 +951,7 @@ def run_scraper():
     # Scrape each country from Rightmove
     for country in ["Costa-Rica", "Panama", "Belize"]:
         print(f"\n🔍 Scraping Rightmove: {country}...")
-        props = scrape_rightmove(country, max_pages=5)
+        props = scrape_rightmove(country, max_pages=10)
         new_props = []
         for p in props:
             pid = p.get("rightmove_id") or p.get("url")
@@ -1033,8 +1033,8 @@ def run_scraper():
         p["area_photos"] = fetch_area_photos(p["lat"], p["lng"], p["title"])
         time.sleep(0.5)
 
-    # Select 150 properties spread evenly across the full price range
-    MAX_SITE = 150
+    # Select 500 properties spread evenly across the full price range
+    MAX_SITE = 500
     if len(all_properties) > MAX_SITE:
         step = len(all_properties) / MAX_SITE
         all_properties = [all_properties[int(i * step)] for i in range(MAX_SITE)]

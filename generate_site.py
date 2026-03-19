@@ -32,12 +32,6 @@ def to_js_data(properties):
         cad = int(price * 1.37)
         psqm = int(price / area) if area else 0
         
-        airbnb_rate = p.get("airbnb_night_rate") or 0
-        airbnb_occ = p.get("airbnb_occupancy_pct") or 0
-        annual_income = int(airbnb_rate * (airbnb_occ / 100) * 365)
-        gross_yield = round(annual_income / price * 100, 1) if price else 0
-        gross_yield = min(gross_yield, 30.0)  # cap at 30% to avoid absurd values
-        
         lat = p.get("lat", 0)
         lng = p.get("lng", 0)
         
@@ -76,12 +70,6 @@ def to_js_data(properties):
             "majorCity": nearest_city,
             "majorCityMin": nearest_city_min,
             "majorCityUrl": f"https://www.google.com/maps/dir/{lat},{lng}/{nearest_city}",
-            "airbnbRate": airbnb_rate,
-            "airbnbRateCad": int(airbnb_rate * 1.37),
-            "airbnbOcc": airbnb_occ,
-            "annualIncome": annual_income,
-            "annualIncomeCad": int(annual_income * 1.37),
-            "grossYield": gross_yield,
             "safety": p.get("safety_score") or 50,
             "safetyZone": p.get("safety_zone", ""),
             "lat": lat,
