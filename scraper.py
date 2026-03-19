@@ -97,47 +97,90 @@ def nearest_beach(lat, lng):
     # Comprehensive beach/coastal points for Central America
     BEACHES = [
         # ── Costa Rica — Pacific Coast (north to south) ──
+        {"name": "Playa Papagayo", "lat": 10.622, "lng": -85.660, "country": "Costa Rica"},
         {"name": "Playa del Coco", "lat": 10.553, "lng": -85.708, "country": "Costa Rica"},
         {"name": "Playa Hermosa (Guanacaste)", "lat": 10.572, "lng": -85.741, "country": "Costa Rica"},
+        {"name": "Playa Ocotal", "lat": 10.548, "lng": -85.734, "country": "Costa Rica"},
+        {"name": "Playa Danta", "lat": 10.466, "lng": -85.782, "country": "Costa Rica"},
         {"name": "Playa Flamingo", "lat": 10.438, "lng": -85.789, "country": "Costa Rica"},
+        {"name": "Playa Potrero", "lat": 10.443, "lng": -85.782, "country": "Costa Rica"},
+        {"name": "Playa Brasilito", "lat": 10.402, "lng": -85.797, "country": "Costa Rica"},
         {"name": "Playa Conchal", "lat": 10.408, "lng": -85.798, "country": "Costa Rica"},
+        {"name": "Playa Grande (Guanacaste)", "lat": 10.330, "lng": -85.852, "country": "Costa Rica"},
         {"name": "Tamarindo Beach", "lat": 10.299, "lng": -85.842, "country": "Costa Rica"},
         {"name": "Playa Langosta", "lat": 10.279, "lng": -85.845, "country": "Costa Rica"},
         {"name": "Playa Avellanas", "lat": 10.213, "lng": -85.860, "country": "Costa Rica"},
         {"name": "Playa Negra (Guanacaste)", "lat": 10.179, "lng": -85.863, "country": "Costa Rica"},
+        {"name": "Playa Junquillal", "lat": 10.133, "lng": -85.854, "country": "Costa Rica"},
+        {"name": "Playa Ostional", "lat": 10.040, "lng": -85.698, "country": "Costa Rica"},
         {"name": "Nosara Beach", "lat": 9.973, "lng": -85.669, "country": "Costa Rica"},
+        {"name": "Playa Guiones", "lat": 9.947, "lng": -85.665, "country": "Costa Rica"},
         {"name": "Playa Sámara", "lat": 9.877, "lng": -85.531, "country": "Costa Rica"},
         {"name": "Playa Carrillo", "lat": 9.860, "lng": -85.498, "country": "Costa Rica"},
+        {"name": "Playa Islita", "lat": 9.820, "lng": -85.395, "country": "Costa Rica"},
+        {"name": "Playa Coyote", "lat": 9.777, "lng": -85.278, "country": "Costa Rica"},
+        {"name": "Playa San Miguel", "lat": 9.736, "lng": -85.225, "country": "Costa Rica"},
+        {"name": "Mal País Beach", "lat": 9.591, "lng": -85.152, "country": "Costa Rica"},
         {"name": "Santa Teresa Beach", "lat": 9.640, "lng": -85.165, "country": "Costa Rica"},
         {"name": "Montezuma Beach", "lat": 9.653, "lng": -85.069, "country": "Costa Rica"},
         {"name": "Playa Tambor", "lat": 9.722, "lng": -85.015, "country": "Costa Rica"},
+        {"name": "Playa Naranjo", "lat": 9.784, "lng": -84.995, "country": "Costa Rica"},
         {"name": "Puntarenas Beach", "lat": 9.977, "lng": -84.838, "country": "Costa Rica"},
+        {"name": "Playa Caldera", "lat": 9.936, "lng": -84.727, "country": "Costa Rica"},
+        {"name": "Playa Tárcoles", "lat": 9.778, "lng": -84.645, "country": "Costa Rica"},
+        {"name": "Playa Herradura", "lat": 9.658, "lng": -84.661, "country": "Costa Rica"},
+        {"name": "Playa Blanca (Punta Leona)", "lat": 9.683, "lng": -84.656, "country": "Costa Rica"},
         {"name": "Jacó Beach", "lat": 9.616, "lng": -84.631, "country": "Costa Rica"},
         {"name": "Playa Hermosa (Jacó)", "lat": 9.575, "lng": -84.588, "country": "Costa Rica"},
+        {"name": "Playa Esterillos", "lat": 9.557, "lng": -84.518, "country": "Costa Rica"},
+        {"name": "Playa Bejuco", "lat": 9.546, "lng": -84.438, "country": "Costa Rica"},
+        {"name": "Playa Palma", "lat": 9.512, "lng": -84.355, "country": "Costa Rica"},
+        {"name": "Playa Espadilla (Quepos)", "lat": 9.421, "lng": -84.163, "country": "Costa Rica"},
         {"name": "Manuel Antonio Beach", "lat": 9.392, "lng": -84.143, "country": "Costa Rica"},
+        {"name": "Playa Matapalo (Quepos)", "lat": 9.336, "lng": -84.053, "country": "Costa Rica"},
         {"name": "Playa Dominical", "lat": 9.252, "lng": -83.858, "country": "Costa Rica"},
+        {"name": "Playa Dominicalito", "lat": 9.235, "lng": -83.860, "country": "Costa Rica"},
         {"name": "Playa Uvita", "lat": 9.148, "lng": -83.769, "country": "Costa Rica"},
+        {"name": "Playa Ballena", "lat": 9.105, "lng": -83.740, "country": "Costa Rica"},
+        {"name": "Playa Piñuela", "lat": 9.054, "lng": -83.716, "country": "Costa Rica"},
         {"name": "Ojochal Beach", "lat": 8.926, "lng": -83.683, "country": "Costa Rica"},
+        {"name": "Playa Tortuga", "lat": 8.888, "lng": -83.582, "country": "Costa Rica"},
+        {"name": "Drake Bay Beach", "lat": 8.690, "lng": -83.671, "country": "Costa Rica"},
+        {"name": "Playa Matapalo (Osa)", "lat": 8.560, "lng": -83.484, "country": "Costa Rica"},
+        {"name": "Playa Carate", "lat": 8.443, "lng": -83.445, "country": "Costa Rica"},
+        {"name": "Puerto Jiménez Beach", "lat": 8.531, "lng": -83.299, "country": "Costa Rica"},
         {"name": "Playa Zancudo", "lat": 8.543, "lng": -83.186, "country": "Costa Rica"},
         {"name": "Playa Pavones", "lat": 8.393, "lng": -83.155, "country": "Costa Rica"},
         # ── Costa Rica — Caribbean Coast (north to south) ──
         {"name": "Tortuguero Beach", "lat": 10.558, "lng": -83.503, "country": "Costa Rica"},
+        {"name": "Parismina Beach", "lat": 10.332, "lng": -83.355, "country": "Costa Rica"},
         {"name": "Playa Limón", "lat": 9.979, "lng": -83.022, "country": "Costa Rica"},
         {"name": "Playa Bonita (Limón)", "lat": 9.996, "lng": -83.009, "country": "Costa Rica"},
         {"name": "Cahuita Beach", "lat": 9.736, "lng": -82.839, "country": "Costa Rica"},
         {"name": "Puerto Viejo Beach", "lat": 9.659, "lng": -82.754, "country": "Costa Rica"},
         {"name": "Playa Cocles", "lat": 9.637, "lng": -82.720, "country": "Costa Rica"},
+        {"name": "Playa Chiquita", "lat": 9.635, "lng": -82.706, "country": "Costa Rica"},
+        {"name": "Punta Uva Beach", "lat": 9.634, "lng": -82.681, "country": "Costa Rica"},
         {"name": "Manzanillo Beach", "lat": 9.632, "lng": -82.653, "country": "Costa Rica"},
+        {"name": "Playa Gandoca", "lat": 9.599, "lng": -82.612, "country": "Costa Rica"},
         # ── Panama — Pacific Coast (west to east) ──
         {"name": "Playa Barqueta", "lat": 8.205, "lng": -82.640, "country": "Panama"},
+        {"name": "Playa Boca Chica", "lat": 8.210, "lng": -82.209, "country": "Panama"},
         {"name": "Playa Las Lajas", "lat": 7.992, "lng": -81.861, "country": "Panama"},
         {"name": "Playa Santa Catalina", "lat": 7.630, "lng": -81.237, "country": "Panama"},
-        {"name": "Pedasí Beach", "lat": 7.528, "lng": -80.027, "country": "Panama"},
+        {"name": "Playa Cambutal", "lat": 7.330, "lng": -80.538, "country": "Panama"},
         {"name": "Playa Venao", "lat": 7.434, "lng": -80.163, "country": "Panama"},
+        {"name": "Pedasí Beach", "lat": 7.528, "lng": -80.027, "country": "Panama"},
+        {"name": "Playa El Arenal", "lat": 7.693, "lng": -80.107, "country": "Panama"},
         {"name": "Playa Blanca (Coclé)", "lat": 8.334, "lng": -80.163, "country": "Panama"},
+        {"name": "Playa Farallón", "lat": 8.375, "lng": -80.140, "country": "Panama"},
+        {"name": "Playa Santa Clara", "lat": 8.399, "lng": -80.100, "country": "Panama"},
+        {"name": "Playa Río Mar", "lat": 8.426, "lng": -80.073, "country": "Panama"},
+        {"name": "Playa Gorgona", "lat": 8.445, "lng": -80.055, "country": "Panama"},
+        {"name": "San Carlos Beach", "lat": 8.489, "lng": -79.960, "country": "Panama"},
         {"name": "Playa Coronado", "lat": 8.497, "lng": -79.944, "country": "Panama"},
         {"name": "Playa Corona", "lat": 8.503, "lng": -79.913, "country": "Panama"},
-        {"name": "San Carlos Beach", "lat": 8.489, "lng": -79.960, "country": "Panama"},
+        {"name": "Playa El Palmar", "lat": 8.526, "lng": -79.874, "country": "Panama"},
         {"name": "Punta Chame Beach", "lat": 8.599, "lng": -79.711, "country": "Panama"},
         {"name": "Playa Veracruz", "lat": 8.888, "lng": -79.595, "country": "Panama"},
         {"name": "Amador Causeway Beach", "lat": 8.933, "lng": -79.553, "country": "Panama"},
@@ -149,17 +192,24 @@ def nearest_beach(lat, lng):
         {"name": "Portobelo Beach", "lat": 9.555, "lng": -79.654, "country": "Panama"},
         {"name": "Playa Langosta (Colón)", "lat": 9.392, "lng": -79.883, "country": "Panama"},
         {"name": "Bocas del Toro Beach", "lat": 9.346, "lng": -82.251, "country": "Panama"},
+        {"name": "Playa Bluff (Bocas)", "lat": 9.360, "lng": -82.170, "country": "Panama"},
         {"name": "Red Frog Beach", "lat": 9.259, "lng": -82.194, "country": "Panama"},
         {"name": "Starfish Beach (Bocas)", "lat": 9.419, "lng": -82.321, "country": "Panama"},
         {"name": "San Blas Beach", "lat": 9.556, "lng": -78.931, "country": "Panama"},
         # ── Belize — Coast & Islands (north to south) ──
         {"name": "Corozal Town Beach", "lat": 18.391, "lng": -88.389, "country": "Belize"},
+        {"name": "Sarteneja Beach", "lat": 18.196, "lng": -88.161, "country": "Belize"},
+        {"name": "Secret Beach (Ambergris)", "lat": 17.970, "lng": -87.995, "country": "Belize"},
         {"name": "Ambergris Caye Beach", "lat": 17.928, "lng": -87.955, "country": "Belize"},
         {"name": "Caye Caulker Beach", "lat": 17.747, "lng": -88.022, "country": "Belize"},
         {"name": "Belize City Shore", "lat": 17.497, "lng": -88.183, "country": "Belize"},
+        {"name": "Gales Point Beach", "lat": 17.200, "lng": -88.290, "country": "Belize"},
         {"name": "Dangriga Beach", "lat": 16.966, "lng": -88.223, "country": "Belize"},
         {"name": "Hopkins Beach", "lat": 16.807, "lng": -88.246, "country": "Belize"},
+        {"name": "Seine Bight Beach", "lat": 16.587, "lng": -88.371, "country": "Belize"},
+        {"name": "Maya Beach", "lat": 16.558, "lng": -88.370, "country": "Belize"},
         {"name": "Placencia Beach", "lat": 16.514, "lng": -88.368, "country": "Belize"},
+        {"name": "Monkey River Beach", "lat": 16.352, "lng": -88.484, "country": "Belize"},
         {"name": "Punta Gorda Beach", "lat": 16.098, "lng": -88.808, "country": "Belize"},
     ]
     
@@ -169,9 +219,15 @@ def nearest_beach(lat, lng):
         candidates.append((km, b))
     candidates.sort(key=lambda x: x[0])
     
-    # Use haversine with road factor (faster than OSRM for bulk scraping)
+    # Use haversine with graduated road factor (shorter = straighter coastal roads)
     crow_km, best = candidates[0]
-    best_road_km = round(crow_km * 1.3, 1)
+    if crow_km < 3:
+        road_factor = 1.1
+    elif crow_km < 15:
+        road_factor = 1.2
+    else:
+        road_factor = 1.3
+    best_road_km = round(crow_km * road_factor, 1)
     best_drive_min = max(1, int(best_road_km / 40 * 60))
     
     directions_url = f"https://www.google.com/maps/dir/{lat},{lng}/{best['lat']},{best['lng']}"
