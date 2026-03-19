@@ -190,7 +190,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .df-scard{position:absolute;inset:0;background:#151528;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.5);transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .3s;will-change:transform}
 .df-scard.swipe-left{transform:translateX(-150%) rotate(-15deg);opacity:0}
 .df-scard.swipe-right{transform:translateX(150%) rotate(15deg);opacity:0}
-.df-scard-img{width:100%;height:220px;object-fit:cover;background:#1a1a3a}
+.df-scard-img-wrap{position:relative;width:100%;height:220px;overflow:hidden;background:#1a1a3a;cursor:pointer}
+.df-scard-img-wrap img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0;transition:opacity .25s}
+.df-scard-img-wrap img.visible{opacity:1}
+.df-scard-dots{position:absolute;top:8px;left:0;right:0;display:flex;justify-content:center;gap:4px;z-index:2}
+.df-scard-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);transition:.2s}
+.df-scard-dots span.active{background:#fff;transform:scale(1.3)}
+.df-scard-tap{position:absolute;inset:0;display:flex;z-index:1}
+.df-scard-tap .left,.df-scard-tap .right{flex:1}
+.df-rcard-listing{display:block;text-align:center;padding:8px;background:rgba(0,255,213,.1);color:#00ffd5;font-size:.72rem;font-weight:700;text-decoration:none;border-top:1px solid rgba(255,255,255,.04);transition:.2s}
+.df-rcard-listing:hover{background:rgba(0,255,213,.2)}
 .df-scard-body{padding:14px 18px}
 .df-scard-name{font-size:1rem;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .df-scard-loc{font-size:.75rem;color:#888;margin-top:2px}
@@ -935,10 +944,18 @@ initLikes();
     if (d.area >= 100) tags.push('📐 Spacious');
     if (d.beds && parseInt(d.beds) >= 3) tags.push('🛏️ ' + d.beds + ' Beds');
     const regionFlag = REGIONS[d.region] ? REGIONS[d.region].flag : '';
+    const allPhotos = [d.img, ...(d.areaPhotos || [])].filter(Boolean);
+    const photoImgs = allPhotos.map((u, i) => `<img src="${u}" alt="Photo ${i+1}" class="${i===0?'visible':''}" onerror="this.remove()">`).join('');
+    const dots = allPhotos.length > 1 ? `<div class="df-scard-dots">${allPhotos.map((_, i) => `<span class="${i===0?'active':''}"></span>`).join('')}</div>` : '';
+    const tapZones = allPhotos.length > 1 ? `<div class="df-scard-tap"><div class="left" onclick="event.stopPropagation();dfPhotoNav(-1)"></div><div class="right" onclick="event.stopPropagation();dfPhotoNav(1)"></div></div>` : '';
 
     return `
       <div class="df-scard" id="dfCurrentCard">
-        <img class="df-scard-img" src="${d.img}" alt="${d.title}" onerror="this.style.background='linear-gradient(135deg,#1a1a3a,#0e76a8)';this.style.minHeight='220px'">
+        <div class="df-scard-img-wrap" data-idx="0" data-count="${allPhotos.length}">
+          ${photoImgs}
+          ${dots}
+          ${tapZones}
+        </div>
         <div class="df-scard-body">
           <div class="df-scard-name">${d.title}</div>
           <div class="df-scard-loc">${regionFlag} ${d.regionName} · ${d.majorCity}</div>
@@ -952,6 +969,22 @@ initLikes();
         </div>
       </div>`;
   }
+
+  // Photo carousel navigation for swipe cards
+  window.dfPhotoNav = function(dir) {
+    const wrap = document.querySelector('.df-scard-img-wrap');
+    if (!wrap) return;
+    const imgs = wrap.querySelectorAll('img');
+    const dots = wrap.querySelectorAll('.df-scard-dots span');
+    const count = imgs.length;
+    if (count <= 1) return;
+    let idx = parseInt(wrap.dataset.idx || 0) + dir;
+    if (idx < 0) idx = count - 1;
+    if (idx >= count) idx = 0;
+    wrap.dataset.idx = idx;
+    imgs.forEach((img, i) => img.classList.toggle('visible', i === idx));
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+  };
 
   function showNextCard() {
     const stack = document.getElementById('dfCardStack');
@@ -1108,12 +1141,13 @@ initLikes();
       const flag = REGIONS[d.region] ? REGIONS[d.region].flag : '';
 
       return `
-        <div class="df-rcard" onclick="openModal(${d.id})">
+        <div class="df-rcard">
           ${rankClass ? `<div class="df-rcard-rank ${rankClass}">${idx + 1}</div>` : ''}
           <div class="df-rcard-match">${d.ds.toFixed(0)}% match</div>
           <img class="df-rcard-img" src="${d.img}" alt="${d.title}" loading="lazy"
-               onerror="this.style.background='linear-gradient(135deg,#1a1a3a,#0e76a8)';this.style.minHeight='180px'">
-          <div class="df-rcard-body">
+               onerror="this.style.background='linear-gradient(135deg,#1a1a3a,#0e76a8)';this.style.minHeight='180px'"
+               onclick="openModal(${d.id})">
+          <div class="df-rcard-body" onclick="openModal(${d.id})">
             <div class="df-rcard-name">${d.title}</div>
             <div class="df-rcard-loc">${flag} ${d.regionName} · ${d.majorCity}</div>
             <div class="df-rcard-row">
@@ -1121,6 +1155,7 @@ initLikes();
             </div>
             <div class="df-rcard-price">CA$${d.cad.toLocaleString()} <span class="sub">US$${d.price.toLocaleString()}</span></div>
           </div>
+          <a class="df-rcard-listing" href="${d.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">View Listing on ${d.source} →</a>
         </div>`;
     }).join('');
   }
