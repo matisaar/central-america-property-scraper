@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate index.html from scraped property data."""
-import json, os, re
+import json, os, re, hashlib
 from datetime import datetime
 
 MAX_USD = 364_964
@@ -45,8 +45,10 @@ def to_js_data(properties):
         
         maps_url = f"https://www.google.com/maps?q={lat},{lng}&z=14"
         
+        uid = hashlib.md5(p.get("url", str(i)).encode()).hexdigest()[:8]
         entry = {
             "id": i,
+            "uid": uid,
             "title": p["title"],
             "price": price,
             "cad": cad,
