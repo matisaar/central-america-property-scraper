@@ -49,7 +49,7 @@ a{color:var(--ocean)}
 .slider-val{font-weight:700;color:var(--ocean);font-size:.75rem}
 input[type=range]{width:100%;height:6px;-webkit-appearance:none;background:#e5e7eb;border-radius:4px;outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--ocean);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
-.s-price{color:#e63946}.s-airport{color:#0077b6}.s-beach{color:#f59e0b}.s-size{color:#2d6a4f}.s-yield{color:#7c3aed}.s-reno{color:#6b7280}
+.s-price{color:#e63946}.s-airport{color:#0077b6}.s-beach{color:#f59e0b}.s-size{color:#2d6a4f}.s-reno{color:#6b7280}
 
 /* ── Like hearts ── */
 .like-btn{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.45);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:.2s;flex-direction:column;gap:0;padding:2px}
@@ -59,7 +59,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .like-btn.liked svg{fill:#fff;stroke:#fff}
 .like-count{font-size:.55rem;color:#fff;font-weight:700;line-height:1}.like-count:empty{display:none}
 .like-btn.pop{animation:popHeart .35s ease}@keyframes popHeart{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
-.price-c{color:var(--coral)}.airport-c{color:var(--ocean)}.beach-c{color:var(--gold)}.yield-c{color:var(--palm)}
+.price-c{color:var(--coral)}.airport-c{color:var(--ocean)}.beach-c{color:var(--gold)}
 
 /* ── Browse section ── */
 .browse-section{max-width:1200px;margin:28px auto 0;padding:0 20px}
@@ -205,13 +205,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
         </div>
         <input type="range" id="sPrice" min="0" max="100" value="15">
       </div>
-      <div class="slider-group">
-        <div class="slider-label">
-          <span class="slider-name s-yield">📈 Higher Yield</span>
-          <span class="slider-val" id="vYield">15%</span>
-        </div>
-        <input type="range" id="sYield" min="0" max="100" value="15">
-      </div>
+
     </div>
   </div>
 </div>
@@ -345,19 +339,17 @@ function updateAllHearts() {
 // ── Compute normalized values (0–1) ──
 const prices = DATA.map(d => d.price);
 const beaches = DATA.map(d => d.beachKm);
-const yields = DATA.map(d => d.grossYield);
+
 const cityMins = DATA.map(d => d.majorCityMin);
 const safeties = DATA.map(d => d.safety);
 
 const minPrice = Math.min(...prices), maxPrice = Math.max(...prices);
 const minBeach = Math.min(...beaches), maxBeach = Math.max(...beaches);
-const minYield = Math.min(...yields), maxYield = Math.max(...yields);
 const minCityMin = Math.min(...cityMins), maxCityMin = Math.max(...cityMins);
 
 DATA.forEach(d => {
   d.nPrice = maxPrice === minPrice ? 0.5 : (maxPrice - d.price) / (maxPrice - minPrice);
   d.nBeach = maxBeach === minBeach ? 0.5 : (maxBeach - d.beachKm) / (maxBeach - minBeach);
-  d.nYield = maxYield === minYield ? 0.5 : (d.grossYield - minYield) / (maxYield - minYield);
   d.nCity = maxCityMin === minCityMin ? 0.5 : (maxCityMin - d.majorCityMin) / (maxCityMin - minCityMin);
   d.nSafety = d.safety / 100;
 });
@@ -383,12 +375,12 @@ majorCityNames.forEach(c => {
 });
 
 // ── Weight state ──
-let wBeach = 35, wSafety = 20, wCity = 15, wPrice = 15, wYield = 15;
+let wBeach = 35, wSafety = 25, wCity = 20, wPrice = 20;
 
 function score(d) {
-  const total = wBeach + wSafety + wCity + wPrice + wYield || 1;
+  const total = wBeach + wSafety + wCity + wPrice || 1;
   return (d.nBeach * wBeach + d.nSafety * wSafety + d.nCity * wCity +
-          d.nPrice * wPrice + d.nYield * wYield) / total * 100;
+          d.nPrice * wPrice) / total * 100;
 }
 
 function scoreTier(s) { return s >= 65 ? 'high' : s >= 40 ? 'mid' : 'low'; }
@@ -416,7 +408,7 @@ function makeCard(d) {
       <div class="card-body">
         <div class="card-name">${d.title}</div>
         <div class="card-area">📍 ${d.regionName}</div>
-        <div class="card-row">${d.area ? `<span class="hl">${d.area}m²</span> · ` : ''}${d.beds} bed · 🏖️ ${d.beachKm} km · 🏙️ ${d.majorCityMin} min to ${d.majorCity} · Yield ${d.grossYield}%</div>
+        <div class="card-row">${d.area ? `<span class="hl">${d.area}m²</span> · ` : ''}${d.beds} bed · 🏖️ ${d.beachKm} km · 🏙️ ${d.majorCityMin} min to ${d.majorCity}</div>
         <div class="card-score-bar">
           <div class="bar-track"><div class="bar-fill ${t}" style="width:${s.toFixed(0)}%"></div></div>
           <span class="bar-num">${Math.round(s)}</span>
@@ -481,17 +473,16 @@ function clearFilters() {
 });
 
 // ── Slider events ──
-const sliderIds = ['sBeach', 'sSafety', 'sCity', 'sPrice', 'sYield'];
-const valIds = ['vBeach', 'vSafety', 'vCity', 'vPrice', 'vYield'];
+const sliderIds = ['sBeach', 'sSafety', 'sCity', 'sPrice'];
+const valIds = ['vBeach', 'vSafety', 'vCity', 'vPrice'];
 
 function updateFromSliders() {
   wBeach = +document.getElementById('sBeach').value;
   wSafety = +document.getElementById('sSafety').value;
   wCity = +document.getElementById('sCity').value;
   wPrice = +document.getElementById('sPrice').value;
-  wYield = +document.getElementById('sYield').value;
-  const total = wBeach + wSafety + wCity + wPrice + wYield || 1;
-  const weights = [wBeach, wSafety, wCity, wPrice, wYield];
+  const total = wBeach + wSafety + wCity + wPrice || 1;
+  const weights = [wBeach, wSafety, wCity, wPrice];
   weights.forEach((w, i) => {
     document.getElementById(valIds[i]).textContent = Math.round(w / total * 100) + '%';
   });
@@ -503,7 +494,7 @@ sliderIds.forEach(id => {
 });
 
 function resetWeights() {
-  const defaults = [35, 20, 15, 15, 15];
+  const defaults = [35, 25, 20, 20];
   sliderIds.forEach((id, i) => { document.getElementById(id).value = defaults[i]; });
   updateFromSliders();
 }
@@ -560,7 +551,7 @@ function openModal(id) {
   if (d.safety >= 75) b += '<span class="m-badge green">🛡️ Safe Area</span>';
   if (d.beachKm <= 2) b += '<span class="m-badge blue">🏖️ Beach Nearby</span>';
   if (d.majorCityMin <= 15) b += '<span class="m-badge gold">🏙️ Close to ' + d.majorCity + '</span>';
-  if (d.grossYield >= 15) b += '<span class="m-badge green">📈 High Yield</span>';
+
   if (d.reno === 0) b += '<span class="m-badge gold">✅ Move-in Ready</span>';
   if (d.area >= 100) b += '<span class="m-badge blue">📐 Large Property</span>';
   document.getElementById('mBadges').innerHTML = b;
