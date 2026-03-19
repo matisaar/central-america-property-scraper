@@ -51,27 +51,15 @@ input[type=range]{width:100%;height:6px;-webkit-appearance:none;background:#e5e7
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--ocean);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
 .s-price{color:#e63946}.s-airport{color:#0077b6}.s-beach{color:#f59e0b}.s-size{color:#2d6a4f}.s-yield{color:#7c3aed}.s-reno{color:#6b7280}
 
-/* ── Pick hero card ── */
-.pick-hero{max-width:800px;margin:28px auto 0;padding:0 20px}
-.pick-hero-card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.1);overflow:hidden;cursor:pointer;transition:.2s}
-.pick-hero-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.14)}
-.pick-hero-img{width:100%;height:280px;object-fit:cover}
-.pick-hero-body{padding:20px 24px 24px}
-.pick-hero-badge{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--sunset));color:#fff;font-weight:800;font-size:.7rem;padding:4px 12px;border-radius:6px;letter-spacing:.05em;margin-bottom:8px}
-.pick-hero-name{font-size:1.2rem;font-weight:800;letter-spacing:-.3px}
-.pick-hero-area{font-size:.82rem;color:var(--muted);margin-top:2px}
-.pick-hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
-.pick-hero-stat .val{font-size:1rem;font-weight:800}
-.pick-hero-stat .lbl{font-size:.68rem;color:var(--muted)}
+/* ── Like hearts ── */
+.like-btn{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.45);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:.2s;flex-direction:column;gap:0;padding:2px}
+.like-btn:hover{background:rgba(0,0,0,.65);transform:scale(1.1)}
+.like-btn.liked{background:rgba(220,38,38,.85)}.like-btn.liked:hover{background:rgba(220,38,38,1)}
+.like-btn svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;transition:.15s}
+.like-btn.liked svg{fill:#fff;stroke:#fff}
+.like-count{font-size:.55rem;color:#fff;font-weight:700;line-height:1}.like-count:empty{display:none}
+.like-btn.pop{animation:popHeart .35s ease}@keyframes popHeart{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
 .price-c{color:var(--coral)}.airport-c{color:var(--ocean)}.beach-c{color:var(--gold)}.yield-c{color:var(--palm)}
-.pick-hero-score{display:flex;align-items:center;gap:14px;margin-top:16px;padding:14px;background:#f8f9fa;border-radius:10px}
-.score-ring{position:relative;width:48px;height:48px;flex-shrink:0}
-.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.score-ring .bg{fill:none;stroke:#e5e7eb;stroke-width:4}
-.score-ring .fg{fill:none;stroke:var(--coral);stroke-width:4;stroke-linecap:round;transition:.6s}
-.score-ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800}
-.score-info .title{font-weight:700;font-size:.82rem}.score-info .desc{font-size:.72rem;color:var(--muted)}
-
 
 /* ── Browse section ── */
 .browse-section{max-width:1200px;margin:28px auto 0;padding:0 20px}
@@ -133,9 +121,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .m-stat{text-align:center}
 .m-stat .v{font-size:.88rem;font-weight:800}
 .m-stat .l{font-size:.65rem;color:var(--muted)}
-.m-airbnb{margin-top:14px;padding:12px;background:#f0fdf4;border-radius:10px}
-.m-airbnb-title{font-size:.78rem;font-weight:700;margin-bottom:8px;color:var(--palm)}
-.m-airbnb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
 .m-gallery{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px}
 .m-gallery img{height:56px;width:80px;object-fit:cover;border-radius:6px;flex-shrink:0}
 .m-maps-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
@@ -149,41 +134,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .m-book{display:block;text-align:center;margin-top:16px;padding:12px;background:var(--ocean);color:#fff;border-radius:10px;font-weight:700;font-size:.88rem;text-decoration:none}
 .m-book:hover{background:var(--ocean-dark)}
 
-/* ── Airbnb section ── */
-.airbnb-section{max-width:1200px;margin:28px auto 0;padding:0 20px}
-.airbnb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:14px}
-.airbnb-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:.15s}
-.airbnb-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
-.airbnb-card-body{padding:14px 16px}
-.airbnb-card-name{font-size:.85rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.airbnb-card-region{font-size:.72rem;color:var(--muted);margin-top:2px}
-.airbnb-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;text-align:center}
-.airbnb-stat .v{font-size:.92rem;font-weight:800}
-.airbnb-stat .l{font-size:.62rem;color:var(--muted)}
-.airbnb-stat .v.green{color:var(--palm)}.airbnb-stat .v.gold{color:var(--gold)}.airbnb-stat .v.blue{color:var(--ocean)}
-.airbnb-bar{display:flex;align-items:center;gap:6px}
-.airbnb-bar-label{font-size:.65rem;color:var(--muted);min-width:55px}
-.airbnb-bar-track{flex:1;height:5px;background:#e5e7eb;border-radius:3px;overflow:hidden}
-.airbnb-bar-fill{height:100%;border-radius:3px}
-.airbnb-bar-fill.occ{background:var(--ocean)}.airbnb-bar-fill.roi{background:var(--palm)}
-.airbnb-bar-num{font-size:.65rem;font-weight:700;min-width:30px}
-
-
 /* ── Footer ── */
 .footer{text-align:center;padding:32px 20px;font-size:.72rem;color:var(--muted);max-width:800px;margin:32px auto 0}
 
 /* ── Responsive ── */
 @media(max-width:700px){
   .browse-grid{grid-template-columns:1fr}
-  .pick-hero-stats{grid-template-columns:repeat(2,1fr)}
-  .market-row{grid-template-columns:repeat(2,1fr)}
-  .search-grid{grid-template-columns:1fr}
-  .airbnb-grid{grid-template-columns:1fr}
-  .filters{width:100%}
+  .filters{width:100%;flex-direction:column}
+  .filter-select,.filter-input{width:100%}
 }
 @media(max-width:480px){
   .card-img-wrap{height:160px}
-  .pick-hero-img{height:200px}
   .m-img{height:160px}
 }
 </style>
@@ -197,8 +158,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   <div class="nav-section">This Project</div>
   <a href="#weights">⚙️ Adjust Weights</a>
   <a href="#browse">🔍 Browse Properties</a>
-  <a href="#airbnb">🏠 Airbnb Comparison</a>
-  <a href="#search">🔗 Live Search Links</a>
   <div class="nav-section">Other Projects</div>
   <a href="https://greek-property-finder.vercel.app" target="_blank">🇬🇷 Greek Property Finder</a>
   <a href="https://eu-property-scraper.vercel.app" target="_blank">🇪🇺 EU Property Scraper</a>
@@ -257,42 +216,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   </div>
 </div>
 
-<!-- #1 PICK -->
-<div class="pick-hero">
-  <div class="pick-hero-card" id="heroCard">
-    <img class="pick-hero-img" src="" alt="" id="heroImg">
-    <div class="pick-hero-body">
-      <div class="pick-hero-badge">👑 #1 BEST MATCH</div>
-      <div class="pick-hero-name" id="heroName"></div>
-      <div class="pick-hero-area" id="heroArea"></div>
-      <div class="pick-hero-stats">
-        <div class="pick-hero-stat"><div class="val price-c" id="heroPrice"></div><div class="lbl">Price</div></div>
-        <div class="pick-hero-stat"><div class="val safety-c" id="heroSafety"></div><div class="lbl">Safety</div></div>
-        <div class="pick-hero-stat"><div class="val beach-c" id="heroBeach"></div><div class="lbl">To Beach</div></div>
-        <div class="pick-hero-stat"><div class="val city-c" id="heroCity"></div><div class="lbl">To City</div></div>
-      </div>
-      <div class="pick-hero-score">
-        <div class="score-ring">
-          <svg viewBox="0 0 48 48">
-            <circle class="bg" cx="24" cy="24" r="20"/>
-            <circle class="fg" id="heroRing" cx="24" cy="24" r="20"
-              stroke-dasharray="125.6" stroke-dashoffset="125.6"/>
-          </svg>
-          <div class="num" id="heroScoreNum"></div>
-        </div>
-        <div class="score-info">
-          <div class="title">Investment Score</div>
-          <div class="desc" id="heroScoreDesc">Best match based on your weights</div>
-        </div>
-      </div>
-      <div id="heroGallery" class="m-gallery" style="margin-top:12px"></div>
-      <div id="heroMaps" class="m-maps-row" style="margin-top:8px"></div>
-    </div>
-  </div>
-</div>
-
-
-
 <!-- BROWSE ALL -->
 <div class="browse-section" id="browse">
   <div class="browse-header">
@@ -321,35 +244,24 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   <div class="browse-grid" id="browseGrid"></div>
 </div>
 
-<!-- AIRBNB RENTAL INCOME COMPARISON -->
-<div class="airbnb-section" id="airbnb">
-  <h2 style="font-size:1.3rem;font-weight:800;letter-spacing:-0.3px;">🏠 Airbnb Yield Comparison</h2>
-  <div class="airbnb-grid" id="airbnbGrid"></div>
-</div>
-
-
-
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <button class="m-close" onclick="closeModal()">&times;</button>
+    <button class="like-btn" id="mLikeBtn" style="position:absolute;top:10px;right:50px" onclick="toggleLike(+this.dataset.id,this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="like-count"></span></button>
     <img class="m-img" id="mImg" src="" alt="">
     <div class="m-body">
       <div class="m-name" id="mName"></div>
       <div class="m-area" id="mArea"></div>
       <div class="m-score-wrap">
         <div class="m-score-top">
-          <span class="m-score-label">Investment Score</span>
+          <span class="m-score-label">Score</span>
           <span class="m-score-num" id="mScore"></span>
         </div>
         <div class="m-score-bar"><div class="m-score-fill" id="mScoreFill"></div></div>
         <div class="m-breakdown" id="mBreakdown"></div>
       </div>
       <div class="m-grid" id="mStats"></div>
-      <div class="m-airbnb" id="mAirbnb">
-        <div class="m-airbnb-title">🏠 Airbnb Rental Estimate</div>
-        <div class="m-airbnb-grid" id="mAirbnbGrid"></div>
-      </div>
       <div class="m-gallery" id="mGallery"></div>
       <div class="m-maps-row" id="mMapsRow"></div>
       <div class="m-badges" id="mBadges"></div>
@@ -370,6 +282,65 @@ const REGIONS = {
   "panama":{name:"Panama",flag:"🇵🇦"},
   "belize":{name:"Belize",flag:"🇧🇿"}
 };
+
+// ── Like system ──
+const SUPABASE_URL = '';
+const SUPABASE_KEY = '';
+let userIP = null;
+let likeCounts = JSON.parse(localStorage.getItem('lkCounts') || '{}');
+let userLikes = JSON.parse(localStorage.getItem('lkMine') || '{}');
+
+async function initLikes() {
+  if (!SUPABASE_URL) { updateAllHearts(); return; }
+  try {
+    userIP = (await (await fetch('https://api.ipify.org?format=json')).json()).ip;
+    const all = await (await fetch(SUPABASE_URL+'/rest/v1/likes?select=property_id',{headers:{'apikey':SUPABASE_KEY}})).json();
+    likeCounts = {};
+    all.forEach(r => { likeCounts[r.property_id] = (likeCounts[r.property_id]||0)+1; });
+    const mine = await (await fetch(SUPABASE_URL+'/rest/v1/likes?select=property_id&ip_address=eq.'+userIP,{headers:{'apikey':SUPABASE_KEY}})).json();
+    userLikes = {};
+    mine.forEach(r => { userLikes[r.property_id] = true; });
+    localStorage.setItem('lkCounts', JSON.stringify(likeCounts));
+    localStorage.setItem('lkMine', JSON.stringify(userLikes));
+  } catch(e) { console.warn('Likes unavailable',e); }
+  updateAllHearts();
+}
+
+async function toggleLike(pid, btn) {
+  if (!userIP && SUPABASE_URL) try { userIP = (await (await fetch('https://api.ipify.org?format=json')).json()).ip; } catch(e) { userIP = 'anon'; }
+  if (userLikes[pid]) {
+    delete userLikes[pid];
+    likeCounts[pid] = Math.max(0,(likeCounts[pid]||1)-1);
+    if (SUPABASE_URL) fetch(SUPABASE_URL+'/rest/v1/likes?property_id=eq.'+pid+'&ip_address=eq.'+userIP,{method:'DELETE',headers:{'apikey':SUPABASE_KEY}});
+  } else {
+    userLikes[pid] = true;
+    likeCounts[pid] = (likeCounts[pid]||0)+1;
+    btn.classList.add('pop');
+    setTimeout(() => btn.classList.remove('pop'), 350);
+    if (SUPABASE_URL) fetch(SUPABASE_URL+'/rest/v1/likes',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json','Prefer':'resolution=ignore-duplicates'},body:JSON.stringify({property_id:pid,ip_address:userIP})});
+  }
+  localStorage.setItem('lkCounts', JSON.stringify(likeCounts));
+  localStorage.setItem('lkMine', JSON.stringify(userLikes));
+  updateHeart(pid);
+}
+
+function updateHeart(pid) {
+  const c = likeCounts[pid]||0, l = !!userLikes[pid];
+  document.querySelectorAll('.like-btn[data-id="'+pid+'"]').forEach(b => {
+    b.classList.toggle('liked', l);
+    b.querySelector('.like-count').textContent = c>0?c:'';
+  });
+  const mb = document.getElementById('mLikeBtn');
+  if (mb && +mb.dataset.id === pid) { mb.classList.toggle('liked', l); mb.querySelector('.like-count').textContent = c>0?c:''; }
+}
+
+function updateAllHearts() {
+  document.querySelectorAll('.like-btn[data-id]').forEach(b => {
+    const id = +b.dataset.id, c = likeCounts[id]||0;
+    b.classList.toggle('liked', !!userLikes[id]);
+    b.querySelector('.like-count').textContent = c>0?c:'';
+  });
+}
 
 // ── Compute normalized values (0–1) ──
 const prices = DATA.map(d => d.price);
@@ -439,6 +410,7 @@ function makeCard(d) {
         <div class="card-rank ${t}">${Math.round(s)}</div>
         <div class="card-price-tag">CA$${d.cad.toLocaleString()}<span class="usd-sub">US$${d.price.toLocaleString()}</span></div>
         <div class="card-airport-tag">🛡️ ${d.safety}</div>
+        <button class="like-btn" data-id="${d.id}" onclick="event.stopPropagation();toggleLike(${d.id},this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="like-count"></span></button>
       </div>
       ${photoRow}
       <div class="card-body">
@@ -454,77 +426,8 @@ function makeCard(d) {
     </div>`;
 }
 
-function makeAirbnbCard(d) {
-  return `
-    <div class="airbnb-card" onclick="openModal(${d.id})">
-      <div class="airbnb-card-body">
-        <div class="airbnb-card-name">${d.title}</div>
-        <div class="airbnb-card-region">📍 ${d.regionName} · CA$${d.cad.toLocaleString()} <span style="font-size:.8em;opacity:.65">US$${d.price.toLocaleString()}</span>${d.area ? ` · ${d.area}m²` : ''}</div>
-        <div class="airbnb-row">
-          <div class="airbnb-stat"><div class="v green">CA$${d.airbnbRateCad}</div><div class="l">Per Night <span style="font-size:.8em;opacity:.6">US$${d.airbnbRate}</span></div></div>
-          <div class="airbnb-stat"><div class="v gold">CA$${d.annualIncomeCad.toLocaleString()}</div><div class="l">Annual <span style="font-size:.8em;opacity:.6">US$${d.annualIncome.toLocaleString()}</span></div></div>
-          <div class="airbnb-stat"><div class="v blue">${d.grossYield}%</div><div class="l">Gross Yield</div></div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:4px;">
-          <div class="airbnb-bar">
-            <div class="airbnb-bar-label">Occupancy</div>
-            <div class="airbnb-bar-track"><div class="airbnb-bar-fill occ" style="width:${d.airbnbOcc}%"></div></div>
-            <div class="airbnb-bar-num">${d.airbnbOcc}%</div>
-          </div>
-          <div class="airbnb-bar">
-            <div class="airbnb-bar-label">Yield</div>
-            <div class="airbnb-bar-track"><div class="airbnb-bar-fill roi" style="width:${Math.min(d.grossYield/15*100,100).toFixed(0)}%"></div></div>
-            <div class="airbnb-bar-num">${d.grossYield}%</div>
-          </div>
-        </div>
-      </div>
-    </div>`;
-}
-
 function rebuild() {
-  const ranked = DATA.map(d => ({...d, sc: score(d)})).sort((a,b) => b.sc - a.sc);
-
-  // Hero = #1
-  const hero = ranked[0];
-  const hs = hero.sc;
-
-  document.getElementById('heroImg').src = hero.img;
-  document.getElementById('heroImg').onerror = function(){ this.style.background='linear-gradient(135deg,#1e3a5f,#0e76a8)'; this.style.minHeight='250px'; };
-  document.getElementById('heroName').textContent = hero.title;
-  document.getElementById('heroArea').textContent = '📍 ' + hero.regionName + (hero.area ? ' · ' + hero.area + 'm²' : '') + ' · ' + hero.beds + ' bed';
-  document.getElementById('heroPrice').innerHTML = 'CA$' + hero.cad.toLocaleString() + '<div class="price-usd-sub">US$' + hero.price.toLocaleString() + '</div>';
-  document.getElementById('heroSafety').textContent = hero.safety + '/100';
-  document.getElementById('heroBeach').innerHTML = `<a href="${hero.beachUrl}" target="_blank" style="color:inherit;text-decoration:underline dotted">${hero.beachKm} km</a>`;
-  document.getElementById('heroCity').textContent = hero.majorCityMin + ' min';
-  document.getElementById('heroScoreNum').textContent = Math.round(hs);
-  document.getElementById('heroCard').onclick = () => openModal(hero.id);
-  const ring = document.getElementById('heroRing');
-  ring.style.stroke = scoreColor(hs);
-  ring.style.strokeDashoffset = 125.6 * (1 - hs / 100);
-
-  // Hero area gallery
-  const hGallery = document.getElementById('heroGallery');
-  if (hero.areaPhotos && hero.areaPhotos.length) {
-    hGallery.innerHTML = hero.areaPhotos.map(u => `<img src="${u}" alt="${hero.regionName} area" loading="lazy" onerror="this.style.display='none'">`).join('');
-  } else { hGallery.innerHTML = ''; }
-
-  // Hero maps buttons
-  const hMaps = document.getElementById('heroMaps');
-  let mapsHtml = '';
-  if (hero.mapsUrl !== '#') mapsHtml += `<a class="m-maps-btn" href="${hero.mapsUrl}" target="_blank" onclick="event.stopPropagation()">📍 Google Maps</a>`;
-  mapsHtml += `<a class="m-maps-btn listing" href="${hero.url}" target="_blank" onclick="event.stopPropagation()">🏠 View Listing</a>`;
-  hMaps.innerHTML = mapsHtml;
-
-  // Update formula display
-  const total = wBeach + wSafety + wCity + wPrice + wYield || 1;
-  const pcts = [wBeach, wSafety, wCity, wPrice, wYield].map(w => Math.round(w / total * 100));
-  const diff = 100 - pcts.reduce((a,b)=>a+b,0);
-  pcts[0] += diff;
-  const fd = document.getElementById('formulaDisplay');
-  if (fd) fd.innerHTML = `Score = <span>${pcts[0]}%</span> Beach + <span>${pcts[1]}%</span> Safety + <span>${pcts[2]}%</span> City + <span>${pcts[3]}%</span> Price + <span>${pcts[4]}%</span> Yield`;
-
   rebuildBrowse();
-  rebuildAirbnb();
 }
 
 // ── Browse All Logic ──
@@ -558,11 +461,7 @@ function rebuildBrowse() {
 
   document.getElementById('browseCount').textContent = filtered.length;
   document.getElementById('browseGrid').innerHTML = filtered.map(d => makeCard(d)).join('');
-}
-
-function rebuildAirbnb() {
-  const sorted = [...DATA].sort((a,b) => b.grossYield - a.grossYield);
-  document.getElementById('airbnbGrid').innerHTML = sorted.map(d => makeAirbnbCard(d)).join('');
+  updateAllHearts();
 }
 
 function clearFilters() {
@@ -636,11 +535,12 @@ function openModal(id) {
     <div class="m-stat"><a href="${d.majorCityUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted">${d.majorCityMin} min</div><div class="l">🏙️ ${d.majorCity}</div></a></div>
   `;
 
-  document.getElementById('mAirbnbGrid').innerHTML = `
-    <div class="m-stat"><div class="v" style="color:var(--palm)">CA$${d.airbnbRateCad}/n</div><div class="l" style="font-size:.7em;color:#999">US$${d.airbnbRate}/n</div><div class="l">Nightly</div></div>
-    <div class="m-stat"><div class="v" style="color:var(--gold)">CA$${d.annualIncomeCad.toLocaleString()}/yr</div><div class="l" style="font-size:.7em;color:#999">US$${d.annualIncome.toLocaleString()}/yr</div><div class="l">Annual</div></div>
-    <div class="m-stat"><div class="v" style="color:var(--ocean)">${d.grossYield}%</div><div class="l">Gross Yield</div></div>
-  `;
+  // Update modal like button
+  const mLike = document.getElementById('mLikeBtn');
+  mLike.dataset.id = d.id;
+  mLike.classList.toggle('liked', !!userLikes[d.id]);
+  const mlc = likeCounts[d.id]||0;
+  mLike.querySelector('.like-count').textContent = mlc>0?mlc:'';
 
   // Area gallery
   const gallery = document.getElementById('mGallery');
@@ -698,6 +598,7 @@ document.querySelectorAll('.page-hero-nav a[href^="#"]').forEach(a => {
 
 // ── Initial render ──
 rebuild();
+initLikes();
 </script>
 </body>
 </html>
