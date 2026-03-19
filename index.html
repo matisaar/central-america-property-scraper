@@ -40,10 +40,12 @@ a{color:var(--ocean)}
 /* ── Weights panel ── */
 .weights-panel{max-width:720px;margin:24px auto 0;padding:0 20px}
 .weights-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-.weights-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:var(--card);border:none;cursor:pointer;font-family:inherit}
-.weights-toggle:hover{background:#f8f8f6}
+.weights-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:linear-gradient(135deg,#f0f7ff,#f8f8f6);border:none;cursor:pointer;font-family:inherit;border-left:3px solid var(--ocean);transition:background .2s}
+.weights-toggle:hover{background:linear-gradient(135deg,#e4f0ff,#f0f0ee)}
 .weights-toggle-left{display:flex;align-items:center;gap:8px}
 .weights-title{font-weight:800;font-size:.88rem;color:var(--text)}
+.weights-hint{font-size:.7rem;color:var(--muted);font-weight:500}
+.weights-panel[open] .weights-hint{display:none}
 .weights-chevron{width:20px;height:20px;transition:transform .25s;color:var(--muted)}
 .weights-panel[open] .weights-chevron{transform:rotate(180deg)}
 .weights-body{padding:4px 20px 18px}
@@ -185,6 +187,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
     <summary class="weights-toggle">
       <span class="weights-toggle-left">
         <span class="weights-title">⚙️ Adjust Scoring Weights</span>
+        <span class="weights-hint">— tap to customize</span>
       </span>
       <svg class="weights-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
     </summary>
