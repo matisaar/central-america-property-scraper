@@ -115,33 +115,29 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .modal-overlay.visible{opacity:1;pointer-events:all}
 .modal{background:var(--card);border-radius:16px;width:94%;max-width:600px;max-height:92vh;overflow-y:auto;position:relative}
 .m-close{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.5);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center}
-.m-img{width:100%;height:180px;object-fit:cover}
-.m-body{padding:14px 20px 18px}
-.m-name{font-size:1.05rem;font-weight:800;letter-spacing:-.3px}
-.m-area{font-size:.78rem;color:var(--muted);margin-top:2px}
-.m-score-wrap{margin-top:8px;background:#f8f9fa;border-radius:10px;padding:10px}
-.m-score-top{display:flex;justify-content:space-between;align-items:center}
-.m-score-label{font-size:.78rem;font-weight:600}
-.m-score-num{font-size:.88rem;font-weight:800;color:var(--coral)}
-.m-score-bar{height:8px;background:#e5e7eb;border-radius:4px;margin-top:6px;overflow:hidden}
+.m-img{width:100%;height:140px;object-fit:cover}
+.m-body{padding:12px 16px 14px}
+.m-name{font-size:.95rem;font-weight:800;letter-spacing:-.3px}
+.m-area{font-size:.72rem;color:var(--muted);margin-top:1px}
+.m-score-wrap{margin-top:6px;background:#f8f9fa;border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:10px}
+.m-score-top{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.m-score-label{font-size:.72rem;font-weight:600}
+.m-score-num{font-size:.82rem;font-weight:800;color:var(--coral)}
+.m-score-bar{height:6px;background:#e5e7eb;border-radius:4px;overflow:hidden;flex:1}
 .m-score-fill{height:100%;background:var(--coral);border-radius:4px;transition:.4s}
 .m-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;text-align:center;font-size:.7rem;color:var(--muted)}
 .m-breakdown .v{font-weight:700;color:var(--text);font-size:.82rem}
-.m-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;margin-top:10px}
+.m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:8px}
 .m-stat{text-align:center}
-.m-stat .v{font-size:.88rem;font-weight:800}
-.m-stat .l{font-size:.65rem;color:var(--muted)}
-.m-gallery{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px}
-.m-gallery img{height:56px;width:80px;object-fit:cover;border-radius:6px;flex-shrink:0}
-.m-maps-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.m-maps-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:8px;font-size:.72rem;font-weight:600;text-decoration:none;background:#e8f4f8;color:var(--ocean)}
+.m-stat .v{font-size:.8rem;font-weight:800}
+.m-stat .l{font-size:.6rem;color:var(--muted)}
 .m-maps-btn.listing{background:var(--ocean);color:#fff}
-.m-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
-.m-badge{font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:6px}
+.m-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.m-badge{font-size:.62rem;font-weight:600;padding:3px 8px;border-radius:6px}
 .m-badge.fire{background:#fef2f2;color:var(--coral)}.m-badge.red{background:#fef2f2;color:var(--coral)}
 .m-badge.blue{background:#eff6ff;color:var(--ocean)}.m-badge.gold{background:#fffbeb;color:#b45309}
 .m-badge.green{background:#f0fdf4;color:var(--palm)}
-.m-book{display:block;text-align:center;margin-top:12px;padding:12px;background:var(--ocean);color:#fff;border-radius:10px;font-weight:700;font-size:.88rem;text-decoration:none}
+.m-book{display:block;text-align:center;margin-top:10px;padding:10px;background:var(--ocean);color:#fff;border-radius:10px;font-weight:700;font-size:.85rem;text-decoration:none}
 .m-book:hover{background:var(--ocean-dark)}
 .share-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:10px 24px;border-radius:10px;font-size:.82rem;font-weight:600;z-index:3000;opacity:0;transition:opacity .3s;pointer-events:none}
 .share-toast.show{opacity:1}
@@ -157,7 +153,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 }
 @media(max-width:480px){
   .card-img-wrap{height:160px}
-  .m-img{height:160px}
+  .m-img{height:120px}
 }
 </style>
 </head>
@@ -275,7 +271,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
         <div class="m-score-bar"><div class="m-score-fill" id="mScoreFill"></div></div>
       </div>
       <div class="m-grid" id="mStats"></div>
-      <div class="m-gallery" id="mGallery"></div>
       <div class="m-badges" id="mBadges"></div>
       <a class="m-book" id="mLink" href="#" target="_blank">View Listing →</a>
     </div>
@@ -565,11 +560,10 @@ function openModal(id) {
     <div class="m-stat"><div class="v price-c">CA$${d.cad.toLocaleString()}</div><div class="l" style="font-size:.7em;color:#999">US$${d.price.toLocaleString()}</div><div class="l">Price</div></div>
     <div class="m-stat"><div class="v">${d.area ? d.area + 'm²' : '—'}</div><div class="l">Size</div></div>
     <div class="m-stat"><div class="v">${d.beds}</div><div class="l">Beds</div></div>
-    <div class="m-stat"><div class="v">${d.safety}/100</div><div class="l">🛡️ Safety${d.safetyZone ? ' ('+d.safetyZone+')' : ''}</div></div>
-    <div class="m-stat"><a href="${d.beachUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted">${d.beachKm} km</div><div class="l">🏖️ ${d.beachName}</div></a></div>
+    <div class="m-stat"><div class="v">${d.safety}/100</div><div class="l">🛡️ Safety</div></div>
+    <div class="m-stat"><a href="${d.beachUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted">${d.beachKm} km</div><div class="l">🏖️ Beach</div></a></div>
     <div class="m-stat"><a href="${d.majorCityUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted">${d.majorCityMin} min</div><div class="l">🏙️ ${d.majorCity}</div></a></div>
   `;
-  if (d.mapsUrl !== '#') statsHtml += `<div class="m-stat"><a href="${d.mapsUrl}" target="_blank" style="text-decoration:none"><div class="v" style="text-decoration:underline dotted">📍</div><div class="l">Google Maps</div></a></div>`;
   document.getElementById('mStats').innerHTML = statsHtml;
 
   // Update modal like button
@@ -578,12 +572,6 @@ function openModal(id) {
   mLike.classList.toggle('liked', !!userLikes[d.uid]);
   const mlc = likeCounts[d.uid]||0;
   mLike.querySelector('.like-count').textContent = mlc>0?mlc:'';
-
-  // Area gallery
-  const gallery = document.getElementById('mGallery');
-  if (d.areaPhotos && d.areaPhotos.length) {
-    gallery.innerHTML = d.areaPhotos.map(u => `<img src="${u}" alt="Area" loading="lazy" onerror="this.style.display='none'">`).join('');
-  } else { gallery.innerHTML = ''; }
 
   let b = '';
   if (s >= 65) b += '<span class="m-badge fire">🔥 Top Match</span>';
