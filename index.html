@@ -155,6 +155,121 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   .card-img-wrap{height:160px}
   .m-img{height:120px}
 }
+
+/* ══════════════════════════════════ SECRET DREAM FINDER ══════════════════════════════════ */
+.df-overlay{position:fixed;inset:0;z-index:9999;background:#0a0a1a;color:#e0e0e0;overflow-y:auto;transform:translateY(100%);opacity:0;transition:transform .6s cubic-bezier(.16,1,.3,1),opacity .4s;font-family:'Inter',system-ui,sans-serif}
+.df-overlay.active{transform:translateY(0);opacity:1}
+.df-overlay *{box-sizing:border-box}
+
+/* Unlock Animation */
+.df-unlock{position:fixed;inset:0;z-index:10000;background:#0a0a1a;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .3s}
+.df-unlock.show{opacity:1;pointer-events:all}
+.df-unlock .glyph{font-size:4rem;animation:dfPulse 1.5s ease infinite}
+.df-unlock .unlock-text{margin-top:16px;font-size:1.1rem;font-weight:700;color:#00ffd5;letter-spacing:2px;animation:dfFlicker .1s 6}
+@keyframes dfPulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.15);filter:brightness(1.4)}}
+@keyframes dfFlicker{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* Header */
+.df-header{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.06)}
+.df-logo{font-size:1.1rem;font-weight:900;background:linear-gradient(135deg,#00ffd5,#7b61ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.df-close{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:.2s}
+.df-close:hover{background:rgba(255,255,255,.15)}
+.df-phase-indicator{display:flex;gap:8px;align-items:center}
+.df-phase-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);transition:.3s}
+.df-phase-dot.active{background:#00ffd5;box-shadow:0 0 8px #00ffd5}
+.df-phase-dot.done{background:#7b61ff}
+
+/* Swipe Phase */
+.df-swipe-phase{max-width:440px;margin:0 auto;padding:24px 16px;text-align:center;display:none}
+.df-swipe-phase.active{display:block}
+.df-swipe-title{font-size:.85rem;color:#888;margin-bottom:4px;font-weight:600}
+.df-swipe-progress{font-size:.7rem;color:#555;margin-bottom:16px}
+.df-swipe-progress .done{color:#00ffd5;font-weight:700}
+
+.df-card-stack{position:relative;height:460px;margin-bottom:20px;perspective:800px}
+.df-scard{position:absolute;inset:0;background:#151528;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.5);transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .3s;will-change:transform}
+.df-scard.swipe-left{transform:translateX(-150%) rotate(-15deg);opacity:0}
+.df-scard.swipe-right{transform:translateX(150%) rotate(15deg);opacity:0}
+.df-scard-img{width:100%;height:220px;object-fit:cover;background:#1a1a3a}
+.df-scard-body{padding:14px 18px}
+.df-scard-name{font-size:1rem;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.df-scard-loc{font-size:.75rem;color:#888;margin-top:2px}
+.df-scard-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.df-scard-stat{text-align:center}
+.df-scard-stat .v{font-size:.85rem;font-weight:800;color:#fff}
+.df-scard-stat .l{font-size:.6rem;color:#666}
+.df-scard-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;justify-content:center}
+.df-scard-tag{font-size:.6rem;padding:3px 8px;border-radius:20px;background:rgba(255,255,255,.06);color:#aaa;font-weight:600}
+
+.df-swipe-btns{display:flex;justify-content:center;gap:20px}
+.df-swipe-btn{width:64px;height:64px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.6rem;transition:.2s;background:rgba(255,255,255,.04)}
+.df-swipe-btn:hover{transform:scale(1.1)}
+.df-swipe-btn.pass{border-color:#ff4757;color:#ff4757}
+.df-swipe-btn.pass:hover{background:rgba(255,71,87,.15)}
+.df-swipe-btn.love{border-color:#00ffd5;color:#00ffd5}
+.df-swipe-btn.love:hover{background:rgba(0,255,213,.15)}
+.df-swipe-btn.super{border-color:#7b61ff;color:#7b61ff;width:48px;height:48px;font-size:1.1rem}
+.df-swipe-btn.super:hover{background:rgba(123,97,255,.15)}
+.df-swipe-hint{font-size:.65rem;color:#444;margin-top:10px}
+
+/* Scanning Phase */
+.df-scan-phase{max-width:600px;margin:0 auto;padding:40px 20px;text-align:center;display:none}
+.df-scan-phase.active{display:block}
+.df-scan-globe{font-size:3rem;animation:dfSpin 3s linear infinite}
+@keyframes dfSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.df-scan-status{font-size:.9rem;font-weight:700;color:#00ffd5;margin-top:12px}
+.df-scan-sub{font-size:.72rem;color:#555;margin-top:4px}
+.df-scan-bar{width:100%;height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin:20px 0;overflow:hidden}
+.df-scan-fill{height:100%;width:0;background:linear-gradient(90deg,#00ffd5,#7b61ff);border-radius:4px;transition:width .3s}
+.df-scan-log{text-align:left;background:rgba(0,0,0,.3);border-radius:10px;padding:14px;max-height:200px;overflow-y:auto;font-family:'Courier New',monospace;font-size:.68rem;color:#555;line-height:1.8}
+.df-scan-log .hit{color:#00ffd5}
+.df-scan-log .scan{color:#7b61ff}
+.df-scan-log .warn{color:#f59e0b}
+
+/* Results Phase */
+.df-results-phase{max-width:900px;margin:0 auto;padding:24px 16px;display:none}
+.df-results-phase.active{display:block}
+.df-results-header{text-align:center;margin-bottom:24px}
+.df-results-header h2{font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,#00ffd5,#7b61ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.df-results-header p{font-size:.75rem;color:#555;margin-top:4px}
+
+/* Taste Profile */
+.df-taste{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:20px;margin-bottom:24px}
+.df-taste h3{font-size:.8rem;font-weight:700;color:#aaa;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+.df-taste-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.df-taste-item{text-align:center;padding:10px;background:rgba(255,255,255,.03);border-radius:10px}
+.df-taste-item .emoji{font-size:1.3rem}
+.df-taste-item .label{font-size:.65rem;color:#666;margin-top:2px}
+.df-taste-item .val{font-size:.85rem;font-weight:800;color:#fff;margin-top:2px}
+.df-taste-bar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;margin-top:6px;overflow:hidden}
+.df-taste-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#00ffd5,#7b61ff)}
+
+/* Results Grid */
+.df-results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.df-rcard{background:#151528;border-radius:14px;overflow:hidden;cursor:pointer;transition:.2s;position:relative;border:1px solid rgba(255,255,255,.04)}
+.df-rcard:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,255,213,.08);border-color:rgba(0,255,213,.15)}
+.df-rcard-rank{position:absolute;top:10px;left:10px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;color:#0a0a1a;z-index:2}
+.df-rcard-rank.gold{background:#00ffd5}.df-rcard-rank.silver{background:#7b61ff;color:#fff}.df-rcard-rank.bronze{background:#f59e0b}
+.df-rcard-match{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#00ffd5;font-size:.7rem;font-weight:800;padding:4px 10px;border-radius:20px;z-index:2}
+.df-rcard-img{width:100%;height:180px;object-fit:cover;background:#1a1a3a}
+.df-rcard-body{padding:12px 14px 16px}
+.df-rcard-name{font-size:.85rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.df-rcard-loc{font-size:.68rem;color:#666;margin-top:2px}
+.df-rcard-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.df-rcard-chip{font-size:.62rem;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,.05);color:#aaa;font-weight:600}
+.df-rcard-chip.match{background:rgba(0,255,213,.1);color:#00ffd5}
+.df-rcard-price{font-size:.9rem;font-weight:800;color:#00ffd5;margin-top:8px}
+.df-rcard-price .sub{font-size:.65rem;color:#555;font-weight:400}
+
+.df-rescan{display:block;margin:28px auto 40px;padding:12px 36px;background:linear-gradient(135deg,#00ffd5,#7b61ff);color:#0a0a1a;border:none;border-radius:10px;font-weight:800;font-size:.85rem;cursor:pointer;transition:.2s}
+.df-rescan:hover{transform:scale(1.03);box-shadow:0 4px 20px rgba(0,255,213,.3)}
+
+/* Keyboard hints */
+.df-keys{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10001;opacity:.5}
+.df-key{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:4px 10px;font-size:.65rem;color:#888;font-weight:600}
+
+/* Secret entry hint on main page */
+.easter-hint{position:fixed;bottom:8px;right:8px;font-size:.55rem;color:rgba(0,0,0,.08);pointer-events:none;user-select:none;transition:color 1s}
 </style>
 </head>
 <body>
@@ -169,6 +284,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   <div class="nav-section">Other Projects</div>
   <a href="https://greek-property-finder.vercel.app" target="_blank">🇬🇷 Greek Property Finder</a>
   <a href="https://eu-property-scraper.vercel.app" target="_blank">🇪🇺 EU Property Scraper</a>
+  <div class="nav-section" style="opacity:.25;font-size:.55rem;margin-top:20px">secrets hide in plain sight</div>
 </nav>
 
 <!-- HERO -->
@@ -276,6 +392,68 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
     </div>
   </div>
 </div>
+
+<!-- ══════ SECRET DREAM FINDER ══════ -->
+<div class="df-unlock" id="dfUnlock">
+  <div class="glyph">🔓</div>
+  <div class="unlock-text">DREAM FINDER UNLOCKED</div>
+</div>
+
+<div class="df-overlay" id="dfOverlay">
+  <div class="df-header">
+    <div class="df-logo">🌴 Dream Finder</div>
+    <div class="df-phase-indicator">
+      <div class="df-phase-dot active" id="dfDot1"></div>
+      <div class="df-phase-dot" id="dfDot2"></div>
+      <div class="df-phase-dot" id="dfDot3"></div>
+    </div>
+    <button class="df-close" id="dfCloseBtn">&times;</button>
+  </div>
+
+  <!-- PHASE 1: SWIPE -->
+  <div class="df-swipe-phase active" id="dfSwipePhase">
+    <div class="df-swipe-title">Swipe to teach me your taste</div>
+    <div class="df-swipe-progress"><span class="done" id="dfSwipeCount">0</span> / <span id="dfSwipeTotal">10</span> properties rated</div>
+    <div class="df-card-stack" id="dfCardStack"></div>
+    <div class="df-swipe-btns">
+      <button class="df-swipe-btn pass" id="dfBtnPass" title="Pass (←)">✕</button>
+      <button class="df-swipe-btn super" id="dfBtnSkip" title="Skip (↓)">→</button>
+      <button class="df-swipe-btn love" id="dfBtnLove" title="Love it (→)">♥</button>
+    </div>
+    <div class="df-swipe-hint">← Pass &nbsp;|&nbsp; → Love &nbsp;|&nbsp; ↓ Skip &nbsp;|&nbsp; Space = Love</div>
+    <div class="df-keys">
+      <span class="df-key">←</span>
+      <span class="df-key">→</span>
+      <span class="df-key">↓</span>
+      <span class="df-key">SPACE</span>
+    </div>
+  </div>
+
+  <!-- PHASE 2: SCANNING -->
+  <div class="df-scan-phase" id="dfScanPhase">
+    <div class="df-scan-globe">🌎</div>
+    <div class="df-scan-status" id="dfScanStatus">Initializing neural taste model...</div>
+    <div class="df-scan-sub" id="dfScanSub">Analyzing your preferences across 3 countries</div>
+    <div class="df-scan-bar"><div class="df-scan-fill" id="dfScanFill"></div></div>
+    <div class="df-scan-log" id="dfScanLog"></div>
+  </div>
+
+  <!-- PHASE 3: RESULTS -->
+  <div class="df-results-phase" id="dfResultsPhase">
+    <div class="df-results-header">
+      <h2>🏡 Your Dream Properties</h2>
+      <p>Ranked by your personal taste profile — <span id="dfMatchCount">0</span> matches found</p>
+    </div>
+    <div class="df-taste" id="dfTaste">
+      <h3>📊 Your Taste Profile</h3>
+      <div class="df-taste-grid" id="dfTasteGrid"></div>
+    </div>
+    <div class="df-results-grid" id="dfResultsGrid"></div>
+    <button class="df-rescan" id="dfRescan">🔄 Retrain — Swipe Again</button>
+  </div>
+</div>
+
+<div class="easter-hint" id="easterHint">↑↑↓↓←→←→BA</div>
 
 <div class="share-toast" id="shareToast">✅ Link copied to clipboard!</div>
 <div class="footer">
@@ -649,6 +827,430 @@ loadFromURL();
 // ── Initial render ──
 rebuild();
 initLikes();
+
+// ══════════════════════════════════════════════════════════════
+// ██  SECRET DREAM FINDER — Easter Egg Property Matcher
+// ══════════════════════════════════════════════════════════════
+
+(function() {
+  'use strict';
+
+  // ── Preference Engine ──
+  const DF_KEY = 'dreamfinder_profile_v1';
+  let tasteProfile = JSON.parse(localStorage.getItem(DF_KEY) || 'null') || {
+    liked: [], passed: [], totalSwipes: 0,
+    priceLow: 0, priceHigh: 0, beachAvg: 0, safetyAvg: 0,
+    cityAvg: 0, bedsAvg: 0, countryPrefs: {}, areaAvg: 0
+  };
+
+  function saveTaste() { localStorage.setItem(DF_KEY, JSON.stringify(tasteProfile)); }
+
+  function updateTasteFromSwipe(d, liked) {
+    const arr = liked ? tasteProfile.liked : tasteProfile.passed;
+    arr.push(d.uid);
+    tasteProfile.totalSwipes++;
+
+    if (liked) {
+      const L = tasteProfile.liked.length;
+      const alpha = Math.min(1, 2 / (L + 1)); // EMA decay
+      tasteProfile.priceLow = L === 1 ? d.price : tasteProfile.priceLow * (1 - alpha) + d.price * alpha;
+      tasteProfile.priceHigh = Math.max(tasteProfile.priceHigh, d.price);
+      tasteProfile.beachAvg = L === 1 ? d.beachKm : tasteProfile.beachAvg * (1 - alpha) + d.beachKm * alpha;
+      tasteProfile.safetyAvg = L === 1 ? d.safety : tasteProfile.safetyAvg * (1 - alpha) + d.safety * alpha;
+      tasteProfile.cityAvg = L === 1 ? d.majorCityMin : tasteProfile.cityAvg * (1 - alpha) + d.majorCityMin * alpha;
+      tasteProfile.bedsAvg = L === 1 ? d.bedsN : tasteProfile.bedsAvg * (1 - alpha) + d.bedsN * alpha;
+      tasteProfile.areaAvg = L === 1 ? (d.area || 0) : tasteProfile.areaAvg * (1 - alpha) + (d.area || 0) * alpha;
+      tasteProfile.countryPrefs[d.region] = (tasteProfile.countryPrefs[d.region] || 0) + 1;
+    }
+    saveTaste();
+  }
+
+  // Compute match score for a property against taste profile
+  function dreamScore(d) {
+    if (tasteProfile.liked.length < 3) return score(d); // fallback to weights
+    const t = tasteProfile;
+
+    // Price fit (gaussian around preferred price)
+    const priceCenter = t.priceLow;
+    const priceSigma = Math.max(20000, (t.priceHigh - t.priceLow) * 0.6) || 50000;
+    const priceFit = Math.exp(-0.5 * Math.pow((d.price - priceCenter) / priceSigma, 2));
+
+    // Beach fit
+    const beachSigma = Math.max(5, t.beachAvg * 0.8) || 10;
+    const beachFit = Math.exp(-0.5 * Math.pow((d.beachKm - t.beachAvg) / beachSigma, 2));
+
+    // Safety fit (prefer higher, weighted toward their avg)
+    const safetyFit = Math.min(1, d.safety / Math.max(t.safetyAvg, 1));
+
+    // City closeness fit
+    const citySigma = Math.max(10, t.cityAvg * 0.8) || 15;
+    const cityFit = Math.exp(-0.5 * Math.pow((d.majorCityMin - t.cityAvg) / citySigma, 2));
+
+    // Beds fit
+    const bedsFit = d.bedsN === Math.round(t.bedsAvg) ? 1 : d.bedsN === Math.round(t.bedsAvg) + 1 || d.bedsN === Math.round(t.bedsAvg) - 1 ? 0.7 : 0.3;
+
+    // Country bonus
+    const totalCountryLikes = Object.values(t.countryPrefs).reduce((a, b) => a + b, 0) || 1;
+    const countryBonus = (t.countryPrefs[d.region] || 0) / totalCountryLikes;
+
+    // Weighted combination
+    const raw = priceFit * 0.25 + beachFit * 0.22 + safetyFit * 0.18 + cityFit * 0.15 + bedsFit * 0.1 + countryBonus * 0.1;
+    return Math.min(99, raw * 100);
+  }
+
+  // ── Swipe Card System ──
+  let swipeQueue = [];
+  let swipeCount = 0;
+  const MIN_SWIPES = 10;
+  let dfActive = false;
+
+  function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function buildSwipeQueue() {
+    // Spread across price buckets & countries for diversity
+    const seen = new Set([...tasteProfile.liked, ...tasteProfile.passed]);
+    const available = DATA.filter(d => !seen.has(d.uid));
+    if (available.length === 0) return shuffleArray(DATA).slice(0, 30);
+
+    // Stratified sampling: pick evenly from price quartiles
+    const sorted = [...available].sort((a, b) => a.price - b.price);
+    const q = Math.ceil(sorted.length / 4);
+    const buckets = [sorted.slice(0, q), sorted.slice(q, q * 2), sorted.slice(q * 2, q * 3), sorted.slice(q * 3)];
+    const result = [];
+    buckets.forEach(b => result.push(...shuffleArray(b).slice(0, 8)));
+    return shuffleArray(result);
+  }
+
+  function renderSwipeCard(d) {
+    const tags = [];
+    if (d.beachKm <= 5) tags.push('🏖️ Near Beach');
+    if (d.safety >= 70) tags.push('🛡️ Safe');
+    if (d.area >= 100) tags.push('📐 Spacious');
+    if (d.beds && parseInt(d.beds) >= 3) tags.push('🛏️ ' + d.beds + ' Beds');
+    const regionFlag = REGIONS[d.region] ? REGIONS[d.region].flag : '';
+
+    return `
+      <div class="df-scard" id="dfCurrentCard">
+        <img class="df-scard-img" src="${d.img}" alt="${d.title}" onerror="this.style.background='linear-gradient(135deg,#1a1a3a,#0e76a8)';this.style.minHeight='220px'">
+        <div class="df-scard-body">
+          <div class="df-scard-name">${d.title}</div>
+          <div class="df-scard-loc">${regionFlag} ${d.regionName} · ${d.majorCity}</div>
+          <div class="df-scard-stats">
+            <div class="df-scard-stat"><div class="v">CA$${(d.cad/1000).toFixed(0)}k</div><div class="l">Price</div></div>
+            <div class="df-scard-stat"><div class="v">${d.beachKm}km</div><div class="l">🏖️ Beach</div></div>
+            <div class="df-scard-stat"><div class="v">${d.safety}</div><div class="l">🛡️ Safe</div></div>
+            <div class="df-scard-stat"><div class="v">${d.beds}</div><div class="l">🛏️ Beds</div></div>
+          </div>
+          <div class="df-scard-tags">${tags.map(t => `<span class="df-scard-tag">${t}</span>`).join('')}</div>
+        </div>
+      </div>`;
+  }
+
+  function showNextCard() {
+    const stack = document.getElementById('dfCardStack');
+    if (swipeQueue.length === 0) {
+      // Enough swipes collected — move to scanning
+      if (swipeCount >= MIN_SWIPES) {
+        startScanPhase();
+      } else {
+        swipeQueue = buildSwipeQueue();
+        if (swipeQueue.length === 0) startScanPhase();
+      }
+      return;
+    }
+    const d = swipeQueue.shift();
+    stack.innerHTML = renderSwipeCard(d);
+    stack.dataset.currentUid = d.uid;
+  }
+
+  function doSwipe(direction) {
+    const stack = document.getElementById('dfCardStack');
+    const card = document.getElementById('dfCurrentCard');
+    const uid = stack.dataset.currentUid;
+    const d = DATA.find(x => x.uid === uid);
+    if (!card || !d) return;
+
+    if (direction === 'skip') {
+      card.style.transition = 'transform .3s, opacity .3s';
+      card.style.transform = 'translateY(100px)';
+      card.style.opacity = '0';
+    } else {
+      card.classList.add(direction === 'love' ? 'swipe-right' : 'swipe-left');
+      if (direction !== 'skip') {
+        updateTasteFromSwipe(d, direction === 'love');
+        swipeCount++;
+        document.getElementById('dfSwipeCount').textContent = swipeCount;
+      }
+    }
+
+    setTimeout(() => {
+      if (swipeCount >= MIN_SWIPES && tasteProfile.liked.length >= 3) {
+        startScanPhase();
+      } else {
+        showNextCard();
+      }
+    }, 350);
+  }
+
+  // ── Scanning Phase ──
+  function startScanPhase() {
+    document.getElementById('dfSwipePhase').classList.remove('active');
+    document.getElementById('dfScanPhase').classList.add('active');
+    document.getElementById('dfDot1').classList.remove('active');
+    document.getElementById('dfDot1').classList.add('done');
+    document.getElementById('dfDot2').classList.add('active');
+
+    const log = document.getElementById('dfScanLog');
+    const fill = document.getElementById('dfScanFill');
+    const status = document.getElementById('dfScanStatus');
+    const sub = document.getElementById('dfScanSub');
+    log.innerHTML = '';
+
+    const countries = Object.keys(REGIONS);
+    const totalProps = DATA.length;
+    const liked = tasteProfile.liked.length;
+
+    const steps = [
+      { pct: 5, msg: `<span class="scan">►</span> Loading taste model (${liked} liked, ${tasteProfile.passed.length} passed)`, delay: 400 },
+      { pct: 10, msg: `<span class="scan">►</span> Computing preference vectors...`, delay: 500 },
+      { pct: 15, msg: `<span class="hit">✓</span> Price affinity: CA$${(tasteProfile.priceLow * 1.37 / 1000).toFixed(0)}k center`, delay: 400 },
+      { pct: 20, msg: `<span class="hit">✓</span> Beach preference: ${tasteProfile.beachAvg.toFixed(1)} km average`, delay: 350 },
+      { pct: 25, msg: `<span class="hit">✓</span> Safety threshold: ${tasteProfile.safetyAvg.toFixed(0)}/100 minimum`, delay: 350 },
+      { pct: 30, msg: `<span class="scan">►</span> Scanning ${countries.length} countries...`, delay: 600, statusText: 'Scanning property databases...' },
+    ];
+
+    // Add per-country scan steps
+    countries.forEach((c, i) => {
+      const count = DATA.filter(d => d.region === c).length;
+      const flag = REGIONS[c].flag;
+      steps.push({ pct: 35 + i * 12, msg: `<span class="scan">►</span> ${flag} ${REGIONS[c].name}: scanning ${count} properties...`, delay: 800 });
+      steps.push({ pct: 39 + i * 12, msg: `<span class="hit">✓</span> ${flag} ${REGIONS[c].name}: ${Math.floor(count * 0.6)}-${count} matches analyzed`, delay: 400 });
+    });
+
+    steps.push(
+      { pct: 75, msg: `<span class="scan">►</span> Running personalized ranking algorithm...`, delay: 700, statusText: 'Computing dream scores...' },
+      { pct: 82, msg: `<span class="scan">►</span> Cross-referencing ${totalProps} listings...`, delay: 500 },
+      { pct: 88, msg: `<span class="hit">✓</span> Taste profile confidence: ${Math.min(95, 50 + liked * 5)}%`, delay: 400 },
+      { pct: 92, msg: `<span class="scan">►</span> Generating recommendations...`, delay: 500 },
+      { pct: 96, msg: `<span class="hit">✓</span> Found top matches!`, delay: 300, statusText: 'Dream properties found!' },
+      { pct: 100, msg: `<span class="hit">✓</span> Scan complete. ${totalProps} properties analyzed.`, delay: 500 }
+    );
+
+    let i = 0;
+    function runStep() {
+      if (i >= steps.length) {
+        setTimeout(showResultsPhase, 800);
+        return;
+      }
+      const s = steps[i];
+      fill.style.width = s.pct + '%';
+      log.innerHTML += s.msg + '\n';
+      log.scrollTop = log.scrollHeight;
+      if (s.statusText) status.textContent = s.statusText;
+      sub.textContent = `Analyzed ${Math.floor(totalProps * s.pct / 100)} of ${totalProps} properties`;
+      i++;
+      setTimeout(runStep, s.delay);
+    }
+    runStep();
+  }
+
+  // ── Results Phase ──
+  function showResultsPhase() {
+    document.getElementById('dfScanPhase').classList.remove('active');
+    document.getElementById('dfResultsPhase').classList.add('active');
+    document.getElementById('dfDot2').classList.remove('active');
+    document.getElementById('dfDot2').classList.add('done');
+    document.getElementById('dfDot3').classList.add('active');
+
+    // Build taste profile visualization
+    const tasteGrid = document.getElementById('dfTasteGrid');
+    const t = tasteProfile;
+    const topCountry = Object.entries(t.countryPrefs).sort((a, b) => b[1] - a[1])[0];
+    const topCountryName = topCountry ? (REGIONS[topCountry[0]] ? REGIONS[topCountry[0]].flag + ' ' + REGIONS[topCountry[0]].name : topCountry[0]) : 'Any';
+
+    const tasteItems = [
+      { emoji: '💰', label: 'Budget Sweet Spot', val: 'CA$' + (t.priceLow * 1.37 / 1000).toFixed(0) + 'k', pct: Math.min(100, t.priceLow / 365000 * 100) },
+      { emoji: '🏖️', label: 'Beach Distance', val: t.beachAvg.toFixed(1) + ' km', pct: Math.max(0, 100 - t.beachAvg * 2) },
+      { emoji: '🛡️', label: 'Safety Threshold', val: t.safetyAvg.toFixed(0) + '/100', pct: t.safetyAvg },
+      { emoji: '🏙️', label: 'City Access', val: t.cityAvg.toFixed(0) + ' min', pct: Math.max(0, 100 - t.cityAvg) },
+      { emoji: '🛏️', label: 'Ideal Beds', val: Math.round(t.bedsAvg) + ' bed', pct: Math.min(100, t.bedsAvg * 25) },
+      { emoji: '🌎', label: 'Fav Country', val: topCountryName, pct: topCountry ? (topCountry[1] / t.liked.length * 100) : 50 },
+    ];
+
+    tasteGrid.innerHTML = tasteItems.map(i => `
+      <div class="df-taste-item">
+        <div class="emoji">${i.emoji}</div>
+        <div class="label">${i.label}</div>
+        <div class="val">${i.val}</div>
+        <div class="df-taste-bar"><div class="df-taste-bar-fill" style="width:${i.pct.toFixed(0)}%"></div></div>
+      </div>`).join('');
+
+    // Rank all properties by dream score
+    const ranked = DATA.map(d => ({ ...d, ds: dreamScore(d) })).sort((a, b) => b.ds - a.ds);
+    const top = ranked.slice(0, 24);
+
+    document.getElementById('dfMatchCount').textContent = ranked.filter(d => d.ds >= 40).length;
+
+    const grid = document.getElementById('dfResultsGrid');
+    grid.innerHTML = top.map((d, idx) => {
+      const rankClass = idx === 0 ? 'gold' : idx === 1 ? 'silver' : idx === 2 ? 'bronze' : '';
+      const chips = [];
+      if (d.beachKm <= 5) chips.push({ text: '🏖️ ' + d.beachKm + 'km', match: d.beachKm <= t.beachAvg * 1.2 });
+      if (d.safety >= 65) chips.push({ text: '🛡️ ' + d.safety, match: d.safety >= t.safetyAvg * 0.9 });
+      chips.push({ text: '🏙️ ' + d.majorCityMin + 'min', match: d.majorCityMin <= t.cityAvg * 1.3 });
+      const flag = REGIONS[d.region] ? REGIONS[d.region].flag : '';
+
+      return `
+        <div class="df-rcard" onclick="openModal(${d.id})">
+          ${rankClass ? `<div class="df-rcard-rank ${rankClass}">${idx + 1}</div>` : ''}
+          <div class="df-rcard-match">${d.ds.toFixed(0)}% match</div>
+          <img class="df-rcard-img" src="${d.img}" alt="${d.title}" loading="lazy"
+               onerror="this.style.background='linear-gradient(135deg,#1a1a3a,#0e76a8)';this.style.minHeight='180px'">
+          <div class="df-rcard-body">
+            <div class="df-rcard-name">${d.title}</div>
+            <div class="df-rcard-loc">${flag} ${d.regionName} · ${d.majorCity}</div>
+            <div class="df-rcard-row">
+              ${chips.map(c => `<span class="df-rcard-chip${c.match ? ' match' : ''}">${c.text}</span>`).join('')}
+            </div>
+            <div class="df-rcard-price">CA$${d.cad.toLocaleString()} <span class="sub">US$${d.price.toLocaleString()}</span></div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Launch Dream Finder ──
+  function launchDreamFinder() {
+    if (dfActive) return;
+    dfActive = true;
+
+    // Show unlock animation
+    const unlock = document.getElementById('dfUnlock');
+    unlock.classList.add('show');
+
+    setTimeout(() => {
+      unlock.classList.remove('show');
+      const overlay = document.getElementById('dfOverlay');
+      overlay.classList.add('active');
+
+      // Reset phases
+      document.getElementById('dfSwipePhase').classList.add('active');
+      document.getElementById('dfScanPhase').classList.remove('active');
+      document.getElementById('dfResultsPhase').classList.remove('active');
+      document.getElementById('dfDot1').className = 'df-phase-dot active';
+      document.getElementById('dfDot2').className = 'df-phase-dot';
+      document.getElementById('dfDot3').className = 'df-phase-dot';
+
+      // Reset swipe state
+      swipeCount = 0;
+      document.getElementById('dfSwipeCount').textContent = '0';
+
+      // Check if we already have a trained profile with enough data
+      if (tasteProfile.liked.length >= 5) {
+        document.getElementById('dfSwipeTotal').textContent = '5';
+      }
+
+      swipeQueue = buildSwipeQueue();
+      showNextCard();
+    }, 1800);
+  }
+
+  function closeDreamFinder() {
+    document.getElementById('dfOverlay').classList.remove('active');
+    dfActive = false;
+  }
+
+  // ── Event Listeners ──
+  document.getElementById('dfCloseBtn').addEventListener('click', closeDreamFinder);
+  document.getElementById('dfBtnPass').addEventListener('click', () => doSwipe('pass'));
+  document.getElementById('dfBtnLove').addEventListener('click', () => doSwipe('love'));
+  document.getElementById('dfBtnSkip').addEventListener('click', () => doSwipe('skip'));
+  document.getElementById('dfRescan').addEventListener('click', () => {
+    // Reset profile and relaunch
+    tasteProfile = {
+      liked: [], passed: [], totalSwipes: 0,
+      priceLow: 0, priceHigh: 0, beachAvg: 0, safetyAvg: 0,
+      cityAvg: 0, bedsAvg: 0, countryPrefs: {}, areaAvg: 0
+    };
+    saveTaste();
+    closeDreamFinder();
+    setTimeout(launchDreamFinder, 400);
+  });
+
+  // Keyboard controls for swipe phase
+  document.addEventListener('keydown', (e) => {
+    if (!dfActive) return;
+    if (e.key === 'Escape') { closeDreamFinder(); return; }
+    if (!document.getElementById('dfSwipePhase').classList.contains('active')) return;
+    if (e.key === 'ArrowLeft') doSwipe('pass');
+    else if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); doSwipe('love'); }
+    else if (e.key === 'ArrowDown') doSwipe('skip');
+  });
+
+  // ══════ EASTER EGG TRIGGERS ══════
+
+  // 1. Konami Code: ↑↑↓↓←→←→BA
+  const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let konamiIndex = 0;
+  document.addEventListener('keydown', (e) => {
+    if (dfActive) return;
+    if (e.key === KONAMI[konamiIndex]) {
+      konamiIndex++;
+      if (konamiIndex === KONAMI.length) {
+        konamiIndex = 0;
+        launchDreamFinder();
+      }
+    } else {
+      konamiIndex = e.key === KONAMI[0] ? 1 : 0;
+    }
+  });
+
+  // 2. Click the 🌴 in the hero title 7 times within 3 seconds
+  const heroH1 = document.querySelector('.page-hero h1');
+  if (heroH1) {
+    let clickCount = 0;
+    let clickTimer = null;
+    heroH1.addEventListener('click', (e) => {
+      clickCount++;
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => { clickCount = 0; }, 3000);
+      if (clickCount >= 7) {
+        clickCount = 0;
+        clearTimeout(clickTimer);
+        launchDreamFinder();
+      }
+    });
+  }
+
+  // 3. URL hash: #dreamfinder
+  function checkHash() {
+    if (location.hash === '#dreamfinder') {
+      location.hash = '';
+      setTimeout(launchDreamFinder, 500);
+    }
+  }
+  window.addEventListener('hashchange', checkHash);
+  checkHash();
+
+  // 4. Type "dream" anywhere on the page
+  let typedBuffer = '';
+  document.addEventListener('keypress', (e) => {
+    if (dfActive) return;
+    typedBuffer += e.key.toLowerCase();
+    if (typedBuffer.length > 10) typedBuffer = typedBuffer.slice(-10);
+    if (typedBuffer.includes('dream')) {
+      typedBuffer = '';
+      launchDreamFinder();
+    }
+  });
+
+})();
 </script>
 </body>
 </html>
