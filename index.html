@@ -880,6 +880,12 @@ initLikes();
     arr.push(d.uid);
     tasteProfile.totalSwipes++;
 
+    // Track property type preferences
+    const pt = d.ptype || 'Property';
+    if (!tasteProfile.ptypePrefs) tasteProfile.ptypePrefs = {};
+    if (!tasteProfile.ptypePrefs[pt]) tasteProfile.ptypePrefs[pt] = { liked: 0, passed: 0 };
+    tasteProfile.ptypePrefs[pt][liked ? 'liked' : 'passed']++;
+
     if (liked) {
       const L = tasteProfile.liked.length;
       const alpha = Math.min(1, 2 / (L + 1)); // EMA decay
@@ -923,8 +929,19 @@ initLikes();
     const totalCountryLikes = Object.values(t.countryPrefs).reduce((a, b) => a + b, 0) || 1;
     const countryBonus = (t.countryPrefs[d.region] || 0) / totalCountryLikes;
 
-    // Weighted combination
-    const raw = priceFit * 0.25 + beachFit * 0.22 + safetyFit * 0.18 + cityFit * 0.15 + bedsFit * 0.1 + countryBonus * 0.1;
+    // Property type fit
+    let ptypeFit = 0.5;
+    if (t.ptypePrefs) {
+      const pt = d.ptype || 'Property';
+      const prefs = t.ptypePrefs[pt];
+      if (prefs) {
+        const total = prefs.liked + prefs.passed;
+        if (total >= 1) ptypeFit = prefs.liked / total;
+      }
+    }
+
+    // Weighted combination (price nearly irrelevant, property type dominant)
+    const raw = priceFit * 0.05 + beachFit * 0.20 + safetyFit * 0.18 + cityFit * 0.15 + bedsFit * 0.10 + countryBonus * 0.10 + ptypeFit * 0.22;
     return Math.min(99, raw * 100);
   }
 
@@ -1227,7 +1244,7 @@ initLikes();
     tasteProfile = {
       liked: [], passed: [], totalSwipes: 0,
       priceLow: 0, priceHigh: 0, beachAvg: 0, safetyAvg: 0,
-      cityAvg: 0, bedsAvg: 0, countryPrefs: {}, areaAvg: 0
+      cityAvg: 0, bedsAvg: 0, countryPrefs: {}, areaAvg: 0, ptypePrefs: {}
     };
     saveTaste();
     closeDreamFinder();
