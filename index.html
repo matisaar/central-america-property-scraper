@@ -1165,7 +1165,7 @@ initLikes();
 
     // Rank all properties by dream score
     const ranked = DATA.filter(d => d.img && d.img.startsWith('http')).map(d => ({ ...d, ds: dreamScore(d) })).sort((a, b) => b.ds - a.ds);
-    const top = ranked.slice(0, 24);
+    const top = ranked.slice(0, 100);
 
     document.getElementById('dfMatchCount').textContent = ranked.filter(d => d.ds >= 40).length;
 
