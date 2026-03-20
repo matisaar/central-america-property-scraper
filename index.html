@@ -880,12 +880,6 @@ initLikes();
     arr.push(d.uid);
     tasteProfile.totalSwipes++;
 
-    // Track property type preferences (both positive and negative)
-    if (!tasteProfile.ptypePrefs) tasteProfile.ptypePrefs = {};
-    const pt = d.ptype || 'Property';
-    if (!tasteProfile.ptypePrefs[pt]) tasteProfile.ptypePrefs[pt] = { liked: 0, passed: 0 };
-    tasteProfile.ptypePrefs[pt][liked ? 'liked' : 'passed']++;
-
     if (liked) {
       const L = tasteProfile.liked.length;
       const alpha = Math.min(1, 2 / (L + 1)); // EMA decay
@@ -929,26 +923,15 @@ initLikes();
     const totalCountryLikes = Object.values(t.countryPrefs).reduce((a, b) => a + b, 0) || 1;
     const countryBonus = (t.countryPrefs[d.region] || 0) / totalCountryLikes;
 
-    // Property type fit - penalize types user keeps passing on
-    let ptypeFit = 0.5; // neutral default
-    if (t.ptypePrefs) {
-      const pt = d.ptype || 'Property';
-      const prefs = t.ptypePrefs[pt];
-      if (prefs) {
-        const total = prefs.liked + prefs.passed;
-        if (total >= 2) ptypeFit = prefs.liked / total;
-      }
-    }
-
     // Weighted combination
-    const raw = priceFit * 0.22 + beachFit * 0.18 + safetyFit * 0.15 + cityFit * 0.12 + bedsFit * 0.08 + countryBonus * 0.1 + ptypeFit * 0.15;
+    const raw = priceFit * 0.25 + beachFit * 0.22 + safetyFit * 0.18 + cityFit * 0.15 + bedsFit * 0.1 + countryBonus * 0.1;
     return Math.min(99, raw * 100);
   }
 
   // ── Swipe Card System ──
   let swipeQueue = [];
   let swipeCount = 0;
-  let minSwipes = 10;
+  const MIN_SWIPES = 10;
   let dfActive = false;
 
   function shuffleArray(arr) {
@@ -961,44 +944,13 @@ initLikes();
   }
 
   function buildSwipeQueue() {
+    // Spread across price buckets & countries for diversity
     const seen = new Set([...tasteProfile.liked, ...tasteProfile.passed]);
-    // Only show properties with real images
     const available = DATA.filter(d => !seen.has(d.uid) && d.img && !d.img.includes('placeholder') && d.img.startsWith('http'));
     if (available.length === 0) return shuffleArray(DATA.filter(d => d.img && d.img.startsWith('http'))).slice(0, 30);
 
-    // After 3+ swipes, learn from negative signals: penalize passed property types
-    let pool = available;
-    if (tasteProfile.passed.length >= 3) {
-      const passedPtypes = {};
-      const likedPtypes = {};
-      DATA.forEach(d => {
-        if (tasteProfile.passed.includes(d.uid)) passedPtypes[d.ptype] = (passedPtypes[d.ptype] || 0) + 1;
-        if (tasteProfile.liked.includes(d.uid)) likedPtypes[d.ptype] = (likedPtypes[d.ptype] || 0) + 1;
-      });
-      // Find types user mostly dislikes (passed 2x+ more than liked)
-      const dislikedTypes = new Set();
-      for (const [pt, cnt] of Object.entries(passedPtypes)) {
-        if (cnt >= 2 && cnt > (likedPtypes[pt] || 0) * 2) dislikedTypes.add(pt);
-      }
-      if (dislikedTypes.size > 0) {
-        // Keep 80% preferred types, 20% disliked (still give some variety)
-        const preferred = pool.filter(d => !dislikedTypes.has(d.ptype));
-        const disliked = pool.filter(d => dislikedTypes.has(d.ptype));
-        pool = [...shuffleArray(preferred).slice(0, 24), ...shuffleArray(disliked).slice(0, 6)];
-      }
-    }
-
-    // Also favor liked countries/regions after learning
-    if (tasteProfile.liked.length >= 2 && Object.keys(tasteProfile.countryPrefs).length > 0) {
-      const topRegion = Object.entries(tasteProfile.countryPrefs).sort((a, b) => b[1] - a[1])[0][0];
-      const fromTop = pool.filter(d => d.region === topRegion);
-      const fromOther = pool.filter(d => d.region !== topRegion);
-      // 60% top region, 40% other
-      pool = [...shuffleArray(fromTop).slice(0, 18), ...shuffleArray(fromOther).slice(0, 12)];
-    }
-
-    // Stratified sampling by price quartiles for diversity
-    const sorted = [...pool].sort((a, b) => a.price - b.price);
+    // Stratified sampling: pick evenly from price quartiles
+    const sorted = [...available].sort((a, b) => a.price - b.price);
     const q = Math.ceil(sorted.length / 4);
     const buckets = [sorted.slice(0, q), sorted.slice(q, q * 2), sorted.slice(q * 2, q * 3), sorted.slice(q * 3)];
     const result = [];
@@ -1059,7 +1011,7 @@ initLikes();
     const stack = document.getElementById('dfCardStack');
     if (swipeQueue.length === 0) {
       // Enough swipes collected — move to scanning
-      if (swipeCount >= minSwipes) {
+      if (swipeCount >= MIN_SWIPES) {
         startScanPhase();
       } else {
         swipeQueue = buildSwipeQueue();
@@ -1093,7 +1045,7 @@ initLikes();
     }
 
     setTimeout(() => {
-      if (swipeCount >= minSwipes && tasteProfile.liked.length >= 3) {
+      if (swipeCount >= MIN_SWIPES && tasteProfile.liked.length >= 3) {
         startScanPhase();
       } else {
         showNextCard();
@@ -1255,14 +1207,6 @@ initLikes();
       swipeCount = 0;
       document.getElementById('dfSwipeCount').textContent = '0';
 
-      // Reduce required swipes if already trained
-      if (tasteProfile.liked.length >= 5) {
-        minSwipes = 5;
-      } else {
-        minSwipes = 10;
-      }
-      document.getElementById('dfSwipeTotal').textContent = String(minSwipes);
-
       swipeQueue = buildSwipeQueue();
       showNextCard();
     }, 1800);
@@ -1283,7 +1227,7 @@ initLikes();
     tasteProfile = {
       liked: [], passed: [], totalSwipes: 0,
       priceLow: 0, priceHigh: 0, beachAvg: 0, safetyAvg: 0,
-      cityAvg: 0, bedsAvg: 0, countryPrefs: {}, areaAvg: 0, ptypePrefs: {}
+      cityAvg: 0, bedsAvg: 0, countryPrefs: {}, areaAvg: 0
     };
     saveTaste();
     closeDreamFinder();
