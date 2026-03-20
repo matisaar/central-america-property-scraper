@@ -1180,8 +1180,6 @@ initLikes();
 
       return `
         <div class="df-rcard">
-          ${rankClass ? `<div class="df-rcard-rank ${rankClass}">${idx + 1}</div>` : ''}
-          <div class="df-rcard-match">${d.ds.toFixed(0)}% match</div>
           <img class="df-rcard-img" src="${d.img}" alt="${d.title}" loading="lazy"
                onerror="this.style.background='linear-gradient(135deg,#1a1a3a,#0e76a8)';this.style.minHeight='180px'"
                onclick="openModal(${d.id})">
